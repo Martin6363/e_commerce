@@ -71,7 +71,7 @@ class Product extends Model
 
     public function getPriceInCurrency(Currency $currency)
     {
-        return $this->price * ($currency->exchange_rate);
+        return round($this->price * ($currency->exchange_rate));
     }
 
     public function currency()

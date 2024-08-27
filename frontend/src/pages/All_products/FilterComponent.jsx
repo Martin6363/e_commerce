@@ -9,6 +9,7 @@ import PriceFilterComponent from "../../components/FilterDetails/PriceFilterComp
 import CategoryFilterComponent from "../../components/FilterDetails/CategoryFilterComponent";
 import BrandFilterComponent from "../../components/FilterDetails/BrandFilterComponent";
 import ColorFilterComponent from "../../components/FilterDetails/ColorFilterComponent";
+import { useTranslation } from "react-i18next";
 
 const FilterComponent = ({
   isFilterOpen,
@@ -25,6 +26,7 @@ const FilterComponent = ({
   const [searchParams, setSearchParams] = useSearchParams();
   const matches = useMediaQuery("(max-width:1020px)");
   const theme = useTheme();
+  const [t] = useTranslation("global");
 
   const handleToggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -63,18 +65,18 @@ const FilterComponent = ({
         <div className="relative">
           <div className={`sticky z-[200] shadow-sm top-0 px-5 py-2 flex items-center justify-between ${theme.palette.mode === "dark" ? "bg-[#0d1320]" : "bg-gray-200"}`}>
             <h2 className="font-bold text-[25px] mb-2">
-              Filter{" "}
+              {t("all_products.filter_component.title")}{" "}
               <span className="text-[12px] text-gray-600">
-              Found {totalItems} products
+              {t("all_products.filter_component.found")} {totalItems} {t("all_products.filter_component.products")}
               </span>
             </h2>
-              <button className={`text-[13px] ${theme.palette.mode === "dark" ? "text-gray-100" : "text-gray-700"}`} onClick={handleResetFilters}>
-                Reset Filters
-              </button>
             <IconButton sx={{ fontSize: 30 }} onClick={() => setIsFilterOpen(false)}>
               <IoClose />
             </IconButton>
           </div>
+          <button className={`text-[13px] ms-5 ${theme.palette.mode === "dark" ? "text-gray-100" : "text-gray-700"}`} onClick={handleResetFilters}>
+            {t("all_products.filter_component.reset_products")}
+          </button>
           <div className="p-5">
             <PriceFilterComponent
               minPrice={minPrice}

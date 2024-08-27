@@ -53,3 +53,14 @@
     color: #fff;
     font-size: 15px;
 }
+
+
+.rate_item_block.active {
+    font-weight: bold;
+    
+    &::after {
+        content: "✓";
+        position: absolute;
+        right: 15px;
+    }
+  }

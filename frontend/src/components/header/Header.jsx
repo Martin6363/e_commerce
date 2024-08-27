@@ -4,6 +4,7 @@ import { IconButton, useTheme } from "@mui/material";
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 import "../../assets/styles/Header.scss"
 import ExchangePrice from "../ExchangePrice/ExchangePrice";
+import LanguageDropDown from "../LanguageDropDown/LanguageDropDown";
 
 
 const Header = () => {
@@ -14,6 +15,7 @@ const Header = () => {
     <div>
       <div className="flex items-center gap-2">
         <ExchangePrice/>
+        <LanguageDropDown/>
         {theme.palette.mode === "light" ? (
           <IconButton
             onClick={() => {

@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Oval } from "react-loader-spinner";
 import { useSearchParams } from "react-router-dom";
@@ -6,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 const ColorFilterComponent = ({ colors, loadData }) => {
   const [isColorHide, setIsColorHide] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [t] = useTranslation("global");
   const handleHideColor = useCallback(() => {
     setIsColorHide(prev => !prev);
   }, []);
@@ -44,7 +45,7 @@ const ColorFilterComponent = ({ colors, loadData }) => {
         style={{ fontWeight: 600 }}
         onClick={handleHideColor}
       >
-        <span className="border-b-4 border-purple-500">Colors</span>
+        <span className="border-b-4 border-purple-500">{t("all_products.filter_component.color_component.title")}</span>
         <span className="text-xl">
           <MdKeyboardArrowDown />
         </span>

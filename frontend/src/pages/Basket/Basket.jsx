@@ -11,6 +11,7 @@ import myAxios from "../../api/axios";
 import gsap from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
 import { FaAngleDown } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(TextPlugin);
 
@@ -29,11 +30,11 @@ export default function Basket() {
     const [productDetails, setProductDetails] = useState({});
     const [displayedTotal, setDisplayedTotal] = useState("$0.00");
     const priceRef = useRef(null);
+    const [t] = useTranslation("global");
 
     useEffect(() => {
       const token = localStorage.getItem("token");
       const user = localStorage.getItem("user");
-  
       if (token) {
         setIsLoggedIn(true);
       }
@@ -101,9 +102,9 @@ export default function Basket() {
             {carts.length < 1 ? (
                 <div className="w-full  flex flex-col items-center justify-center" style={{ minHeight: 'calc(100vh - 142px)' }}>
                     <div className="flex flex-col justify-center items-center w-[55%]">
-                        <h2>The cart is still empty</h2>
-                        <p className="text-gray-500">Visit the main page to select products or find what you need in the search</p>
-                        <Link to={'/'} className="bg-purple-500 hover:bg-purple-700 mt-5 text-white font-bold py-2 px-4 rounded-full">Go to Main page</Link>
+                        <h2>{t("basket.empty_cart")}</h2>
+                        <p className="text-gray-500">{t("basket.empty_cart_message")}</p>
+                        <Link to={'/'} className="bg-purple-500 hover:bg-purple-700 mt-5 text-white font-bold py-2 px-4 rounded-full">{t("basket.go_to_main_page")}</Link>
                     </div>
                 </div>
             ) : (
@@ -113,28 +114,28 @@ export default function Basket() {
                             <div className="col-span-12 xl:col-span-8 lg:pr-8 pt-14 pb-8  w-full max-xl:max-w-3xl max-xl:mx-auto">
                                 <div className="flex items-center justify-between pb-8 border-b border-gray-300">
                                     <h2 className="font-manrope font-bold text-3xl leading-10">
-                                        Shopping Cart
+                                        {t("basket.title")}
                                     </h2>
                                     <h2 className="font-manrope font-bold text-xl leading-8 text-gray-500">
-                                        {carts.length} Items
+                                        {carts.length} {t("basket.items")}
                                     </h2>
                                 </div>
                                 <div className="grid grid-cols-12 mt-8 max-md:hidden pb-6 border-b border-gray-200">
                                     <div className="col-span-12 md:col-span-7">
                                         <p className="font-normal text-lg leading-8 text-gray-400">
-                                            Product Details
+                                            {t("basket.product_details")}
                                         </p>
                                     </div>
                                     <div className="col-span-12 md:col-span-5">
                                         <div className="grid grid-cols-5">
                                             <div className="col-span-3">
                                                 <p className="font-normal text-lg leading-8 text-gray-400 text-center">
-                                                    Quantity
+                                                    {t("basket.quantity")}
                                                 </p>
                                             </div>
                                             <div className="col-span-2">
                                                 <p className="font-normal text-lg leading-8 text-gray-400 text-center">
-                                                    Total
+                                                    {t("basket.total")}
                                                 </p>
                                             </div>
                                         </div>
@@ -154,16 +155,16 @@ export default function Basket() {
                                 <div className="flex items-center justify-center mt-8">
                                     <div className="basket_pay_details_box w-full">
                                         <div className={`basket_section grow ${ theme.palette.mode === "dark" ? 'bg-gray-600' : 'bg-gray-50' }`}>
-                                            <h2 className="title_btn">Payment method</h2>
-                                            <span className="flex gap-2 items-center">Select Payment method</span>
+                                            <h2 className="title_btn">{t("basket.payment_method")}</h2>
+                                            <span className="flex gap-2 items-center">{t("basket.select_payment_method")}</span>
                                         </div>
                                         <div className={`basket_section ${ theme.palette.mode === "dark" ? 'bg-gray-600' : 'bg-gray-50' }`}>
                                             <div>
-                                                <Link className="title_btn" to={`${ authUser !== null ? '/profile' : '/login' }`}>My details <FaPen /></Link>
+                                                <Link className="title_btn" to={`${ authUser !== null ? '/profile' : '/login' }`}>{t("basket.my_details")} <FaPen /></Link>
                                                 {authUser !== null? (
                                                     <span className="flex gap-2 items-center"><GoPersonFill /> {authUser?.email}</span>
                                                 ) : (
-                                                    <span className="flex gap-2 items-center"><GoPersonFill /> Login or create account</span>
+                                                    <span className="flex gap-2 items-center"><GoPersonFill /> {t("basket.login_or_create_account")}</span>
                                                 )}
                                             </div>    
                                         </div>
@@ -171,20 +172,20 @@ export default function Basket() {
                                 </div>
                             </div>
                             <div className=" col-span-12 xl:col-span-4 w-full max-xl:px-6 max-w-3xl xl:max-w-lg mx-auto lg:pl-8 py-24">
-                                <h2 className="font-manrope font-bold text-3xl leading-10 pb-8 border-b">
-                                    Order Summary
+                                <h2 className="font-manrope font-bold text-[25px] leading-10 pb-8 border-b">
+                                    {t("basket.order_summary")}
                                 </h2>
                                 <div className="mt-8">
                                     <div className="flex items-center justify-between pb-6">
                                         <p className="font-normal text-lg leading-8">
-                                            {carts.length} Items
+                                            {carts.length}  {t("basket.items")}
                                         </p>
                                         <h6 ref={priceRef} className="font-medium text-lg leading-8">
                                           {displayedTotal}
                                         </h6>
                                     </div>
                                     <button onClick={handleCheckout} className="w-full text-center bg-purple-600 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-purple-700">
-                                        Checkout
+                                        {t("basket.checkout")}
                                     </button>
                                 </div>
                             </div>

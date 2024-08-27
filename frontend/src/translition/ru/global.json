@@ -1,0 +1,114 @@
+{
+    "header": {
+        "language": "Русский",
+        "message": "Добро пожаловать в электронную коммерцию!",
+        "products": "Продукты"
+    },
+    "card": {
+        "basketButton": "Добавить корзину",
+        "inTheBasket": "В корзине"
+    },
+    "search": {
+        "placeholder": "Введите для поиска..",
+        "product_found": "найдено продуктов"
+    },
+    "login": {
+        "sign_in": "Войти",
+        "email_label": "Эл. почта",
+        "email_placeholder": "Эл. почта",
+        "password_label": "Пароль",
+        "password_placeholder": "••••••••",
+        "remember_me": "Запомнить меня",
+        "forgot_password": "Забыли пароль?",
+        "no_account": "Еще нет аккаунта?",
+        "sign_up": "Регистрация",
+        "error_message": "Пожалуйста, попробуйте позже."
+    },
+    "register": {
+        "title": "Регистрация",
+        "back": "Назад",
+        "login": "Вход",
+        "forgot_password": "Забыли пароль",
+        "remember_me": "Запомнить меня",
+        "name": "Имя",
+        "email": "Эл. почта",
+        "password": "Пароль",
+        "confirm_password": "Подтвердите Пароль",
+        "sign_up": "Зарегистрироваться",
+        "sign_in": "Войти",
+        "errors": {
+            "name_required": "Имя обязательно",
+            "email_required": "Пожалуйста, введите ваш Эл. почту",
+            "email_invalid": "Пожалуйста, введите действительный Эл. почту",
+            "password_required": "Пароль обязателен",
+            "password_min_length": "Пароль должен содержать 8-16 символов",
+            "password_max_length": "Пароль должен содержать 8-16 символов",
+            "confirm_password_required": "Подтвердите пароль обязательно",
+            "password_mismatch": "Пароли не совпадают"
+        }
+    },
+    "basket": {
+        "title": "Корзина",
+        "items": "Товары",
+        "empty_cart": "Корзина пуста",
+        "empty_cart_message": "Посетите главную страницу, чтобы выбрать товары или найти нужное в поиске",
+        "go_to_main_page": "Перейти на Главную",
+        "product_details": "Детали продукта",
+        "quantity": "Количество",
+        "total": "Итого",
+        "show_more": "Показать больше",
+        "order_summary": "Сводка заказа",
+        "checkout": "Оформить заказ",
+        "payment_method": "Способ оплаты",
+        "select_payment_method": "Выберите способ оплаты",
+        "my_details": "Мои данные",
+        "login_or_create_account": "Войти или создать аккаунт"
+    },
+    "favorite": {
+        "total": "Всего избранных",
+        "empty_favorite": "Фаворит все еще пуст",
+        "to_home_page_select_products": "Посетите главную страницу, чтобы выбрать товары или найти то, что вам нужно, в поиске",
+        "go_to_main_page": "Перейти на Главную"
+    },
+    "product_show": {
+        "vendor_code": "Артикул",
+        "brand": "Бренд",
+        "sizes": "Размеры",
+        "colors": "Цвета",
+        "add_to_cart": "Добавить в корзину",
+        "inTheBasket": "В корзине",
+        "description": "Описание",
+        "see_also": "Смотрите также"
+    },
+    "all_products": {
+        "sort": {
+            "sort_by": "Сортировать по",
+            "lowest_price": "По возрастанию цены",
+            "highest_price": "По убыванию цены",
+            "rating": "По рейтингу",
+            "reset": "Сбросить"
+        },
+        "all_filters_button": "Все фильтры",
+        "filter_component": {
+            "title": "Фильтр",
+            "found": "Найдено",
+            "products": "Товары",
+            "reset_products": "Сбросить фильтры",
+            "show_more": "Показать больше",
+            "price_component": {
+                "filter_by_price": "Фильтр по цене",
+                "from": "От",
+                "to": "До"
+            },
+            "category_component": {
+                "title": "Категории"
+            },
+            "brand_component": {
+                "title": "Бренды"
+            },
+            "color_component": {
+                "title": "Цвета"
+            }
+        }
+    }
+}

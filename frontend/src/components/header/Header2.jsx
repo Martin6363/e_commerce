@@ -4,8 +4,11 @@ import { FaChevronRight } from "react-icons/fa";
 import { AiFillProduct } from "react-icons/ai";
 import "../../assets/styles/Header2.scss";
 import CardSize from "../Card/CardSize";
+import { useTranslation } from "react-i18next";
 
 const Header2 = () => {
+  const [t, i18n] = useTranslation("global");
+
   return (
     <>
       <Container className="max-w-screen-xl mx-auto my-2">
@@ -13,7 +16,7 @@ const Header2 = () => {
           <Link to={"/products"} className="products_link flex items-center gap-5 text-xl p-2 rounded duration-150"
           >
             <span className="flex items-center gap-2">
-              <AiFillProduct /> Products
+              <AiFillProduct /> { t("header.products") }
             </span>{" "}
             <span className="product_icon">
               <FaChevronRight fontSize={12} />

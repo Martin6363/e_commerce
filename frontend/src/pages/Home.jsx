@@ -8,6 +8,7 @@ import PaginationHome from "../components/Pagination/PaginationHome";
 import Footer from "../components/footer/Footer";
 import "ldrs/ring";
 import { useSearchParams } from "react-router-dom";
+import { useCurrency } from "../context/CurrencyContext";
 
 const cache = {};
 
@@ -18,11 +19,12 @@ const Home = () => {
   const [pageCount, setPageCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const productCardContainerRef = useRef(null);
+  const { selectedCurrency } = useCurrency();
 
   useEffect(() => {
     setLoading(true);
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, selectedCurrency]);
 
   useEffect(() => {
     if (productCardContainerRef.current) {
@@ -43,8 +45,8 @@ const Home = () => {
       return;
     }
     try {
-      const response = await axios.get(`/products?page=${currentPage}`);
-      cache[currentPage] = response.data;
+      const response = await axios.get(`/products?page=${currentPage}&currency=${selectedCurrency}`);
+      cache[`${currentPage}-${selectedCurrency}`] = response.data;
       setProducts(response.data.data);      
       setPageCount(response.data.meta.last_page);
       setLoading(false);

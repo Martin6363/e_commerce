@@ -4,12 +4,10 @@ use App\Http\Controllers\Api\v1\AuthUserController;
 use App\Http\Controllers\api\v1\BrandController;
 use App\Http\Controllers\api\v1\ColorController;
 use App\Http\Controllers\api\v1\FavoriteController;
-use App\Http\Controllers\api\v1\FilterProductController;
 use App\Http\Controllers\api\v1\ProductCategoryController;
 use App\Http\Controllers\api\v1\ProductController;
-use App\Http\Controllers\api\v1\SearchController;
 use App\Http\Controllers\api\v1\VerificationController;
-use App\Http\Controllers\TestController;
+use App\Http\Middleware\AdminAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -23,18 +21,19 @@ Route::prefix('v1')->group(function () {
 
     // Verify Email
     Route::get('email/verify/{id}', [VerificationController::class, 'verify'])->name('verification.verify');
+
     // Product Routes
-    Route::apiResource('/products', ProductController::class);
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products/{product}', [ProductController::class, 'show']);
+
     // Category Routes
     Route::apiResource('/categories', ProductCategoryController::class);
+    
     // Brand Routes
     Route::apiResource('/brands', BrandController::class);
-    // Filter Route
-    Route::get('/products_filter', [FilterProductController::class, 'index']);
+    
     // Color Route
     Route::get('/colors', [ColorController::class, 'index']);
-    // Search Route
-    Route::get('/search', [SearchController::class, 'index']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('favorites/toggle', [FavoriteController::class, 'toggle']);
@@ -42,6 +41,23 @@ Route::prefix('v1')->group(function () {
         Route::post('logout', [AuthUserController::class, 'logout']);
     });
 });
+
+Route::middleware(['auth:sanctum', AdminAuth::class])->prefix('v1')->group(function() {
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::match(['PUT', 'PATCH'], '/products/{product}', [ProductController::class, 'update']);
+    Route::delete('/products/{product}', [ProductController::class, 'destroy']);
+
+    Route::get('/admin', function (Request $request) {
+        return $request->user();
+    });
+});
+
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');
+
+
 
 Route::middleware(['auth:sanctum'])->get('v1/user', [AuthUserController::class, 'authUser']);
 

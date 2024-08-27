@@ -9,6 +9,7 @@ import { IoEyeOff } from "react-icons/io5";
 import { IconButton } from "@mui/material";
 import "../assets/styles/Basket.scss"
 import { useAuth } from "../hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const { setUser } = useAuth();
@@ -21,6 +22,7 @@ const Login = () => {
           formState: { errors },
       } = useForm();
   const theme = useTheme();
+  const { t } = useTranslation('global')
 
 
   const handleLogin = async (data) => {
@@ -39,7 +41,7 @@ const Login = () => {
       if (error.response && error.response.status === 403) {
         setError(error.response.data.message);
       } else {
-        setError("Please try again later.");
+        setError(t("login.error_message"));
       }
       console.error(error);
     } finally {
@@ -60,7 +62,7 @@ const Login = () => {
             }`}>
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl">
-                Sign in
+                {t("login.sign_in")}
               </h1>
               <form
                 method="POST"
@@ -69,12 +71,12 @@ const Login = () => {
               >
                 <div>
                   <label htmlFor="email" className="block mb-2 text-sm font-medium ">
-                    Email
+                    {t("login.email_label")}
                   </label>
                   <input
                     type="
                     "
-                    placeholder="name@company.com"
+                    placeholder={t("login.email_placeholder")}
                     className={`sm:text-sm rounded-lg block w-full p-2.5 ${
                       theme.palette.mode == "dark"
                         ? "bg-gray-700"
@@ -89,14 +91,14 @@ const Login = () => {
                     htmlFor="password"
                     className="block mb-2 text-sm font-medium "
                   >
-                    Password
+                    {t("login.password_label")}
                   </label>
                   <div className="relative">
                     <input
                       type={`${showPassword ? 'text' : 'password'}`}
                       name="password"
                       id="password"
-                      placeholder="••••••••"
+                      placeholder={t("login.password_placeholder")}
                       className={`sm:text-sm rounded-lg block w-full p-2.5 dark:border-gray-600 dark:placeholder-gray-400 ${
                         theme.palette.mode == "dark"
                           ? "bg-gray-700"
@@ -128,9 +130,8 @@ const Login = () => {
                     <div className="ml-3 text-sm">
                       <label
                         htmlFor="remember"
-                        className="text-gray-500 dark:text-gray-300"
                       >
-                        Remember me
+                        {t("login.remember_me")}
                       </label>
                     </div>
                   </div>
@@ -138,22 +139,22 @@ const Login = () => {
                     to="#"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Forgot password?
+                    {t("login.forgot_password")}
                   </Link>
                 </div>
                 <button
                   type="submit"
                   className={`group-invalid:pointer-events-none group-invalid:opacity-50 ${loading && 'pointer-events-none opacity-30'} w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
                 >
-                   Sign in
+                   {t("login.sign_in")}
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Don t have an account yet?{" "}
+                  {t("login.no_account")}{" "}
                   <Link
                     to="/register"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Sign up
+                    {t("login.sign_up")}
                   </Link>
                 </p>
               </form>

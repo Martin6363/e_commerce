@@ -1,0 +1,114 @@
+{
+    "header": {
+        "language": "Հայերեն",
+        "message": "Բարի գալուստ էլեկտրոնային առևտուր",
+        "products": "Ապրանքներ"
+    },
+    "card": {
+        "basketButton": "Ավելացնել զամբյուղ",
+        "inTheBasket": "Զամբյուղում"
+    },
+    "search": {
+        "placeholder": "Մուտքագրեք որոնման համար..",
+        "product_found": "հայտնաբերված ապրանքներ"
+    },
+    "login": {
+        "sign_in": "Մուտք գործել",
+        "email_label": "Էլ․ հասցե",
+        "email_placeholder": "Էլ․ հասցե",
+        "password_label": "Գաղտնաբառ",
+        "password_placeholder": "••••••••",
+        "remember_me": "Հիշել ինձ",
+        "forgot_password": "Մոռացել եք գաղտնաբառը?",
+        "no_account": "Դեռ գրանցվա՞ծ չեք:",
+        "sign_up": "Գրանցվել",
+        "error_message": "Խնդրում ենք փորձել ավելի ուշ։"
+    },
+    "register": {
+        "title": "Գրանցում",
+        "back": "Հետ",
+        "login": "Մուտք",
+        "forgot_password": "Մոռացել եք գաղտնաբառը",
+        "remember_me": "Հիշել ինձ",
+        "name": "Անուն",
+        "email": "Էլ. փոստ",
+        "password": "Գաղտնաբառ",
+        "confirm_password": "Հաստատեք գաղտնաբառը",
+        "sign_up": "Գրանցվել",
+        "sign_in": "Մուտք գործել",
+        "errors": {
+            "name_required": "Անունը պարտադիր է",
+            "email_required": "Խնդրում ենք մուտքագրել ձեր էլ. փոստը",
+            "email_invalid": "Խնդրում ենք մուտքագրել վավեր էլ. փոստ",
+            "password_required": "Գաղտնաբառը պարտադիր է",
+            "password_min_length": "Գաղտնաբառը պետք է լինի 8-16 նիշ",
+            "password_max_length": "Գաղտնաբառը պետք է լինի 8-16 նիշ",
+            "confirm_password_required": "Հաստատեք գաղտնաբառը պարտադիր է",
+            "password_mismatch": "Գաղտնաբառերը չեն համընկնում"
+        }
+    },
+    "basket": {
+        "title": "Գնումների Զամբյուղ",
+        "items": "Ապրանքներ",
+        "empty_cart": "Զամբյուղը դեռևս դատարկ է",
+        "empty_cart_message": "Այցելեք գլխավոր էջ՝ ապրանքներ ընտրելու կամ որոնումով անհրաժեշտը գտնելու համար",
+        "go_to_main_page": "Գնալ Գլխավոր Էջ",
+        "product_details": "Ապրանքի Մանրամասներ",
+        "quantity": "Քանակ",
+        "total": "Ընդհանուր",
+        "show_more": "Ցուցադրել ավելին",
+        "order_summary": "Պատվերի ամփոփում",
+        "checkout": "Վճարում",
+        "payment_method": "Վճարման Մեթոդ",
+        "select_payment_method": "Ընտրեք Վճարման Մեթոդ",
+        "my_details": "Իմ տվյալները",
+        "login_or_create_account": "Մուտք գործեք կամ ստեղծեք հաշիվ"
+    },
+    "favorite": {
+        "total": "Հավանած ապրանքները",
+        "empty_favorite": "Ֆավորիտը դեռ դատարկ է",
+        "to_home_page_select_products": "Այցելեք հիմնական էջը՝ ապրանքներ ընտրելու կամ որոնման մեջ գտնելու այն, ինչ ձեզ հարկավոր է",
+        "go_to_main_page": "Գնալ Գլխավոր Էջ"
+    },
+    "product_show": {
+        "vendor_code": "Արտիկուլ",
+        "brand": "Բրենդ",
+        "sizes": "Չափերը",
+        "colors": "Գույները",
+        "add_to_cart": "Ավելացնել զամբյուղ",
+        "inTheBasket": "Զամբյուղում",
+        "description": "Նկարագրությունը",
+        "see_also": "Տես նաև"
+    },
+    "all_products": {
+        "sort": {
+            "sort_by": "Դասավորել ըստ",
+            "lowest_price": "Աճող գնի",
+            "highest_price": "Նվազող գնի",
+            "rating": "Վարկանիշ",
+            "reset": "Մաքրել"
+        },
+        "all_filters_button": "Բոլոր ֆիլտրները",
+        "filter_component": {
+            "title": "Զտիչ",
+            "found": "Գտնվել է",
+            "products": "Ապրանքներ",
+            "reset_products": "Զտիչները Մաքրել",
+            "show_more": "Ցուցադրել ավելին",
+            "price_component": {
+                "filter_by_price": "Զտել ըստ գնի",
+                "from": "Սկսած",
+                "to": "Մինչեւ"
+            },
+            "category_component": {
+                "title": "Կատեգորիաներ"
+            },
+            "brand_component": {
+                "title": "Բրենդներ"
+            },
+            "color_component": {
+                "title": "Գույներ"
+            }
+        }
+    }
+}

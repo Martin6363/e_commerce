@@ -47,4 +47,16 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function isAdmin() {
+        return $this->type === 1;
+    }
+
+    public function isSuperVizorAdmin() {
+        return $this->type === 2;
+    }
+
+    public function isUser() {
+        return $this->type === 0;
+    }
 }

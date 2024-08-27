@@ -60,10 +60,11 @@ export default function navBarMenu({ categories, showMenu, setMenuOpen, isScroll
   };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   return (
-    <>
+    <>    
+    <div onClick={handleMenuClose} className={`navbar_menu_back_cont ${showMenu ? "block" : "hidden"}`}></div>
       <nav
         className={`navbar ${showMenu ? "open" : ""}  : ""} flex`}
-        style={{ backgroundColor: theme.palette.myColor.main, minHeight: navbarHeight, position: navbarHeight > '142px' ? 'fixed' : 'absolute' }}
+        style={{ backgroundColor: theme.palette.myColor.main,}}
       >
         <div className="menu_container">
           <Box sx={{ margin: "5px" }}>
@@ -113,6 +114,7 @@ export default function navBarMenu({ categories, showMenu, setMenuOpen, isScroll
           </div>
         )}
       </nav>
+
     </>
   );
 }

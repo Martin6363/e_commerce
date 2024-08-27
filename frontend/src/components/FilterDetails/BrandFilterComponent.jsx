@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { Oval } from "react-loader-spinner";
 import { useSearchParams } from "react-router-dom";
@@ -7,11 +8,11 @@ const BrandFilterComponent = ({ brands, loadData }) => {
   const [isBrandHide, setIsBrandHide] = useState(true);
   const [visibleMoreBrands, setVisibleMoreBrands] = useState(5);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [t] = useTranslation("global");
 
   const handleShowMoreBrands = () => {
     setVisibleMoreBrands((prevValue) => prevValue + 5);
   };
-console.log(brands);
 
   const handleHideBrand = useCallback(() => {
     setIsBrandHide(!isBrandHide);
@@ -50,7 +51,7 @@ console.log(brands);
         style={{ fontWeight: 600 }}
         onClick={handleHideBrand}
       >
-        <span className="border-b-4 border-purple-500">Brands</span>
+        <span className="border-b-4 border-purple-500">{t("all_products.filter_component.brand_component.title")}</span>
         <span className="text-xl">
           <MdKeyboardArrowDown />
         </span>
@@ -91,7 +92,7 @@ console.log(brands);
             </li>
           ))}
           <button className="btn btn-sm text-[12px] outline-none" onClick={handleShowMoreBrands}>
-            Show More
+          {t("all_products.filter_component.show_more")}
           </button>
         </div>
       )}

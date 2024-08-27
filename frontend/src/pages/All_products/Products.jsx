@@ -11,7 +11,9 @@ import { useSearchParams } from "react-router-dom";
 import DropDownSort from "../../components/FilterDetails/DropDownSort";
 import { VscSettings } from "react-icons/vsc";
 import { useTheme } from "@emotion/react";
+import  { useCurrency }  from "../../context/CurrencyContext";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTranslation } from "react-i18next";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -31,7 +33,9 @@ export default function Products() {
   const selectedBrands = searchParams.get('brands');
   const selectedColors = searchParams.get('colors');
   const sortOption = searchParams.get('sort');
+  const { selectedCurrency } = useCurrency();
   const currentPage = parseInt(searchParams.get('page')) || 1;
+  const [t] = useTranslation("global");
   
   const activeFiltersCount = [
     selectedCategories ? selectedCategories.split(',').length : 0,
@@ -66,7 +70,16 @@ export default function Products() {
 
   useEffect(() => {
     getProducts();
-  }, [currentPage, selectedCategories, selectedBrands, selectedColors, maxPrice, minPrice, sortOption]);
+  }, [
+    currentPage,
+    selectedCategories,
+    selectedBrands,
+    selectedColors,
+    minPrice,
+    maxPrice,
+    sortOption,
+    selectedCurrency,
+  ]);
 
   const handleFilterData = () => {
     getProducts();
@@ -78,6 +91,7 @@ export default function Products() {
       const res = await myAxios.get("/products", {
         params: {
           page: currentPage,
+          currency: selectedCurrency,
           category_id: selectedCategories,
           brand_id: selectedBrands,
           color_id: selectedColors,
@@ -148,7 +162,7 @@ export default function Products() {
                   onClick={handleToggleFilter}
                 >
                   <VscSettings fontSize={'20'} />
-                  { !matches && "All Filters"}
+                  { !matches && t("all_products.all_filters_button")}
                   {
                     activeFiltersCount !== 0 && (
                     <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">

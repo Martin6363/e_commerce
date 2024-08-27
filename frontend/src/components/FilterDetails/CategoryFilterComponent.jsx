@@ -6,11 +6,13 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Oval } from "react-loader-spinner";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CategoryFilterComponent = ({ categories, loadData }) => {
   const [isCategoryHide, setIsCategoryHide] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const [visibleMoreCategories, setVisibleMoreCategories] = useState(5);
+  const [t] = useTranslation("global");
 
   const handleCategoryChange = useCallback((event) => {
     const { value, checked } = event.target;
@@ -61,7 +63,7 @@ const CategoryFilterComponent = ({ categories, loadData }) => {
         style={{ fontWeight: 600 }}
         onClick={handleHideCategory}
       >
-        <span className="border-b-4 border-purple-500">Categories</span>
+        <span className="border-b-4 border-purple-500">{t("all_products.filter_component.category_component.title")}</span>
         <span className="text-xl">
           <MdKeyboardArrowDown />
         </span>
@@ -131,7 +133,7 @@ const CategoryFilterComponent = ({ categories, loadData }) => {
             </li>
           ))}
           <button className="btn btn-sm text-[12px] outline-none" onClick={handleShowMoreCategories}>
-            Show More
+          {t("all_products.filter_component.show_more")}
           </button>
         </div>
       )}

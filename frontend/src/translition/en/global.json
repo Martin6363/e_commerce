@@ -1,0 +1,114 @@
+{
+    "header": {
+        "language": "English",
+        "message": "Welcome to eCommerce!",
+        "products": "Products"
+    },
+    "card": {
+        "basketButton": "Add basket",
+        "inTheBasket": "In the basket"
+    },
+    "search": {
+        "placeholder": "Type to search..",
+        "product_found": "products found"
+    },
+    "login": {
+        "sign_in": "Sign in",
+        "email_label": "Email",
+        "email_placeholder": "Email",
+        "password_label": "Password",
+        "password_placeholder": "••••••••",
+        "remember_me": "Remember me",
+        "forgot_password": "Forgot password?",
+        "no_account": "Don't have an account yet?",
+        "sign_up": "Sign up",
+        "error_message": "Please try again later."
+    },
+    "register": {
+        "title": "Sign up",
+        "back": "Back",
+        "login": "Login",
+        "forgot_password": "Forgot password",
+        "remember_me": "Remember me",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "sign_up": "Sign up",
+        "sign_in": "Sign in",
+        "errors": {
+            "name_required": "Name is required",
+            "email_required": "Please enter your Email",
+            "email_invalid": "Please enter a valid Email",
+            "password_required": "Password is required",
+            "password_min_length": "Password must be 8-16 characters long",
+            "password_max_length": "Password must be 8-16 characters long",
+            "confirm_password_required": "Confirm password is required",
+            "password_mismatch": "Passwords do not match"
+        }
+    },
+    "basket": {
+        "title": "Shopping Cart",
+        "items": "Items",
+        "empty_cart": "The cart is still empty",
+        "empty_cart_message": "Visit the main page to select products or find what you need in the search",
+        "go_to_main_page": "Go to Main page",
+        "product_details": "Product Details",
+        "quantity": "Quantity",
+        "total": "Total",
+        "show_more": "Show More",
+        "order_summary": "Order Summary",
+        "checkout": "Checkout",
+        "payment_method": "Payment method",
+        "select_payment_method": "Select Payment method",
+        "my_details": "My details",
+        "login_or_create_account": "Login or create account"
+    },
+    "favorite": {
+        "total": "Total Favorites",
+        "empty_favorite": "The favorite is still empty",
+        "to_home_page_select_products": "Visit the main page to select products or find what you need in the search",
+        "go_to_main_page": "Go to Main page"
+    },
+    "product_show": {
+        "vendor_code": "Vendor code",
+        "brand": "Brand",
+        "sizes": "Sizes",
+        "colors": "Colors",
+        "add_to_cart": "Add to cart",
+        "inTheBasket": "In the basket",
+        "description": "Description",
+        "see_also": "See also"
+    },
+    "all_products": {
+        "sort": {
+            "sort_by": "Sort by",
+            "lowest_price": "Lowest price",
+            "highest_price": "Highest price",
+            "rating": "Rating",
+            "reset": "Reset"
+        },
+        "all_filters_button": "All Filters",
+        "filter_component": {
+            "title": "Filter",
+            "found": "Found",
+            "products": "Products",
+            "reset_products": "Reset Filters",
+            "show_more": "Show more",
+            "price_component": {
+                "filter_by_price": "Filter by price",
+                "from": "From",
+                "to": "to"
+            },
+            "category_component": {
+                "title": "Categories"
+            },
+            "brand_component": {
+                "title": "Brands"
+            },
+            "color_component": {
+                "title": "Colors"
+            }
+        }
+    }
+}

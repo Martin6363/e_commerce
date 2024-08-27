@@ -1,12 +1,13 @@
 import SearchIcon from "@mui/icons-material/Search";
 import "../../assets/styles/SearchInput.scss";
 import { useTheme } from "@emotion/react";
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useTransition } from "react";
 import axios from "../../api/axios";
 import { Link, useNavigate } from "react-router-dom";
 import debounce from 'lodash.debounce';
 import { useForm } from "react-hook-form";
 import { IoClose } from "react-icons/io5";
+import { useTranslation } from "react-i18next";
 
 const Search = () => {
   const theme = useTheme();
@@ -17,6 +18,7 @@ const Search = () => {
   const { register, handleSubmit, setValue } = useForm();
   const ref = useRef();
   const navigate = useNavigate();
+  const [t] = useTranslation("global");
 
   const debouncedSearch = useCallback(
     debounce((searchValue) => {
@@ -114,7 +116,7 @@ const Search = () => {
               onBlur: () => {handleHideAutoComplete()}
             })}
             autoComplete="off"
-            placeholder="Type to search.."
+            placeholder={t('search.placeholder')}
           />
           <div className="icon flex items-center">
             <span onClick={handleEmptyValue} className={`${showCloseInputBtn ? 'visible' : 'invisible'} `}><IoClose/></span>

@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { TbArrowsSort } from "react-icons/tb";
 import { IoIosArrowDown } from "react-icons/io";
 import { useTheme } from "@emotion/react";
+import { useTranslation } from "react-i18next";
 
 export default function DropDownSort() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -10,6 +11,7 @@ export default function DropDownSort() {
     const dropDownRef = useRef(null);
     const theme = useTheme();
     const sort = searchParams.get('sort');
+    const [t] = useTranslation("global");
 
     const handleSortChange = useCallback((event) => {
       const { value } = event.target;
@@ -44,13 +46,13 @@ export default function DropDownSort() {
     const getSortLabel = () => {
       switch (sort) {
           case 'lowest_price':
-              return 'Lowest Price';
+              return t("all_products.sort.lowest_price");
           case 'highest_price':
-              return 'Highest Price';
+              return t("all_products.sort.highest_price");
           case 'rating':
-              return 'Rating';
+              return t("all_products.sort.rating");
           default:
-              return 'Sort By';
+              return t("all_products.sort.sort_by");
       }
   };
 
@@ -77,7 +79,7 @@ export default function DropDownSort() {
           aria-labelledby="dropdownRadioButton"
         >
           {
-            sort && ( <button className="text-gray-400 hover:text-gray-500 transition duration-300"  onClick={handleResetSorting}>Reset</button> ) 
+            sort && ( <button className="text-gray-400 hover:text-gray-500 transition duration-300"  onClick={handleResetSorting}>{t("all_products.sort.reset")}</button> ) 
           }
         <li>
             <div className="flex items-center">
@@ -92,9 +94,9 @@ export default function DropDownSort() {
               />
               <label
                 htmlFor="sort-lowest-price"
-                className="ms-2 cursor-pointer text-[16px] font-medium select-none"
+                className="ms-2 cursor-pointer text-[15px] font-medium select-none"
               >
-                Lowest Price
+                {t("all_products.sort.lowest_price")}
               </label>
             </div>
           </li>
@@ -111,9 +113,9 @@ export default function DropDownSort() {
               />
               <label
                 htmlFor="sort-highest-price"
-                className="ms-2 cursor-pointer text-sm font-medium select-none"
+                className="ms-2 cursor-pointer text-[15px] font-medium select-none"
               >
-                Highest Price
+                {t("all_products.sort.highest_price")}
               </label>
             </div>
           </li>
@@ -130,9 +132,9 @@ export default function DropDownSort() {
               />
               <label
                 htmlFor="sort-rating"
-                className="ms-2 cursor-pointer text-sm font-medium select-none"
+                className="ms-2 cursor-pointer text-[15px] font-medium select-none"
               >
-                Rating
+                {t("all_products.sort.rating")}
               </label>
             </div>
           </li>

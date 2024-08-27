@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FaArrowLeftLong } from "react-icons/fa6";
@@ -8,13 +8,14 @@ import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import axios from "../api/axios";
 import ModalVerify from "../components/Register_Modal/ModalVerify";
-
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState([]);
   const [emailExist, setEmailExist] = useState('');
   const theme = useTheme();
+  const [t] = useTranslation("global");
   const {
     register,
     handleSubmit,
@@ -49,9 +50,6 @@ const Register = () => {
   function handleShowPassword () {
     setShowPassword(!showPassword);
   }
-  // useEffect(() => {
-
-  // }, [])
 
   return (
     <>
@@ -72,7 +70,7 @@ const Register = () => {
                         <FaArrowLeftLong />
                     </IconButton>
                   </Link>
-                Sign up
+                {t("register.title")}
               </h1>
               <form
                 ref={ref}
@@ -85,7 +83,7 @@ const Register = () => {
                     htmlFor="name"
                     className="block mb-2 text-sm font-medium"
                   >
-                    Name
+                    {t("register.name")}
                   </label>
                   <input
                     type="text"
@@ -98,8 +96,8 @@ const Register = () => {
                         ? "bg-gray-700"
                         : "bg-slate-100"
                     }`}
-                    placeholder="name"
-                    {...register("name", { required: "Name is required" })}
+                    placeholder={t("register.name")}
+                    {...register("name", { required: t("register.errors.name_required") })}
                   />
                   {errors.name && (
                     <div className="flex absolute top-[58px]">
@@ -114,7 +112,7 @@ const Register = () => {
                     htmlFor="email"
                     className="block mb-2 text-sm font-medium"
                   >
-                    Email
+                    {t("register.email")}
                   </label>
                   <input
                     type="text"
@@ -128,13 +126,13 @@ const Register = () => {
                         : "bg-slate-100"
                     }`}
                     {...register("email", {
-                      required: "Please enter your Email!",
+                      required: t("register.errors.email_required"),
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Please enter a valid Email!",
+                        message: t("register.errors.email_invalid"),
                       },
                     })}
-                    placeholder="name@company.com"
+                    placeholder={t("register.email")}
                   />
                   {errors.email && (
                     <div className="flex absolute top-[58px]">
@@ -149,7 +147,7 @@ const Register = () => {
                     htmlFor="password"
                     className="block mb-2 text-sm font-medium"
                   >
-                    Password
+                    {t("register.password")}
                   </label>
                   <input
                     type={`${ showPassword ? 'text' : 'password' }`}
@@ -164,14 +162,14 @@ const Register = () => {
                         : "bg-slate-100"
                     }`}
                     {...register("password", {
-                      required: "Password is required",
+                      required: t("register.errors.password_required"),
                       minLength: {
                         value: 8,
-                        message: "Password must be 8-16 characters long",
+                        message: t("register.errors.password_min_length"),
                       },
                       maxLength: {
                         value: 16,
-                        message: "Password must be 8-16 characters long",
+                        message: t("register.errors.password_max_length"),
                       },
                     })}
                   />
@@ -191,7 +189,7 @@ const Register = () => {
                     htmlFor="confirm_password"
                     className="block mb-2 text-sm font-medium"
                   >
-                    Confirm Password
+                    {t("register.confirm_password")}
                   </label>
                   <input
                     type="password"
@@ -207,9 +205,9 @@ const Register = () => {
                         : "bg-slate-100"
                     }`}
                     {...register("confirm_password", {
-                      required: "Confirm password is required",
+                      required: t("register.errors.confirm_password_required"),
                       validate: (value) =>
-                        value === watch('password') || 'Passwords do not match',
+                        value === watch('password') || t("register.errors.password_mismatch"),
                     })}
                   />
                   {errors.confirm_password && (
@@ -232,21 +230,21 @@ const Register = () => {
                       />
                     </div>
                     <div className="ml-3 text-sm">
-                      <label htmlFor="remember">Remember me</label>
+                      <label htmlFor="remember">{t("register.remember_me")}</label>
                     </div>
                   </div>
                   <Link
                     href="#"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Forgot password?
+                    {t("register.forgot_password")}
                   </Link>
                 </div>
                 <button
                   type="submit"
                   className="w-full text-white bg-purple-700 hover:bg-purple-600  focus:outline-none focus:bg-purple-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 >
-                  Sign in
+                  {t("register.sign_up")}
                 </button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                   If you have an account{" "}
@@ -254,7 +252,7 @@ const Register = () => {
                     to="/login"
                     className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    Sign in
+                    {t("register.sign_in")}
                   </Link>
                 </p>
               </form>

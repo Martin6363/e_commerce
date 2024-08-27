@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 const PriceFilterComponent = ({ minPrice, maxPrice, handleFilterPrice }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  
+  const [t] = useTranslation("global");
   
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
@@ -14,7 +15,7 @@ const PriceFilterComponent = ({ minPrice, maxPrice, handleFilterPrice }) => {
     <div className="relative grid grid-cols-2 gap-2 mb-6">
       <div>
         <label htmlFor="min-price" className="sr-only">Min price</label>
-        From
+        {t("all_products.filter_component.price_component.from")}
         <input
           id="min-price"
           type="number"
@@ -28,7 +29,7 @@ const PriceFilterComponent = ({ minPrice, maxPrice, handleFilterPrice }) => {
       </div>
       <div>
         <label htmlFor="max-price" className="sr-only">Max price</label>
-        To
+        {t("all_products.filter_component.price_component.to")}
         <input
           id="max-price"
           type="number"
@@ -45,7 +46,7 @@ const PriceFilterComponent = ({ minPrice, maxPrice, handleFilterPrice }) => {
         sx={{ backgroundColor: "rgba(168, 85, 247, 1)", color: "#fff" }}
         variant="contained"
       >
-        Filter by price
+        {t("all_products.filter_component.price_component.filter_by_price")}
       </Button>
     </div>
   );

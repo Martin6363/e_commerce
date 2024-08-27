@@ -26,7 +26,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $product = Product::create(array_merge($request->validated(), ["slug" => $request->name, "vendor_code" => ""]));
-
+        
         if ($request->hasFile('images')) {
             $product->images()->createMany(Images::upload($request->file('images')));
         }
@@ -82,7 +82,6 @@ class ProductController extends Controller
         }
 
         $productWithDetails->images()->delete();
-
         $productWithDetails->delete();
 
         return response()->noContent();

@@ -13,6 +13,8 @@ import { addToCart } from "../../store/cart";
 import AlertSuccess from "../AlertSuccess/AlertSuccess";
 import myAxios from "../../api/axios";
 import { useAuth } from "../../hooks/useAuth";
+import { useCurrency } from "../../context/CurrencyContext";
+import { useTranslation } from "react-i18next";
 
 
 export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }) {
@@ -28,8 +30,10 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
   const productAlreadyExists = carts.some(
     (cart) => cart.productId === product.id
   );
+  const { selectedCurrency } = useCurrency();
   const [showAlert, setShowAlert] = useState(false);
   const dispatch = useDispatch();
+  const [t, i18n] = useTranslation("global");
 
   function handleTitleLimit(source, size) {
     return source.length > size ? source.slice(0, size - 1) + "…" : source;
@@ -99,12 +103,23 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
               {product ? handleTitleLimit(product.name, 45) : ""}
             </h5>
             <strong>
-              {product ? product.price : ""}${" "}
+              {product ? Math.floor(product.price) : ""}
+                {" "}
+                {
+                  selectedCurrency === "AMD"
+                    ? "դր․"
+                    : selectedCurrency === "RUB"
+                    ? "₽"
+                    : selectedCurrency === "USD"
+                    ? "$"
+                    : ""
+                }
+                {" "}
               <del
                 className="text-sm"
                 style={{ fontWeight: 500, color: "#868695" }}
               >
-                6500$
+                0$
               </del>
             </strong>
             <div className="card_star_rating">
@@ -115,7 +130,7 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
               </span>
               {productAlreadyExists ? (
                 <Link  className="to_basket_link" to={"/basket"}>
-                  In the basket
+                  {t("card.inTheBasket")}
                 </Link>
               ) : (
                 <Button
@@ -135,7 +150,7 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
                   className="card_buy_btn"
                 >
                   <FaCartShopping />{" "}
-                  <span style={{ fontSize: "14px" }}>Add Basket</span>
+                  <span style={{ fontSize: "12px" }}>{ t("card.basketButton") }</span>
                 </Button>
               )}
             </div>

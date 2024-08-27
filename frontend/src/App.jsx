@@ -6,7 +6,6 @@ import Register from "./pages/Register";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { Outlet } from "react-router-dom";
-import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ScrollToTop from "./components/scroll/ScrollToTop";
 import Products from "./pages/All_products/Products";
 import SearchedResults from "./pages/SearchedResults";
@@ -16,6 +15,7 @@ import Profile from "./pages/Profile/Profile";
 import Favorite from "./pages/Favorite/Favorite";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectesRoute";
 import Category from "./pages/Category/Category";
+import ProductDetail from "./pages/ProductDetail/ProductDetail";
 
 function App() {
   const [theme, colorMode] = useMode();

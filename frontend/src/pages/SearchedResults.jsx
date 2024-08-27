@@ -5,6 +5,8 @@ import CardDetail from "../components/Card/CardDetail";
 import Footer from "../components/footer/Footer";
 import CardSize from "../components/Card/CardSize"
 import "ldrs/ring";
+import { useCurrency } from "../context/CurrencyContext";
+import { useTranslation } from "react-i18next";
 
 export default function SearchedResults() {
   const [searchParams] = useSearchParams();
@@ -15,6 +17,8 @@ export default function SearchedResults() {
   const [offset, setOffset] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
   const [allProductsLoaded, setAllProductsLoaded] = useState(false);
+  const { selectedCurrency } = useCurrency();
+  const [t] = useTranslation("global");
 
   useEffect(() => {
     setLoadProducts(true);
@@ -22,7 +26,7 @@ export default function SearchedResults() {
     setOffset(0);
     setAllProductsLoaded(false);
     getSearchData(0, true);
-  }, [searchQuery]);
+  }, [searchQuery, selectedCurrency]);
 
   useEffect(() => {
     const handleScroll = (e) => {
@@ -40,11 +44,11 @@ export default function SearchedResults() {
     window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [loadingMore, allProductsLoaded, offset]);
+  }, [loadingMore, allProductsLoaded, offset, selectedCurrency]);
 
   function getSearchData(newOffset, isNewSearch = false) {
     myAxios
-      .get(`/products?search=${searchQuery}`)
+      .get(`/products?search=${searchQuery}&currency=${selectedCurrency}`)
       .then((res) => {
         setSearchedResult((prev) =>
           isNewSearch ? res.data.data : [...prev, ...res.data.data]
@@ -70,7 +74,7 @@ export default function SearchedResults() {
             <div className="flex items-center gap-2 p-3">
               <h2 className="text-[25px]">{searchQuery}</h2>
               <span className="text-gray-500 text-[12px]">
-                {totalCount} products found
+                {totalCount} {t("search.product_found")}
               </span>
             </div>
             <div>

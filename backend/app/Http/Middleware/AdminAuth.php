@@ -16,10 +16,12 @@ class AdminAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth()->user()->type == 1 || Auth()->user()->type == 2){ // admin = 1 superAdmin = 2
-            return $next($request);
-        }else{
-            return redirect()->route('login')->with('error', 'You do not have permission to access this page !');
+        if (!$request->user() || (!$request->user()->isAdmin() && !$request->user()->isSuperVizorAdmin())) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only admins can perform this action.'
+            ], 403);
         }
+        return $next($request);
     }
 }
