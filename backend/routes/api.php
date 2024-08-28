@@ -44,7 +44,7 @@ Route::prefix('v1')->group(function () {
 
 Route::middleware(['auth:sanctum', AdminAuth::class])->prefix('v1')->group(function() {
     Route::post('/products', [ProductController::class, 'store']);
-    Route::match(['PUT', 'PATCH'], '/products/{product}', [ProductController::class, 'update']);
+    Route::match(['PUT', 'PATCH'], '/products/{product}', [ProductController::class, 'update']); 
     Route::delete('/products/{product}', [ProductController::class, 'destroy']);
 
     Route::get('/admin', function (Request $request) {

@@ -28,11 +28,11 @@ class ProductRequest extends FormRequest
             'description' => ['required', 'string', 'max:1000', 'min:5'],
             'price' => ['required', 'numeric', 'between:0,9999999999.99'],
             'rating' => ['required', 'numeric', 'max:5', 'min:0'],
-            'images' => ['array', 'image', 'max:8', 'mimes:jpeg,png,jpg,gif'],
+            'images' => ['nullable', 'array'], 
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], 
-            'brand_id' => ['int'],
+            'brand_id' => ['nullable', 'int'],
             'category_id' => ['required', 'int'],
-            'disCount_id' => ['int']
+            'disCount_id' => ['nullable', 'int'], 
         ];
     }
 

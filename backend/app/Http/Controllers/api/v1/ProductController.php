@@ -50,9 +50,9 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
+        dd($request->validated());
         $product->update(array_merge($request->validated(), ["slug" => $request->name, "vendor_code" => ""]));
         
-        dd($request->file('images'));
         if ($request->hasFile('images')) {
             $uploadedImages = Images::upload($request->file('images'), $product->id);
             $product->images()->createMany($uploadedImages);

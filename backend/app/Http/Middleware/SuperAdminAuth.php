@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class SuperAdminAuth
@@ -16,10 +15,12 @@ class SuperAdminAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth()->user()->type == 2){ // super admin = 2
-            return $next($request);
-        }else{
-            return redirect()->route('login')->with('error', 'You do not have permission to access this page !');
+        if(!$request->user()->type == 2){ // super admin = 2
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthorized. Only superVizorAdmin can perform this action.'
+            ], 403);
         }
+        return $next($request);
     }
 }

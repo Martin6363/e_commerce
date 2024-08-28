@@ -29,6 +29,8 @@ class UpdateProductRequest extends FormRequest
             'price' => ['numeric', 'between:0,9999999999.99'],
             'images' => ['array', 'max:8'], 
             'images.*' => ['image', 'max:2048'],
+            'remove_images' => ['array'],
+            'remove_images.*' => ['integer', 'exists:images,id'],
             'category_id' => ['nullable', 'int'],
             'discount_id' => ['nullable', 'int']
         ];
