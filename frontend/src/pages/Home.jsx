@@ -38,9 +38,9 @@ const Home = () => {
   }, [currentPage]);
 
   const fetchProducts = async () => {
-    if (cache[currentPage]) {
-      setProducts(cache[currentPage].data);
-      setPageCount(cache[currentPage].meta.last_page);
+    if (cache[`${currentPage}-${selectedCurrency}`]) {
+      setProducts(cache[`${currentPage}-${selectedCurrency}`].data);
+      setPageCount(cache[`${currentPage}-${selectedCurrency}`].meta.last_page);
       setLoading(false);
       return;
     }
