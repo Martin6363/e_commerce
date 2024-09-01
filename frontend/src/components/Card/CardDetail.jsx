@@ -98,9 +98,12 @@ export function CardDetail({
             className="card_link"
           >
             <div className="card_img_box">
-              <div className="card_image md:shrink-0">
+              <div className="card_image relative md:shrink-0">
                 <img src={imageUrl} alt="" />
                 <span className="view-card-btn">View</span>
+                {product.dis_count && (
+                  <span className="absolute z-100 bottom-2 left-2 text-white font-semibold bg-[#f44] rounded-md px-[2px] text-[12px]">-{ product.dis_count }%</span>
+                )}
               </div>
             </div>
           </Link>
@@ -108,11 +111,11 @@ export function CardDetail({
             <h5 className="name_product">
               {product ? handleTitleLimit(product.name, 45) : ""}
             </h5>
-              <strong className={`flex items-center gap-[2px] ${product.discounted_price && "text-red-500"}`}>
+              <strong className={`flex items-center gap-[2px] ${product.discounted_price && "text-[#f44]"}`}>
                 {product.discounted_price
                   ? (
                     <>
-                    <span className="flex items-center gap-1"><RiDiscountPercentFill size={12}/> {product.discounted_price}</span>
+                    <span className="flex  items-center gap-1"><RiDiscountPercentFill size={12}/> {product.discounted_price}</span>
                     </>
                   )
                   : Math.floor(product.price)
@@ -147,11 +150,10 @@ export function CardDetail({
                 <Button
                   disabled={productAlreadyExists}
                   onClick={handleAddToCart}
-                  variant="contained"
                   sx={{
                     display: "flex",
                     gap: "5px",
-                    backgroundColor: "#772EB0",
+                    backgroundColor: "rgb(219, 2, 234)",
                     width: "100%",
                     color: "#fff",
                     padding: "5px 24px 7px",

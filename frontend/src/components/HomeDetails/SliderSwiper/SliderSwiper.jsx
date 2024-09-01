@@ -8,16 +8,16 @@ import "../../../assets/styles/Slider.scss";
 import myAxios from "../../../api/axios"
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCurrency } from '../../../context/CurrencyContext';
+import { useMediaQuery } from "@mui/material";
 
 const cacheSlider = {};
 
 const SliderSwiper = () => {
-  const progressCircle = useRef(null);
-  const progressContent = useRef(null);
   const { selectedCurrency } = useCurrency();
   const [sliderData, setSliderData] = useState([]);
+  const matches = useMediaQuery("(max-width:1020px)");
 
   useEffect(() => {
     getPromotions();
@@ -39,44 +39,32 @@ const SliderSwiper = () => {
       setSliderData([]);
     }
   };
-  const onAutoplayTimeLeft = (s, time, progress) => {
-    progressCircle.current.style.setProperty('--progress', 1 - progress);
-    progressContent.current.textContent = `${Math.ceil(time / 1000)}s`;
-  };
-
 
   return (
     <>
       <Swiper
-        slidesPerView={1}
-        spaceBetween={30}
+        slidesPerView={matches ? 1.05 : 1}
+        spaceBetween={10}
         centeredSlides={true}
         autoplay={{
-          delay: 5000,
+          delay: 4000,
           disableOnInteraction: false,
         }}
         loop={true}
         pagination={{
           clickable: true,
         }}
-        navigation={true}
+        navigation={matches ? false : true}
         modules={[Autoplay, Pagination, Navigation]}
-        onAutoplayTimeLeft={onAutoplayTimeLeft}
         className="mySwiper"
       >
         {sliderData?.map((data) => (
           <SwiperSlide key={data.id}>
             <Link to={`/promotions/${data.slug}`} className='w-full select-none'>
-              <img src={data.image_url} alt={data.name} />
+              <img className='rounded-[15px]' src={data.image_url} alt={data.name} />
             </Link>
           </SwiperSlide>
         ))}
-        <div className="autoplay-progress" slot="container-end">
-          <svg viewBox="0 0 48 48" ref={progressCircle}>
-            <circle cx="24" cy="24" r="20"></circle>
-          </svg>
-          <span ref={progressContent}></span>
-        </div>
       </Swiper>
     </>
   );

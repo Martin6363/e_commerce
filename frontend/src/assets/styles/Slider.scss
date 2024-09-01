@@ -7,6 +7,7 @@
 .swiper-slide {
   text-align: center;
   font-size: 18px;
+  height: auto !important;
   background: transparent;
   display: flex;
   justify-content: center;
@@ -21,7 +22,7 @@
 }
 
 .mySwiper {
-  max-height: 400px;
+  max-height: 350px;
   border-radius: 15px;
 }
 
@@ -59,4 +60,36 @@
   stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
   stroke-dasharray: 125.6;
   transform: rotate(-90deg);
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  font-size: 15px !important;
+  margin: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  opacity: 0.8;
+  line-height: 1;
+  background: #fff;
+  border-radius: 100%;
+  border: none;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: opacity 0.3s ease 0s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &::after {
+    font-size: 22px;
+    font-weight: 600;
+    color: #000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% -50%);
+  }
 }
