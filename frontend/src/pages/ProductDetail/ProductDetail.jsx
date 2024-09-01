@@ -18,6 +18,7 @@ import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useAuth } from "../../hooks/useAuth";
 import { useTranslation } from "react-i18next";
+import { RiDiscountPercentFill } from "react-icons/ri";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -101,6 +102,7 @@ export default function ProductDetail() {
     navigator.clipboard.writeText(copyVendorCode);
     setShowAlert(true);
   }
+  
 
   return (
     <>
@@ -157,25 +159,30 @@ export default function ProductDetail() {
                     <h2>{product.name}</h2>
                   </div>
                   <label className="flex items-end gap-2 mt-3">
-                    <strong className="text-[30px]">
-                      {product.price}
-                      {" "}
-                      {
-                        selectedCurrency === "AMD"
-                          ? "դր․"
-                          : selectedCurrency === "RUB"
-                          ? "₽"
-                          : selectedCurrency === "USD"
-                          ? "$"
-                          : ""
-                      }
-                      </strong>
-                    <del
-                      className="text-sm"
-                      style={{ color: "#9a9a9a", fontWeight: 300 }}
-                    >
-                      $3000
-                    </del>
+                    <strong className={`flex items-center text-[30px] ${ product.discounted_price && "text-red-500" }`}>
+                      {product.discounted_price ? (
+                        <>
+                          <span className="flex items-center gap-1">
+                            <RiDiscountPercentFill size={30} />{" "}
+                            {product.discounted_price}
+                          </span>
+                        </>
+                      ) : (
+                        Math.floor(product.price)
+                      )}{" "}
+                      {selectedCurrency === "AMD"
+                        ? "դր․"
+                        : selectedCurrency === "RUB"
+                        ? "₽"
+                        : selectedCurrency === "USD"
+                        ? "$"
+                        : ""}
+                    </strong>
+                    {product.discounted_price && (
+                      <del className="text-[16px]" style={{ fontWeight: 500, color: "#868695" }}>
+                        {product.price}
+                      </del>
+                    )}
                   </label>
                   <ul className="flex flex-col gap-3 mt-3">
                     <li className="product_params">
@@ -192,10 +199,13 @@ export default function ProductDetail() {
                       </span>{" "}
                     </li>
                     <li className="product_params">
-                      <b>{t("product_show.brand")}</b> <span>{product?.brand}</span>{" "}
+                      <b>{t("product_show.brand")}</b>{" "}
+                      <span>{product?.brand}</span>{" "}
                     </li>
                     <li className="mt-8">
-                      <h3 className="text-xl font-bold">{t("product_show.sizes")}</h3>
+                      <h3 className="text-xl font-bold">
+                        {t("product_show.sizes")}
+                      </h3>
                       <div className="flex flex-wrap gap-4 mt-4">
                         <button
                           type="button"
@@ -230,7 +240,9 @@ export default function ProductDetail() {
                       </div>
                     </li>
                     <li className="mt-2">
-                      <h3 className="text-xl font-bold">{t("product_show.colors")}</h3>
+                      <h3 className="text-xl font-bold">
+                        {t("product_show.colors")}
+                      </h3>
                       <div className="flex flex-wrap gap-4 mt-4">
                         <button
                           type="button"
@@ -295,7 +307,9 @@ export default function ProductDetail() {
             </div>
             <div className="w-full flex items-center justify-between">
               <div className="ml-2" style={{ width: "70%" }}>
-                <span style={{ color: "#9a9a9a" }}>{t("product_show.description")}</span>
+                <span style={{ color: "#9a9a9a" }}>
+                  {t("product_show.description")}
+                </span>
                 <article className="mt-3 text-[13px]">
                   {product?.description}
                 </article>
@@ -303,7 +317,7 @@ export default function ProductDetail() {
             </div>
             <section className="flex flex-col gap-5">
               <h2 className="text-[24px] font-[700] leading-[32px] ml-2">
-              {t("product_show.see_also")}
+                {t("product_show.see_also")}
               </h2>
               <div className="w-full flex justify-between flex-wrap gap-2">
                 {seeAlsoProducts?.map((product) => (

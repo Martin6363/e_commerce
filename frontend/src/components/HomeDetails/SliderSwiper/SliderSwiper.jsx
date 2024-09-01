@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { useCurrency } from '../../../context/CurrencyContext';
 
+const cacheSlider = {};
+
 const SliderSwiper = () => {
   const progressCircle = useRef(null);
   const progressContent = useRef(null);
@@ -19,13 +21,19 @@ const SliderSwiper = () => {
 
   useEffect(() => {
     getPromotions();
-  }, [])
+  }, [selectedCurrency])
 
   const getPromotions = async () => {
+    if (cacheSlider[selectedCurrency]) {
+      setSliderData(cacheSlider[selectedCurrency]);
+      return
+    }
+
     try {
       const response = await myAxios.get("/promotions");
-      console.log(response.data);
-      setSliderData(response.data.data);
+      const data = response.data.data
+      cacheSlider[selectedCurrency] = data;
+      setSliderData(data);
     } catch (error) {
       console.error("Error fetching promotions:", error);
       setSliderData([]);
@@ -58,7 +66,7 @@ const SliderSwiper = () => {
       >
         {sliderData?.map((data) => (
           <SwiperSlide key={data.id}>
-            <Link to={`/promotion/${data.slug}`} className='w-full select-none'>
+            <Link to={`/promotions/${data.slug}`} className='w-full select-none'>
               <img src={data.image_url} alt={data.name} />
             </Link>
           </SwiperSlide>

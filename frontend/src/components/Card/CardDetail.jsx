@@ -15,15 +15,20 @@ import myAxios from "../../api/axios";
 import { useAuth } from "../../hooks/useAuth";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useTranslation } from "react-i18next";
+import { RiDiscountPercentFill } from "react-icons/ri";
 
-
-export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }) {
+export function CardDetail({
+  product,
+  loadingCard,
+  isFavorite: initialFavorite,
+}) {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(initialFavorite);
   const [searchParams] = useSearchParams();
   const cardSize = searchParams.get("cardsize") || "small";
-  const imageUrl = product?.images?.[0]?.url ?? "/src/assets/images/no-image.jpg";
+  const imageUrl =
+    product?.images?.[0]?.url ?? "/src/assets/images/no-image.jpg";
   const [addedFavorite, setAddedFavorite] = useState(false);
   const [addedFavoriteMessage, setAddedFavoriteMessage] = useState("");
   const carts = useSelector((store) => store.cart.items);
@@ -45,22 +50,24 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
       return;
     }
 
-    myAxios.post('/favorites/toggle', { product_id: product?.id })
+    myAxios
+      .post("/favorites/toggle", { product_id: product?.id })
       .then((res) => {
-        setAddedFavoriteMessage(res.data.message)
+        setAddedFavoriteMessage(res.data.message);
         setAddedFavorite(true);
-      })
+      });
     setIsFavorite(!isFavorite);
   }
 
-  const cardSizeClass = cardSize === "big" ? "card_wrapper_big" : "card_wrapper_small";
+  const cardSizeClass =
+    cardSize === "big" ? "card_wrapper_big" : "card_wrapper_small";
 
   function handleToTop() {
     window.scroll({
       top: 0,
     });
   }
-  
+
   function handleAddToCart() {
     dispatch(
       addToCart({
@@ -68,7 +75,7 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
         quantity: 1,
       })
     );
-    setShowAlert(true)
+    setShowAlert(true);
   }
   return (
     <article className={`card_wrapper ${cardSizeClass}`}>
@@ -101,32 +108,31 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
             <h5 className="name_product">
               {product ? handleTitleLimit(product.name, 45) : ""}
             </h5>
-            {product.discounted_price ? (
-              <strong>
-                {product.discounted_price}
+              <strong className={`flex items-center gap-[2px] ${product.discounted_price && "text-red-500"}`}>
+                {product.discounted_price
+                  ? (
+                    <>
+                    <span className="flex items-center gap-1"><RiDiscountPercentFill size={12}/> {product.discounted_price}</span>
+                    </>
+                  )
+                  : Math.floor(product.price)
+                }
+                
+                <span>
+                  {selectedCurrency === "AMD"
+                    ? "դր․"
+                    : selectedCurrency === "RUB"
+                    ? "₽"
+                    : selectedCurrency === "USD"
+                    ? "$"
+                    : ""}
+                </span>
+                  {product.discounted_price && (
+                    <del className="text-[12px]" style={{ fontWeight: 500, color: "#868695" }}>
+                      {product.price}
+                    </del>
+                  )}
               </strong>
-            ) : (
-              <strong>
-                {product ? Math.floor(product.price) : ""}
-                  {" "}
-                  {
-                    selectedCurrency === "AMD"
-                      ? "դր․"
-                      : selectedCurrency === "RUB"
-                      ? "₽"
-                      : selectedCurrency === "USD"
-                      ? "$"
-                      : ""
-                  }
-                  {" "}
-                <del
-                  className="text-sm"
-                  style={{ fontWeight: 500, color: "#868695" }}
-                >
-                  0$
-                </del>
-              </strong>
-            )}
             <div className="card_star_rating">
               <span className="flex items-center gap-1 mb-2 text-gray-400">
                 <TiStarFullOutline color="#FFD700" />
@@ -134,7 +140,7 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
                 <small>({product.rating})</small>
               </span>
               {productAlreadyExists ? (
-                <Link  className="to_basket_link" to={"/basket"}>
+                <Link className="to_basket_link" to={"/basket"}>
                   {t("card.inTheBasket")}
                 </Link>
               ) : (
@@ -155,7 +161,9 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
                   className="card_buy_btn"
                 >
                   <FaCartShopping />{" "}
-                  <span style={{ fontSize: "12px" }}>{ t("card.basketButton") }</span>
+                  <span style={{ fontSize: "12px" }}>
+                    {t("card.basketButton")}
+                  </span>
                 </Button>
               )}
             </div>

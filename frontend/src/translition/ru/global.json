@@ -2,7 +2,8 @@
     "header": {
         "language": "Русский",
         "message": "Добро пожаловать в электронную коммерцию!",
-        "products": "Продукты"
+        "products": "Продукты",
+        "currencySymbol": "руб"
     },
     "card": {
         "basketButton": "Добавить корзину",

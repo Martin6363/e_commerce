@@ -2,7 +2,8 @@
     "header": {
         "language": "English",
         "message": "Welcome to eCommerce!",
-        "products": "Products"
+        "products": "Products",
+        "currencySymbol": "$"
     },
     "card": {
         "basketButton": "Add basket",

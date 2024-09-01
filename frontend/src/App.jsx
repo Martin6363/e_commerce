@@ -16,6 +16,7 @@ import Favorite from "./pages/Favorite/Favorite";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectesRoute";
 import Category from "./pages/Category/Category";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
+import Promotions from "./pages/Promotions/Promotions";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/search" element={<SearchedResults />} />
                 <Route path="/basket" element={<Basket />} />
                 <Route path="/category/:catSlug/:catId" element={<Category/>}/>
+                <Route path="promotions/:slug" element={<Promotions/>}/>
                 <Route
                   path="/profile"
                   element={
