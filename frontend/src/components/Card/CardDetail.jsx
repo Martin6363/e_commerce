@@ -33,7 +33,7 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
   const { selectedCurrency } = useCurrency();
   const [showAlert, setShowAlert] = useState(false);
   const dispatch = useDispatch();
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
 
   function handleTitleLimit(source, size) {
     return source.length > size ? source.slice(0, size - 1) + "…" : source;
@@ -53,8 +53,7 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
     setIsFavorite(!isFavorite);
   }
 
-  const cardSizeClass =
-    cardSize === "big" ? "card_wrapper_big" : "card_wrapper_small";
+  const cardSizeClass = cardSize === "big" ? "card_wrapper_big" : "card_wrapper_small";
 
   function handleToTop() {
     window.scroll({
@@ -102,26 +101,32 @@ export function CardDetail({ product, loadingCard, isFavorite: initialFavorite }
             <h5 className="name_product">
               {product ? handleTitleLimit(product.name, 45) : ""}
             </h5>
-            <strong>
-              {product ? Math.floor(product.price) : ""}
-                {" "}
-                {
-                  selectedCurrency === "AMD"
-                    ? "դր․"
-                    : selectedCurrency === "RUB"
-                    ? "₽"
-                    : selectedCurrency === "USD"
-                    ? "$"
-                    : ""
-                }
-                {" "}
-              <del
-                className="text-sm"
-                style={{ fontWeight: 500, color: "#868695" }}
-              >
-                0$
-              </del>
-            </strong>
+            {product.discounted_price ? (
+              <strong>
+                {product.discounted_price}
+              </strong>
+            ) : (
+              <strong>
+                {product ? Math.floor(product.price) : ""}
+                  {" "}
+                  {
+                    selectedCurrency === "AMD"
+                      ? "դր․"
+                      : selectedCurrency === "RUB"
+                      ? "₽"
+                      : selectedCurrency === "USD"
+                      ? "$"
+                      : ""
+                  }
+                  {" "}
+                <del
+                  className="text-sm"
+                  style={{ fontWeight: 500, color: "#868695" }}
+                >
+                  0$
+                </del>
+              </strong>
+            )}
             <div className="card_star_rating">
               <span className="flex items-center gap-1 mb-2 text-gray-400">
                 <TiStarFullOutline color="#FFD700" />

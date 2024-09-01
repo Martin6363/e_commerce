@@ -21,7 +21,7 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-        $companyId = Category::inRandomOrder()->first();
+        $categoryId = Category::inRandomOrder()->first();
         $disCountId = DisCount::inRandomOrder()->first();
         $brandId = Brand::inRandomOrder()->first();
         
@@ -33,7 +33,7 @@ class ProductFactory extends Factory
             "price"=> $this->faker->randomFloat(2, 10, 1000),
             "vendor_code" => $this->faker->numberBetween(1000000000, 9999999999),
             // "brand_id" => $brandId ? $brandId->id : 1,
-            "category_id" => $companyId ? $companyId->id : '',
+            "category_id" => $categoryId ? $categoryId->id : '',
             "disCount_id" => $disCountId ? $disCountId->id : '',
         ];
     }

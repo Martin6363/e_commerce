@@ -15,4 +15,9 @@ class DisCount extends Model
         'percent',
         'active'
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'disCount_id');
+    }
 }

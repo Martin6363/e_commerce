@@ -6,6 +6,7 @@ use App\Http\Controllers\api\v1\ColorController;
 use App\Http\Controllers\api\v1\FavoriteController;
 use App\Http\Controllers\api\v1\ProductCategoryController;
 use App\Http\Controllers\api\v1\ProductController;
+use App\Http\Controllers\api\v1\PromotionController;
 use App\Http\Controllers\api\v1\VerificationController;
 use App\Http\Middleware\AdminAuth;
 use Illuminate\Http\Request;
@@ -34,6 +35,10 @@ Route::prefix('v1')->group(function () {
     
     // Color Route
     Route::get('/colors', [ColorController::class, 'index']);
+
+    // Promotion Route
+    Route::get('/promotions', [PromotionController::class, 'index']);
+
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('favorites/toggle', [FavoriteController::class, 'toggle']);

@@ -50,7 +50,6 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        dd($request->validated());
         $product->update(array_merge($request->validated(), ["slug" => $request->name, "vendor_code" => ""]));
         
         if ($request->hasFile('images')) {

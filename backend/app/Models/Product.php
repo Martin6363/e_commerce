@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filters\QueryFilter;
+use App\Traits\Discountable;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Discountable;
 
     protected $fillable = [
         'name',
@@ -86,7 +87,7 @@ class Product extends Model
 
     public function discount()
     {
-        return $this->belongsTo(DisCount::class);
+        return $this->belongsTo(DisCount::class, 'disCount_id');
     }
 
     public function Images()
@@ -102,5 +103,11 @@ class Product extends Model
     public function productEntry()
     {
         return $this->hasMany(ProductEntry::class);
+    }
+
+    public function promotions() {
+        return $this->belongsToMany(Promotion::class, 'promotion_product')
+                    ->withPivot('discount')
+                    ->withTimestamps();
     }
 }

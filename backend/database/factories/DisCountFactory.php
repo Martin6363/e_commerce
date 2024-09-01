@@ -18,9 +18,9 @@ class DisCountFactory extends Factory
     {
         return [
             "name"=> $this->faker->name,
-            "description"=> $this->faker->paragraph,
+            "description"=> $this->faker->sentence,
             "percent" => $this->faker->numberBetween(1,10),
-            "active"=> $this->faker->boolean(),
+            "active"=> $this->faker->boolean,
         ];
     }
 }

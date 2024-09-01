@@ -14,4 +14,9 @@ class Currency extends Model
         'code',
         'exchange_rate'
     ];
+
+    public function getPriceInCurrency($price)
+    {
+        return round($price * $this->exchange_rate, 2);
+    }
 }

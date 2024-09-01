@@ -2,7 +2,7 @@ import SliderSwiper from "../components/HomeDetails/SliderSwiper/SliderSwiper";
 import Header2 from "../components/header/Header2";
 import CardDetail from "../components/Card/CardDetail";
 import { useEffect, useRef, useState } from "react";
-import axios from "../api/axios";
+import myAxios from "../api/axios";
 import "../assets/styles/Home.scss";
 import PaginationHome from "../components/Pagination/PaginationHome";
 import Footer from "../components/footer/Footer";
@@ -45,7 +45,7 @@ const Home = () => {
       return;
     }
     try {
-      const response = await axios.get(`/products?page=${currentPage}&currency=${selectedCurrency}`);
+      const response = await myAxios.get(`/products?page=${currentPage}&currency=${selectedCurrency}`);
       cache[`${currentPage}-${selectedCurrency}`] = response.data;
       setProducts(response.data.data);      
       setPageCount(response.data.meta.last_page);
@@ -78,7 +78,7 @@ const Home = () => {
     <>
       <Header2 />
       {currentPage === 1 && (
-        <div className="w-100 px-3 mx-auto flex items-center justify-center mt-2">
+        <div className="max-w-[1440px] px-3 mx-auto flex items-center justify-center mt-2">
           <SliderSwiper />
         </div>
       )}
