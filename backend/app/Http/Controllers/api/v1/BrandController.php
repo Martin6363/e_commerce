@@ -16,25 +16,17 @@ class BrandController extends Controller
      */
     public function index()
     {
-        try {
-            $brands = Brand::with('products')->orderByDesc('id')->get();
+        $brands = Brand::with('products')->orderByDesc('id')->get();
 
-            if ($brands) {
-                return response()->json([
-                    'code' => 200,
-                    'data' => BrandResource::collection($brands)
-                ]);
-            } else {
-                return response()->json([
-                    'message' => "Data not found"
-                ]);
-            }
-        } catch (Exception $e) {
+        if ($brands) {
             return response()->json([
-                'code' => 500,
-                'message' => 'Internal Server Error',
-                'error' => $e->getMessage()
-            ], 500);
+                'code' => 200,
+                'data' => BrandResource::collection($brands)
+            ]);
+        } else {
+            return response()->json([
+                'message' => "Data not found"
+            ]);
         }
     }
 

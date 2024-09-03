@@ -6,25 +6,11 @@ import { useTheme } from "@emotion/react";
 import { Close } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 
-export default function navBarMenu({ categories, showMenu, setMenuOpen, isScrolled }) {
+export default function navBarMenu({ categories, showMenu, setMenuOpen }) {
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   const [subMenuData, setSubMenuData] = useState(null);
   const [categoryData, setCategoryData] = useState(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const theme = useTheme();
-  const navbarHeight = `calc(100vh - 144px + ${scrollPosition}px)`;
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     const preventScroll = (e) => {
@@ -91,26 +77,24 @@ export default function navBarMenu({ categories, showMenu, setMenuOpen, isScroll
           </div>
         </div>
         {subMenuOpen && subMenuData && (
-          <div className="flex w-full h-100 bg-black relative" style={{ minHeight: navbarHeight }}>
-            <div className="sub_menu_container min-h-screen">
-              <ul
-                className="sub_menu_ul min-h-screen"
-                style={{ backgroundColor: theme.palette.myColor.main }}
-              >
-                <h2 className="font-bold mb-4">{categoryData.name}</h2>
-                {subMenuData.map((subCategory) => (
-                  <li key={subCategory.id} className="sub_menu_link_li" onClick={handleMenuClose}>
-                    <Link
-                      to={`/category/${subCategory.slug}/${subCategory.id}`}
-                      className="sub_link"
-                    >
-                      {subCategory.name}
-                      <span>{subCategory.products_count}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="sub_menu_container overflow-y-auto min-h-screen">
+            <ul
+              className="sub_menu_ul min-h-screen"
+              style={{ backgroundColor: theme.palette.myColor.main }}
+            >
+              <h2 className="font-bold mb-4">{categoryData.name}</h2>
+              {subMenuData.map((subCategory) => (
+                <li key={subCategory.id} className="sub_menu_link_li" onClick={handleMenuClose}>
+                  <Link
+                    to={`/category/${subCategory.slug}/${subCategory.id}`}
+                    className="sub_link"
+                  >
+                    {subCategory.name}
+                    <span>{subCategory.products_count}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </nav>

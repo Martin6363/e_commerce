@@ -60,7 +60,7 @@ const SliderSwiper = () => {
       >
         {sliderData?.map((data) => (
           <SwiperSlide key={data.id}>
-            <Link to={`/promotions/${data.slug}`} className='w-full select-none'>
+            <Link to={`/promotions/${data.slug}/${data.id}`} className='w-full select-none'>
               <img className='rounded-[15px]' src={data.image_url} alt={data.name} />
             </Link>
           </SwiperSlide>

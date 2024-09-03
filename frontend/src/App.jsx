@@ -40,7 +40,7 @@ function App() {
                 <Route path="/search" element={<SearchedResults />} />
                 <Route path="/basket" element={<Basket />} />
                 <Route path="/category/:catSlug/:catId" element={<Category/>}/>
-                <Route path="promotions/:slug" element={<Promotions/>}/>
+                <Route path="/promotions/:slug/:id" element={<Promotions/>}/>
                 <Route
                   path="/profile"
                   element={

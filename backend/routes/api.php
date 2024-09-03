@@ -38,6 +38,7 @@ Route::prefix('v1')->group(function () {
 
     // Promotion Route
     Route::get('/promotions', [PromotionController::class, 'index']);
+    Route::get('promotions/{promotion}', [PromotionController::class, 'show']);
 
 
     Route::middleware('auth:sanctum')->group(function () {

@@ -20,7 +20,8 @@ class PromotionResource extends JsonResource
             'image_url' => $this->image ? asset('storage/' . $this->image) : null,
             'slug' => $this->slug,
             'category' => $this->category->name ?? null,
-            'discounted_products' => ProductResource::collection($this->products)
+            'total_products' => $this->products_count,
+            'discounted_products' => ProductResource::collection($this->products),
         ];
     }
 }

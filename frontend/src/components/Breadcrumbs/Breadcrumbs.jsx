@@ -1,6 +1,7 @@
 import { IconButton } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa6";
+import BreadcrumbsCont from '@mui/material/Breadcrumbs';
 
 export default function Breadcrumbs({ category, brand }) {
     const navigate = useNavigate();
@@ -11,26 +12,29 @@ export default function Breadcrumbs({ category, brand }) {
     
   return (
     <div className="breadcrumbs my-3 flex items-center gap-3">
-        <IconButton onClick={handleBackClick} title="to back">
-            <FaArrowLeft />
-        </IconButton>
-      <nav className="flex" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center text-[14px] space-x-1 md:space-x-2 rtl:space-x-reverse">
-          <li className="crumb">
-            <Link to="/" className="hover:underline">Home</Link>
-          </li>
-          {category && (
-            <li className="crumb">
-              / <Link to={`/category/${category}`} className="hover:underline">{category}</Link> / 
-            </li>
-          )}
-          {brand && (
-            <li className="crumb text-gray-400">
-              {brand}
-            </li>
-          )}
-        </ol>
-      </nav>
+      <IconButton onClick={handleBackClick} title="to back">
+          <FaArrowLeft />
+      </IconButton>
+      <BreadcrumbsCont aria-label="breadcrumb">
+        <Link underline="hover" color="inherit" to={"/"}>
+          Home
+        </Link>
+        <Link
+          underline="hover"
+          color="inherit"
+          to={"/material-ui/getting-started/installation/"}
+        >
+          {category}
+        </Link>
+        <Link
+          underline="hover"
+          color="text.primary"
+          to={"/material-ui/react-breadcrumbs/"}
+          aria-current="page"
+        >
+          {brand}
+        </Link>
+      </BreadcrumbsCont>
     </div>
   );
 }

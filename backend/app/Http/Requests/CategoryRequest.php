@@ -26,13 +26,10 @@ class CategoryRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:250', 'min:2'],
             'description' => ['required', 'string', 'max:1000', 'min:2'],
-            'picture' => [ 
-                // 'required', 
-                'image',
-                'mimes:jpg,png,jpeg,gif,svg',
+            'picture' => ['image', 'mimes:jpg,png,jpeg,gif,svg',
                 // 'dimensions:min_width=100,min_height=100,max_width=1000,max_height=1000'
             ],
-
+            'parent_id' => ['nullable', 'integer', 'exists:categories,id'],
         ];
     }
 

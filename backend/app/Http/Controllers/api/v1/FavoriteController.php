@@ -69,7 +69,6 @@ class FavoriteController extends Controller
             if ($favorite) {
                 $favorite->delete();
                 return response()->json([
-                    'status' => false,
                     'message' => 'Product has been removed from favorites'
                 ], 200);
             } else {
@@ -79,7 +78,6 @@ class FavoriteController extends Controller
                 ]);
     
                 return response()->json([
-                    'status' => true,
                     'message' => 'Product has been added to favorites'
                 ]);
             }

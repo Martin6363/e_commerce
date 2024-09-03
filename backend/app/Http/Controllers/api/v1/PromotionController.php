@@ -11,7 +11,7 @@ class PromotionController extends Controller
 {
     public function index()
     {
-        $promotions = Promotion::all();
+        $promotions = Promotion::paginate(5);
         
         return response()->json([
             'status' => 'success',
@@ -25,12 +25,10 @@ class PromotionController extends Controller
         //
     }
 
-    public function show(string $id)
+    public function show(Promotion $promotion)
     {
-        $promotion = Promotion::findOrFail($id);
-        $promotion->discounted_products = $promotion->getDiscountedProducts();
-
-        return response()->json($promotion);
+        $promotion = Promotion::withCount('products')->findOrFail($promotion->id);
+        return response()->json(new PromotionResource($promotion));
     }
 
     public function update(Request $request, string $id)
