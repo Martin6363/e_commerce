@@ -87,6 +87,7 @@
             "lowest_price": "По возрастанию цены",
             "highest_price": "По убыванию цены",
             "rating": "По рейтингу",
+            "newest": "По Новейший",
             "reset": "Сбросить"
         },
         "all_filters_button": "Все фильтры",

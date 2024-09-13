@@ -51,6 +51,8 @@ export default function DropDownSort() {
               return t("all_products.sort.highest_price");
           case 'rating':
               return t("all_products.sort.rating");
+          case 'newest':
+              return t("all_products.sort.newest")
           default:
               return t("all_products.sort.sort_by");
       }
@@ -74,12 +76,10 @@ export default function DropDownSort() {
       <div  
         className={`z-[850] absolute shadow-xl left-0 bottom-0 translate-y-[110%] ${ theme.palette.mode === "dark" ? 'bg-gray-800 text-gray-100' : 'bg-gray-100 text-gray-900' } ${ !openDropDown && "hidden" } w-60 divide-y divide-gray-100 rounded-lg shadow`}
       >
-        <ul
-          className="p-3 space-y-3 text-sm"
-          aria-labelledby="dropdownRadioButton"
-        >
-          {
-            sort && ( <button className="text-gray-400 hover:text-gray-500 transition duration-300"  onClick={handleResetSorting}>{t("all_products.sort.reset")}</button> ) 
+        <ul className="p-3 space-y-3 text-sm" aria-labelledby="dropdownRadioButton">
+          {sort && (
+              <button className="text-gray-400 hover:text-gray-500 transition duration-300"  onClick={handleResetSorting}>{t("all_products.sort.reset")}</button>
+            ) 
           }
         <li>
             <div className="flex items-center">
@@ -135,6 +135,25 @@ export default function DropDownSort() {
                 className="ms-2 cursor-pointer text-[15px] font-medium select-none"
               >
                 {t("all_products.sort.rating")}
+              </label>
+            </div>
+          </li>
+          <li>
+            <div className="flex items-center">
+              <input
+                id="sort-newest"
+                type="radio"
+                value="newest"
+                name="sort_option"
+                className="w-5 h-5 cursor-pointer accent-purple-500 select-none"
+                onChange={handleSortChange}
+                checked={sort === 'newest'}
+              />
+              <label
+                htmlFor="sort-newest"
+                className="ms-2 cursor-pointer text-[15px] font-medium select-none"
+              >
+                {t("all_products.sort.newest")}
               </label>
             </div>
           </li>

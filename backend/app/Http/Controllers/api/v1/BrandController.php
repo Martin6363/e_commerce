@@ -3,82 +3,64 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BrandRequest;
 use App\Http\Resources\BrandResource;
 use App\Http\Resources\ShowBrandResource;
 use App\Models\Brand;
-use Exception;
-use Illuminate\Http\Request;
+use App\Services\BrandService;
 
 class BrandController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    protected $brandService;
+
+    public function __construct(BrandService $brandService)
+    {
+        $this->brandService = $brandService;
+    }
+
     public function index()
     {
         $brands = Brand::with('products')->orderByDesc('id')->get();
 
-        if ($brands) {
-            return response()->json([
-                'code' => 200,
-                'data' => BrandResource::collection($brands)
-            ]);
-        } else {
-            return response()->json([
-                'message' => "Data not found"
-            ]);
-        }
+        return $brands->isNotEmpty()
+            ? response()->json(['data' => BrandResource::collection($brands)], 200)
+            : response()->noContent();
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(BrandRequest $request)
     {
-        //
+        $brand = $this->brandService->createBrand($request->validated());
+
+        return response()->json([
+            'message' => 'Brand created successfully',
+            'data' => new BrandResource($brand)
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Brand $brand)
     {
-        try {
-            $brandsWithProducts = Brand::with("products")->find($brand->id);
-            if ($brandsWithProducts) {
-                return response()->json([
-                    'code' => 200,
-                    'data' => new ShowBrandResource($brandsWithProducts)
-                ]);
-            } else {
-                return response()->json([
-                    'message' => "Data not found"
-                ]);
-            }
-        } catch (Exception $e) {
-            return response()->json([
-                'code' => 500,
-                'message' => 'Internal Server Error',
-                'error' => $e->getMessage()
-            ], 500);
+        $brand->load('products');
+
+        return $brand
+            ? response()->json(['data' => new ShowBrandResource($brand)])
+            : response()->json(['message' => 'Brand not found']);
+    }
+
+    public function update(BrandRequest $request, Brand $brand)
+    {
+        $this->brandService->updateBrand($brand, $request->validated());
+
+        return response()->json(['message' => 'Brand updated successfully']);
+    }
+
+    public function destroy(Brand $brand)
+    {
+        $brand = Brand::find($brand->id);
+
+        if ($brand) {
+            $this->brandService->deleteBrand($brand);
+            return response()->json(['message' => 'Brand deleted successfully']);
         }
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

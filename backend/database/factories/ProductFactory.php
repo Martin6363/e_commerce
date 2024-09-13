@@ -33,6 +33,7 @@ class ProductFactory extends Factory
             "price"=> $this->faker->randomFloat(2, 10, 1000),
             "vendor_code" => $this->faker->numberBetween(1000000000, 9999999999),
             // "brand_id" => $brandId ? $brandId->id : 1,
+            "published" => $this->faker->boolean(),
             "category_id" => $categoryId ? $categoryId->id : '',
             "disCount_id" => $disCountId ? $disCountId->id : '',
         ];

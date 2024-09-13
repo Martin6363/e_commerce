@@ -8,6 +8,10 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -23,7 +27,9 @@ class Product extends Model
         'disCount_id',
         'brand_id',
         'rating',
-        'vendor_code'
+        'vendor_code',
+        'published',
+        'created_at'
     ];
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)
@@ -65,7 +71,7 @@ class Product extends Model
     private function getSimilarProducts()
     {
         return self::where('category_id', $this->category_id)
-            ->with('category', 'discount', 'Images', 'brand', 'productEntry')
+            ->with('category', 'discount', 'Images', 'brand')
             ->limit(10)
             ->get();
     }
@@ -75,39 +81,40 @@ class Product extends Model
         return round($this->price * ($currency->exchange_rate));
     }
 
-    public function currency()
+    public function productAttributeValues(): HasMany
+    {
+        return $this->hasMany(ProductAttributeValue::class);
+    }
+
+    public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);
     }
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function discount()
+    public function discount(): BelongsTo
     {
         return $this->belongsTo(DisCount::class, 'disCount_id');
     }
 
-    public function Images()
+    public function Images(): HasMany
     {
         return $this->hasMany(Images::class);
     }
 
-    public function brand()
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
     }
 
-    public function productEntry()
+    public function promotions(): BelongsToMany
     {
-        return $this->hasMany(ProductEntry::class);
-    }
-
-    public function promotions() {
         return $this->belongsToMany(Promotion::class, 'promotion_product')
-                    ->withPivot('discount')
-                    ->withTimestamps();
+            ->withPivot('discount')
+            ->withTimestamps();
     }
 }

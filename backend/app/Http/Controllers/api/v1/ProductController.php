@@ -15,9 +15,19 @@ class ProductController extends Controller
 {
 
     const PER_PAGE = 30;
-    public function index(ProductFilter $request)
+    public function index(ProductFilter $filters)
     {
-        $products = Product::filter($request);
+        $status = request()->query('status', 'published');
+        $query = Product::filter($filters);
+
+        if ($status === 'published') {
+            $products = $query->where('published', true);
+        } elseif ($status === 'unpublished') {
+            $products = $query->where('published', false);
+        } else {
+            return response()->noContent();
+        }
+
         return ProductResource::collection($products->paginate(self::PER_PAGE)->withQueryString())
             ->response()->getData(true);
     }
@@ -26,7 +36,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $product = Product::create(array_merge($request->validated(), ["slug" => $request->name, "vendor_code" => ""]));
-        
+
         if ($request->hasFile('images')) {
             $product->images()->createMany(Images::upload($request->file('images')));
         }
@@ -39,7 +49,7 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        $product->load('category', 'discount', 'Images', 'brand', 'productEntry');
+        $product->load('category', 'discount', 'Images', 'brand');
         $similarProducts = $product->similar_products;
 
         return response()->json([
@@ -51,7 +61,7 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update(array_merge($request->validated(), ["slug" => $request->name, "vendor_code" => ""]));
-        
+
         if ($request->hasFile('images')) {
             $uploadedImages = Images::upload($request->file('images'), $product->id);
             $product->images()->createMany($uploadedImages);
@@ -60,21 +70,19 @@ class ProductController extends Controller
         if ($request->has('remove_images')) {
             Images::removeImages($request->input('remove_images'));
         }
-        
+
         $product->refresh();
-    
+
         return response()->json([
             'message' => 'Product updated successfully',
-            'data' => new ProductResource($product)
         ], 200);
     }
-    
+
 
 
     public function destroy(Product $product)
     {
-        $productWithDetails =
-            Product::with('category', 'discount', 'Images', 'brand', 'productEntry.size', 'productEntry.color', 'productEntry.material')->findOrFail($product->id);
+        $productWithDetails = Product::with('category', 'discount', 'Images', 'brand')->findOrFail($product->id);
 
         foreach ($productWithDetails->images as $image) {
             Storage::disk('public')->delete($image->image);

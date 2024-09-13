@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 /**
@@ -18,6 +19,9 @@ class PromotionFactory extends Factory
      */
     public function definition(): array
     {
+        if(!Storage::drive('public')->exists('promotion_images')) {
+            Storage::drive('public')->makeDirectory('promotion_images');
+        }
         $categoryId = Category::inRandomOrder()->first();
 
         return [

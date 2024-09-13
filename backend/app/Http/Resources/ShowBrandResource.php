@@ -19,7 +19,7 @@ class ShowBrandResource extends JsonResource
             'b_name' => $this->b_name,
             'slug' => $this->slug,
             'logo' => asset($this->logo),
-            'products' => ProductResource::collection($this->products),
-        ];;
+            'products' => ProductResource::collection($this->products) ?? null,
+        ];
     }
 }

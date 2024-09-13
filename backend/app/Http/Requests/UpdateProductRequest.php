@@ -31,6 +31,7 @@ class UpdateProductRequest extends FormRequest
             'images.*' => ['image', 'max:2048'],
             'remove_images' => ['array'],
             'remove_images.*' => ['integer', 'exists:images,id'],
+            'published' => ['boolean'],
             'category_id' => ['nullable', 'int'],
             'discount_id' => ['nullable', 'int']
         ];

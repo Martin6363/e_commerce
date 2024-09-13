@@ -87,6 +87,7 @@
             "lowest_price": "Lowest price",
             "highest_price": "Highest price",
             "rating": "Rating",
+            "newest": "Newest",
             "reset": "Reset"
         },
         "all_filters_button": "All Filters",

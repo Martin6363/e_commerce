@@ -47,14 +47,19 @@ class ProductFilter extends QueryFilter {
         return $this->builder->when($sortOption, function ($query) use ($sortOption) {
             switch ($sortOption) {
                 case 'lowest_price': 
-                    $query->orderBy('price', 'asc');
+                    $query->orderBy('price', 'ASC');
                     break;
                 case 'highest_price':
-                    $query->orderBy('price', 'desc');
+                    $query->orderBy('price', 'DESC');
                     break;
                 case 'rating':
-                    $query->orderBy('rating', 'desc');
+                    $query->orderBy('rating', 'DESC');
                     break;
+                case 'newest':
+                    $query->orderBy('created_at', 'DESC');
+                    break;
+                case 'name':
+                    $query->orderBy('name', 'ASC');
                 default:
                     break;
             }

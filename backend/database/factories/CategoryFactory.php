@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -20,11 +21,14 @@ class CategoryFactory extends Factory
         if(!Storage::drive('public')->exists('category_images')) {
             Storage::drive('public')->makeDirectory('category_images');
         }
+        $parentCategoryId = Category::inRandomOrder()->first()?->id;
+
         return [
             "name"=> $this->faker->name,
             "slug"=> Str::slug($this->faker->unique()->name),
             "description" => $this->faker->paragraph,
-            "picture" => $this->faker->imageUrl(640, 480, 'animals', true)
+            "picture" => $this->faker->imageUrl(640, 480, 'animals', true),
+            "parent_id" => $parentCategoryId
         ];
     }
 }

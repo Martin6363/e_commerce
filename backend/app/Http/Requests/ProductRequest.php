@@ -30,6 +30,7 @@ class ProductRequest extends FormRequest
             'rating' => ['required', 'numeric', 'max:5', 'min:0'],
             'images' => ['nullable', 'array'], 
             'images.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'], 
+            'published' => ['boolean'],
             'brand_id' => ['nullable', 'int'],
             'category_id' => ['required', 'int'],
             'disCount_id' => ['nullable', 'int'], 

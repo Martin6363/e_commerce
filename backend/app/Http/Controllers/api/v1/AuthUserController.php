@@ -8,7 +8,6 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
 use App\Mail\UserVerification;
 use App\Models\User;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,28 +18,24 @@ class AuthUserController extends Controller
     public function register(RegisterRequest $request)
     {
 
-        try {
-            $user = new User();
+        $user = new User();
 
-            $user->name = $request->name;
-            $user->email = $request->email;
+        $user->name = $request->name;
+        $user->email = $request->email;
 
-            $user->password = Hash::make($request->password, [
-                'rounds' => 12
-            ]);
+        $user->password = Hash::make($request->password, [
+            'rounds' => 12
+        ]);
 
-            $user->save();
+        $user->save();
 
-            // Mail::to($user->email)->send(new UserVerification($user));
+        // Mail::to($user->email)->send(new UserVerification($user));
 
-            return response()->json([
-                'code' => 200,
-                'message' => "Registered successfully",
-                'user' => $user
-            ], 200);
-        } catch (Exception $e) {
-            return response()->json($e);
-        }
+        return response()->json([
+            'code' => 200,
+            'message' => "Registered successfully",
+            'user' => $user
+        ], 200);
     }
 
     public function login(Request $request)
@@ -57,6 +52,7 @@ class AuthUserController extends Controller
 
             return response()->json([
                 'message' => "Login successfully",
+                'token_type' => 'Bearer',
                 'token' => $token,
                 'user' => new UserResource($user)
             ], 200);

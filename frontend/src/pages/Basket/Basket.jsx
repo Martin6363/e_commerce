@@ -171,7 +171,7 @@ export default function Basket() {
                                     </div>
                                 </div>
                             </div>
-                            <div className=" col-span-12 xl:col-span-4 w-full max-xl:px-6 max-w-3xl xl:max-w-lg mx-auto lg:pl-8 py-24">
+                            <div className="col-span-12 xl:col-span-4 w-full max-xl:px-6 max-w-3xl xl:max-w-lg mx-auto lg:pl-8 py-24">
                                 <h2 className="font-manrope font-bold text-[25px] leading-10 pb-8 border-b">
                                     {t("basket.order_summary")}
                                 </h2>

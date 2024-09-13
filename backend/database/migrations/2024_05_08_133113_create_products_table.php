@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug');
             $table->text('description');
             $table->decimal('price',10,2);
+            $table->boolean("published")->default(false);
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('disCount_id')->nullable();
 

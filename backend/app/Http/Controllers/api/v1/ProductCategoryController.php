@@ -14,7 +14,8 @@ use Illuminate\Http\Request;
 class ProductCategoryController extends Controller
 {
     protected $categoryService;
-    public function __construct(CategoryService $categoryService) {
+    public function __construct(CategoryService $categoryService)
+    {
         $this->categoryService = $categoryService;
     }
     public function index(Request $request)
@@ -25,8 +26,8 @@ class ProductCategoryController extends Controller
             ->get();
 
         return $categoryWithProducts->isNotEmpty()
-        ? response()->json(['data' => CategoryResource::collection($categoryWithProducts)], 200)
-        : response()->noContent();
+            ? response()->json(['data' => CategoryResource::collection($categoryWithProducts)], 200)
+            : response()->noContent();
     }
 
 
@@ -41,9 +42,9 @@ class ProductCategoryController extends Controller
     }
 
 
-    public function show(string $id)
+    public function show(Category $category)
     {
-        $category = Category::withCount("Products")->find($id);
+        $category = Category::withCount("Products")->find($category->id);
 
         return $category
             ? response()->json(['data' => new CategoryWithProductsResource($category)])
