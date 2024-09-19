@@ -36,6 +36,8 @@ export default function Products() {
   const { selectedCurrency } = useCurrency();
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const [t] = useTranslation("global");
+  const cardSize = searchParams.get("cardsize") || "small";
+  const cardSizeClass = cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2";
   
   const activeFiltersCount = [
     selectedCategories ? selectedCategories.split(',').length : 0,
@@ -49,15 +51,15 @@ export default function Products() {
     const fetchFilterData = async () => {
       try {
         setLoadData(true);
-        const [categoryRes, brandRes, colorRes] = await Promise.all([
+        const [categoryRes, brandsRes, colorsRes] = await Promise.all([
           myAxios.get("/categories"),
           myAxios.get("/brands"),
-          myAxios.get("/colors"),
+          myAxios.get("/attributes?colors=true")
         ]);
 
         setCategories(categoryRes.data.data);
-        setBrands(brandRes.data.data);
-        setColors(colorRes.data.data);
+        setBrands(brandsRes.data.data);
+        setColors(colorsRes.data.data);
       } catch (error) {
         console.error("Error fetching filter data:", error);
       } finally {
@@ -196,7 +198,7 @@ export default function Products() {
                 <strong>No result</strong>
               </div>
             ) : (
-              <div className="flex flex-wrap justify-center mx-auto">
+              <div className={`grid grid-cols-2 gap-x-[20px] ${cardSizeClass} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}>
                 {products.map((product) => (
                   <CardDetail key={product.id} product={product} loadingCard={loadProducts} />
                 ))}

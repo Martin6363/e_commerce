@@ -7,7 +7,7 @@ import CardSize from "../Card/CardSize";
 import { useTranslation } from "react-i18next";
 
 const Header2 = () => {
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
 
   return (
     <>

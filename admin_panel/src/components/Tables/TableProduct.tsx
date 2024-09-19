@@ -3,7 +3,7 @@ import ProductThree from '../../images/product/product-03.png';
 import ModalInput from '../Modals/ModalInput';
 import { Link, useSearchParams } from 'react-router-dom';
 import { IoAddOutline } from "react-icons/io5";
-import { blue, green, red } from '@mui/material/colors';
+import { blue, green, grey, red } from '@mui/material/colors';
 import { MdEdit, MdDelete } from "react-icons/md";
 import { FaEye } from "react-icons/fa";
 import Loader from '../../common/Loader';
@@ -11,14 +11,16 @@ import SwitcherProduct from '../Switchers/SwitcherProduct';
 import SearchInput from '../SearchInput/SearchInput';
 import SuccessAlert from '../Alerts/SuccessAlert';
 import { FaSortDown, FaSortUp, FaSort } from "react-icons/fa";
-
+import { LuRefreshCcw } from "react-icons/lu";
+import { IconButton } from '@mui/material';
 
 interface typeTableProduct {
   productData: Array<any>,
   loading: boolean,
+  handleUpdateData: (forceRefresh?: boolean) => void;
 }
 
-const TableProduct = ({ productData, loading }: typeTableProduct) => {
+const TableProduct = ({ productData, loading, handleUpdateData }: typeTableProduct) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [toggleSortPrice, setToggleSortPrice] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -54,7 +56,7 @@ const TableProduct = ({ productData, loading }: typeTableProduct) => {
     const value = e.target.value;
     searchParams.set("status", value);
     setSearchParams(searchParams);
-    
+
     if (value === "reset") {
       searchParams.delete('status')
       setSearchParams(searchParams);
@@ -71,18 +73,25 @@ const TableProduct = ({ productData, loading }: typeTableProduct) => {
             <h4 className="text-xl font-semibold text-black dark:text-white">
               Products
             </h4>
+            <IconButton
+              disabled={loading == true ? true : false}
+              sx={{ color: grey[500] }}
+              title='Update'
+              onClick={() => { handleUpdateData(true) }}
+            >
+              <LuRefreshCcw />
+            </IconButton>
             <div>
               <select onChange={(e) => handleChangeStatus(e)} className="block w-full p-2 text-sm text-slate-900 border border-slate-300 rounded-lg bg-slate-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected={!status && true } value="reset">Default</option>
-                <option selected={status == 'published' && true } value="published">Published</option>
-                <option selected={status == 'unpublished' && true } value="unpublished">Unpublished</option>
+                <option selected={!status && true} value="reset">Default</option>
+                <option selected={status == 'published' && true} value="published">Published</option>
+                <option selected={status == 'unpublished' && true} value="unpublished">Unpublished</option>
               </select>
             </div>
           </div>
           <SearchInput />
           <Link to={'/create/product'} className='flex items-center gap-2 bg-purple-500 text-white px-4 py-2 rounded'><IoAddOutline size={20} /> Create Product</Link>
         </div>
-
         <div className="sticky top-0 w-full z-10 grid grid-cols-6 bg-white dark:bg-black border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
           <div className="col-span-3 flex items-center">
             <p className="font-medium flex items-center gap-1">Product Name

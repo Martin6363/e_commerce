@@ -18,14 +18,14 @@ class AttributeFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'type' => 'string',
+            'type' => 'color',
         ];
     }
     public function ram()
     {
         return $this->state([
             'name' => 'RAM',
-            'type' => 'string',
+            'type' => 'ram',
         ]);
     }
 
@@ -33,7 +33,7 @@ class AttributeFactory extends Factory
     {
         return $this->state([
             'name' => 'Color',
-            'type' => 'string',
+            'type' => 'color',
         ]);
     }
 

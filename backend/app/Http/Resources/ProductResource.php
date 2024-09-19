@@ -25,7 +25,7 @@ class ProductResource extends JsonResource
             'rating' => $this->rating,
             'price' => $this->getPriceInCurrency($currency),
             'discounted_price' => $this->getDiscountedPrice($currency) ?? null,
-            'dis_count' => $this->discount->percent ?? null,
+            'sale' => $this->discount->percent ?? null,
             'description' => $this->description,
             'images' => ImageResource::collection($this->images) ?? null,
             'category' => $this->category->name ?? null,

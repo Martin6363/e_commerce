@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import ImageMagnifier from "../../components/ImageMagnifier/ImageMagnifier";
 import "../../assets/styles/ProductDetail.scss";
 import { Rating, useMediaQuery } from "@mui/material";
@@ -23,6 +23,7 @@ import { RiDiscountPercentFill } from "react-icons/ri";
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [attribute, setAttribute] = useState([]);
   const [seeAlsoProducts, setSeeAlsoProducts] = useState([]);
   const carts = useSelector((store) => store.cart.items);
   const matches = useMediaQuery("(max-width:1020px)");
@@ -36,6 +37,9 @@ export default function ProductDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const theme = useTheme();
+  const [searchParams] = useSearchParams();
+  const cardSize = searchParams.get("cardsize") || "small";
+  const cardSizeClass = cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2";
   const [t] = useTranslation("global");
 
   useEffect(() => {
@@ -45,12 +49,15 @@ export default function ProductDetail() {
 
   const getData = async () => {
     try {
-      const response = await myAxios.get(
-        `/products/${id}?currency=${selectedCurrency}`
-      );
-      setProduct(response.data.data);
-      setSeeAlsoProducts(response.data.recommended);
-      if (response) {
+      const [productRes, attributeRes] = await Promise.all([
+        myAxios.get(`/products/${id}?currency=${selectedCurrency}`),
+        myAxios.get('/attributes')
+      ])
+
+        setProduct(productRes.data.data)
+        setSeeAlsoProducts(productRes.data.recommended)
+        setAttribute(attributeRes.data.data)
+        if (productRes) {
         setIsLoading(false);
       }
     } catch (error) {
@@ -62,6 +69,7 @@ export default function ProductDetail() {
   const productAlreadyExists = carts.some(
     (cart) => cart.productId === product?.id
   );
+console.log(attribute);
 
   function handleFavoriteActive() {
     if (user) {
@@ -102,7 +110,6 @@ export default function ProductDetail() {
     navigator.clipboard.writeText(copyVendorCode);
     setShowAlert(true);
   }
-  
 
   return (
     <>
@@ -159,7 +166,11 @@ export default function ProductDetail() {
                     <h2>{product.name}</h2>
                   </div>
                   <label className="flex items-end gap-2 mt-3">
-                    <strong className={`flex items-center text-[30px] ${ product.discounted_price && "text-red-500" }`}>
+                    <strong
+                      className={`flex items-center text-[30px] ${
+                        product.discounted_price && "text-red-500"
+                      }`}
+                    >
                       {product.discounted_price ? (
                         <>
                           <span className="flex items-center gap-1">
@@ -179,7 +190,10 @@ export default function ProductDetail() {
                         : ""}
                     </strong>
                     {product.discounted_price && (
-                      <del className="text-[16px]" style={{ fontWeight: 500, color: "#868695" }}>
+                      <del
+                        className="text-[16px]"
+                        style={{ fontWeight: 500, color: "#868695" }}
+                      >
                         {product.price}
                       </del>
                     )}
@@ -202,9 +216,16 @@ export default function ProductDetail() {
                       <b>{t("product_show.brand")}</b>{" "}
                       <span>{product?.brand}</span>{" "}
                     </li>
+                    {product.attributes?.map((attribute, index) => (
+                      <li className="product_params" key={index}>
+                        <b>{attribute.attribute_name}</b>{" "}
+                        <span>{attribute.value}</span>{" "}
+                      </li>
+                    ))}
                     <li className="mt-8">
                       <h3 className="text-xl font-bold">
                         {t("product_show.sizes")}
+                        {product.attr}
                       </h3>
                       <div className="flex flex-wrap gap-4 mt-4">
                         <button
@@ -319,7 +340,7 @@ export default function ProductDetail() {
               <h2 className="text-[24px] font-[700] leading-[32px] ml-2">
                 {t("product_show.see_also")}
               </h2>
-              <div className="w-full flex justify-between flex-wrap gap-2">
+              <div className={`grid grid-cols-2 gap-x-[20px] ${cardSizeClass} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}>
                 {seeAlsoProducts?.map((product) => (
                   <CardDetail
                     key={product.id}

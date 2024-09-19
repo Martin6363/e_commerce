@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useCallback, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import Accordion from "@mui/material/Accordion";

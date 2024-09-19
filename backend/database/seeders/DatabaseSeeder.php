@@ -34,10 +34,10 @@ class DatabaseSeeder extends Seeder
 
         $colorAttribute = Attribute::factory()->color()->create();
         AttributeValue::factory()->colorValues()->for($colorAttribute)->createMany([
-            ['value' => 'Red'],
-            ['value' => 'Green'],
-            ['value' => 'Blue'],
-            ['value' => 'Black'],
+            ['value' => 'red'],
+            ['value' => 'green'],
+            ['value' => 'blue'],
+            ['value' => 'black'],
         ]);
 
         $sizeAttribute = Attribute::factory()->size()->create();

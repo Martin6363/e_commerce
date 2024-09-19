@@ -9,11 +9,12 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Images;
 use App\Models\Product;
+use App\Traits\ApiResponse;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-
+    use ApiResponse;
     const PER_PAGE = 30;
     public function index(ProductFilter $filters)
     {
@@ -41,10 +42,7 @@ class ProductController extends Controller
             $product->images()->createMany(Images::upload($request->file('images')));
         }
 
-        return response()->json([
-            'message' => 'Product created successfully',
-            'data' => new ProductResource($product)
-        ], 201);
+        return $this->successResponse(new ProductResource($product), "Product created successfully", 201);
     }
 
     public function show(Product $product)
@@ -73,9 +71,7 @@ class ProductController extends Controller
 
         $product->refresh();
 
-        return response()->json([
-            'message' => 'Product updated successfully',
-        ], 200);
+        return $this->successResponse(null, "Product updated successfully");
     }
 
 

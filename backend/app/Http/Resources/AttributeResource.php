@@ -19,7 +19,7 @@ class AttributeResource extends JsonResource
             'name' => $this->name,
             'type' => $this->type,
             'created_at' => $this->created_at->format('d/m/Y'),
-            'values' => AttributeValueResource::collection($this->values)
+            'values' => AttributeValueResource::collection($this->attributeValues)
         ];
     }
 }

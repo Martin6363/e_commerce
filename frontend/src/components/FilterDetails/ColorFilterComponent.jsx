@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -68,7 +69,7 @@ const ColorFilterComponent = ({ colors, loadData }) => {
             isColorHide ? "h-auto visible" : "h-0 hidden"
           }`}
         >
-          {colors?.map((color) => (
+          {colors[0]?.values?.map((color) => (
             <div key={color.id} className="project mt-2">
               <div className="boxes">
                 <div className="box">
@@ -79,7 +80,7 @@ const ColorFilterComponent = ({ colors, loadData }) => {
                       id={`box${color.id}`}
                       value={color.id}
                       checked={isColorChecked(color.id)}
-                      style={{ backgroundColor: color.color }}
+                      style={{ backgroundColor: color.value }}
                     />
                   </div>
                   <label htmlFor={`box${color.id}`}></label>

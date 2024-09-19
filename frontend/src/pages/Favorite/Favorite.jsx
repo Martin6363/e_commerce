@@ -4,18 +4,21 @@ import myAxios from "../../api/axios";
 import CardDetail from "../../components/Card/CardDetail";
 import CardSize from "../../components/Card/CardSize";
 import Footer from "../../components/footer/Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useTranslation } from "react-i18next";
 
 export default function Favorite() {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [favorites, setFavorites] = useState([]);
   const [totalFavorites, setTotalFavorites] = useState(0);
   const [loadProducts, setLoadProducts] = useState(true);
   const { selectedCurrency } = useCurrency();
   const [t] = useTranslation("global");
   const navigate = useNavigate();
+  const cardSize = searchParams.get("cardsize") || "small";
+  const cardSizeClass = cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2";
 
   useEffect(() => {
     setLoadProducts(true);
@@ -94,7 +97,7 @@ export default function Favorite() {
                   <CardSize cardsize={"big"} />
                 </div>
               </div>
-              <section className="max-w-[1540px] flex flex-row flex-wrap gap-3 mx-auto items-center justify-center">
+              <section className={`grid grid-cols-2 gap-x-[20px] ${cardSizeClass} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}>
                 {favorites.map((favorite, index) => (
                   <CardDetail
                     key={`${favorite.id}-${index}`}

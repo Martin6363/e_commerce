@@ -25,7 +25,7 @@ export default function BrandSelect() {
     return (
         <div className='w-70 my-2'>
             <label htmlFor="brand" className="block mb-2 text-base font-medium text-slate-900 dark:text-white">Brand <span className="text-meta-1">*</span></label>
-            <select id="brand" onChange={handleSelectChange} className="rounded border-[1.5px] border-stroke bg-transparent text-black outline-none transition active:border-primary disabled:cursor-default disabled:bg-whiter block relative w-full px-4 py-3 text-base text-gray-900 border-gray-300 bg-slate-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-slate-400 dark:text-white dark:focus:ring-purple-500 dark:focus:border-purple-500">
+            <select id="brand" onChange={handleSelectChange} className="w-full rounded border border-stroke bg-gray px-3 py-2 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary">
                 {brands?.length > 0 ? (
                     brands.map((brand) => (
                         <React.Fragment key={brand.id}>

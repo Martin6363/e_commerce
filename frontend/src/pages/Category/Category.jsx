@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import myAxios from "../../api/axios";
 import "ldrs/ring";
 import CardDetail from "../../components/Card/CardDetail";
@@ -9,9 +9,12 @@ import Footer from "../../components/footer/Footer";
 
 export default function Category() {
   const { catId } = useParams();
+  const [searchParams] = useSearchParams();
   const [product, setProduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [category, setCategory] = useState(null);
+  const cardSize = searchParams.get("cardsize") || "small";
+  const cardSizeClass = cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2";
 
   useEffect(() => {
     setIsLoading(true);
@@ -50,14 +53,14 @@ export default function Category() {
 
   return (
     <>
-      <main className="max-w-[1440px] flex flex-col mx-auto">
+      <main className="max-w-[1504px] flex flex-col mx-auto">
         <div className="w-full flex justify-between">
             <Breadcrumbs category={category.name}/>
             <CardSize />
         </div>
         <h2 className="text-3xl font-bold">{ category.name } <span className="text-sm ml-3 text-gray-500 font-normal">({product.length}) Products</span></h2>
         <section className="w-100">
-          <div className="w-100 flex justify-between flex-wrap gap-2">
+          <div className={`w-full grid grid-cols-2 gap-x-[20px] ${cardSizeClass} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}>
             {product.map((product) => (
               <CardDetail product={product} key={product.id}/>
             ))}

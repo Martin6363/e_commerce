@@ -15,11 +15,12 @@ const cache = {};
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
-  const currentPage = parseInt(searchParams.get('page')) || 1;
+  const currentPage = parseInt(searchParams.get("page")) || 1;
   const [pageCount, setPageCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const productCardContainerRef = useRef(null);
   const { selectedCurrency } = useCurrency();
+  const cardSize = searchParams.get("cardsize") || "small";
 
   useEffect(() => {
     setLoading(true);
@@ -31,8 +32,9 @@ const Home = () => {
       window.scrollTo({
         top:
           productCardContainerRef.current.getBoundingClientRect().top +
-          window.pageYOffset - 100,
-          behavior: "smooth",
+          window.pageYOffset -
+          100,
+        behavior: "smooth",
       });
     }
   }, [currentPage]);
@@ -45,9 +47,11 @@ const Home = () => {
       return;
     }
     try {
-      const response = await myAxios.get(`/products?page=${currentPage}&currency=${selectedCurrency}`);
+      const response = await myAxios.get(
+        `/products?page=${currentPage}&currency=${selectedCurrency}`
+      );
       cache[`${currentPage}-${selectedCurrency}`] = response.data;
-      setProducts(response.data.data);      
+      setProducts(response.data.data);
       setPageCount(response.data.meta.last_page);
       setLoading(false);
     } catch (error) {
@@ -57,7 +61,7 @@ const Home = () => {
   };
 
   const handlePageChange = (event, value) => {
-    setSearchParams({page: value});
+    setSearchParams({ page: value });
   };
 
   if (loading) {
@@ -75,32 +79,34 @@ const Home = () => {
   }
 
   return (
-    <>
+    <div className="max-w-[1504px] lg:px-[25px] xl:px-[32px] mx-auto ">
       <Header2 />
       {currentPage === 1 && (
-        <div className="max-w-[1440px] px-3 mx-auto flex items-center justify-center mt-2">
+        <div className="mx-auto flex items-center justify-center mt-2">
           <SliderSwiper />
         </div>
       )}
-      <main
-        ref={productCardContainerRef}
-        className="product_card_container mt-10 justify-around max-w-[1440px] flex flex-row flex-wrap gap-3 mx-auto items-center"
-      >
-        {products.map((product) => (
-          <CardDetail
-            key={product.id}
-            product={product}
-            loadingCard={loading}
-          />
-        ))}
-      </main>
+      <div className="w-full flex items-center justify-center mx-auto mt-5">
+        <main
+          ref={productCardContainerRef}
+          className={`grid grid-cols-2 gap-x-[20px] ${cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2"} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}
+        >
+          {products.map((product) => (
+            <CardDetail
+              key={product.id}
+              product={product}
+              loadingCard={loading}
+            />
+          ))}
+        </main>
+      </div>
       <PaginationHome
         currentPage={currentPage}
         pageCount={pageCount}
         onPageChange={handlePageChange}
       />
       <Footer />
-    </>
+    </div>
   );
 };
 

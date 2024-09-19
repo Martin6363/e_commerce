@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import { grey } from "@mui/material/colors";
-import { Container } from "@mui/material";
+import { Container, useMediaQuery } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
 import NavBar from "../header/navBarMenu";
@@ -22,6 +22,7 @@ import { useAuth } from "../../hooks/useAuth";
 
 export const Navigation = () => {
   const theme = useTheme();
+  const matches = useMediaQuery('(max-width:700px)');
   const StyledBadge = styled(Badge)(() => ({
     "& .MuiBadge-badge": {
       right: -3,
@@ -92,9 +93,13 @@ export const Navigation = () => {
               className="h-8"
               alt="Flowbite Logo"
             />
+            {!matches && (
             <span className="self-center text-white text-2xl select-none font-semibold whitespace-nowrap">
               E-commerce
             </span>
+            )
+
+            }
           </Link>
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
             <Link

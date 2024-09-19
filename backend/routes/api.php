@@ -7,7 +7,7 @@ use App\Http\Controllers\api\v1\ProductCategoryController;
 use App\Http\Controllers\api\v1\ProductController;
 use App\Http\Controllers\api\v1\PromotionController;
 use App\Http\Controllers\api\v1\VerificationController;
-use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\api\v1\AttributeController;
 use App\Http\Middleware\AdminAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;

@@ -8,10 +8,11 @@ use App\Http\Resources\BrandResource;
 use App\Http\Resources\ShowBrandResource;
 use App\Models\Brand;
 use App\Services\BrandService;
+use App\Traits\ApiResponse;
 
 class BrandController extends Controller
 {
-
+    use ApiResponse;
     protected $brandService;
 
     public function __construct(BrandService $brandService)
@@ -24,7 +25,7 @@ class BrandController extends Controller
         $brands = Brand::with('products')->orderByDesc('id')->get();
 
         return $brands->isNotEmpty()
-            ? response()->json(['data' => BrandResource::collection($brands)], 200)
+            ? $this->successResponse(BrandResource::collection($brands))
             : response()->noContent();
     }
 
@@ -32,10 +33,7 @@ class BrandController extends Controller
     {
         $brand = $this->brandService->createBrand($request->validated());
 
-        return response()->json([
-            'message' => 'Brand created successfully',
-            'data' => new BrandResource($brand)
-        ]);
+        return $this->successResponse(new BrandResource($brand), "Brand created successfully");
     }
 
     public function show(Brand $brand)
@@ -43,7 +41,7 @@ class BrandController extends Controller
         $brand->load('products');
 
         return $brand
-            ? response()->json(['data' => new ShowBrandResource($brand)])
+            ? $this->successResponse(new BrandResource($brand))
             : response()->json(['message' => 'Brand not found']);
     }
 
@@ -51,7 +49,7 @@ class BrandController extends Controller
     {
         $this->brandService->updateBrand($brand, $request->validated());
 
-        return response()->json(['message' => 'Brand updated successfully']);
+        return $this->successResponse(null, "Brand updated successfully");
     }
 
     public function destroy(Brand $brand)
@@ -60,7 +58,7 @@ class BrandController extends Controller
 
         if ($brand) {
             $this->brandService->deleteBrand($brand);
-            return response()->json(['message' => 'Brand deleted successfully']);
+            return $this->successResponse(null, message: "Brand deleted successfully");
         }
     }
 }

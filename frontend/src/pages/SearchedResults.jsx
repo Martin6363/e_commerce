@@ -18,6 +18,8 @@ export default function SearchedResults() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [allProductsLoaded, setAllProductsLoaded] = useState(false);
   const { selectedCurrency } = useCurrency();
+  const cardSize = searchParams.get("cardsize") || "small";
+  const cardSizeClass = cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2";
   const [t] = useTranslation("global");
 
   useEffect(() => {
@@ -69,7 +71,7 @@ export default function SearchedResults() {
   return (
     <>
       <main className="w-full">
-        <div className="max-w-[1540px] mx-auto">
+        <div className="max-w-[1504px] mx-auto">
           <div className="flex items-center justify-between gap-2 p-3">
             <div className="flex items-center gap-2 p-3">
               <h2 className="text-[25px]">{searchQuery}</h2>
@@ -81,10 +83,10 @@ export default function SearchedResults() {
               <CardSize cardsize={"big"}/>
             </div>
           </div>
-          <section className="justify-around max-w-[1540px] flex flex-row flex-wrap gap-3 mx-auto items-center">
+          <section className={`w-full grid grid-cols-2 gap-x-[20px] ${cardSizeClass} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}>
             {loadProducts && searchedResult.length === 0 ? (
               <div
-                className="w-full flex items-center justify-center"
+                className="w-screen flex items-center justify-center"
                 style={{ minHeight: "calc(100vh - 500px)" }}
               >
                 <l-ring

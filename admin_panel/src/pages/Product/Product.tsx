@@ -33,30 +33,35 @@ export default function Product() {
     handleGetProducts();
   }, [currentPage, sortByPrice, status]);
 
-  const handleGetProducts = async () => {
+  const handleGetProducts = async (forceRefresh = false) => {
     setLoading(true);
     try {
-      cache[currentPage] = cache[currentPage] || {};
-      cache[currentPage][sortByPrice] = cache[currentPage][sortByPrice] || {};
-
-      const cachedData = cache[currentPage][sortByPrice][status];
-      if (cachedData) {
-        setProduct(cachedData.data);
-        setPageCount(cachedData.meta.last_page);
-        return;
+      if (!forceRefresh) {
+        cache[currentPage] = cache[currentPage] || {};
+        cache[currentPage][sortByPrice] = cache[currentPage][sortByPrice] || {};
+  
+        const cachedData = cache[currentPage][sortByPrice][status];
+        if (cachedData) {
+          setProduct(cachedData.data);
+          setPageCount(cachedData.meta.last_page);
+          setLoading(false);
+          console.log("Loaded from cache");
+          return;
+        }
       }
+  
       const response = await myAxios.get(`/products?page=${currentPage}&sort_by=${sortByPrice}&status=${status}`);
       const newData = response.data;
-      cache[currentPage][sortByPrice][status] = newData; // Cache the new data
+      cache[currentPage][sortByPrice][status] = newData;
       setProduct(newData.data);
       setPageCount(newData.meta.last_page);
+      console.log("Fetched new data");
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  };
-
+  };  
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setSearchParams({ page: value.toString(), sort: sortByPrice, status });
@@ -65,7 +70,7 @@ export default function Product() {
     <>
       <Breadcrumb pageName="Products" />
       <div className="flex flex-col gap-10">
-        <TableProduct productData={product} loading={loading} />
+        <TableProduct productData={product} loading={loading} handleUpdateData={handleGetProducts} />
         <PaginationComponent
           currentPage={currentPage}
           pageCount={pageCount}

@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { TiStarFullOutline } from "react-icons/ti";
 import { FaCartShopping } from "react-icons/fa6";
@@ -25,10 +25,7 @@ export function CardDetail({
   const { user } = useAuth();
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(initialFavorite);
-  const [searchParams] = useSearchParams();
-  const cardSize = searchParams.get("cardsize") || "small";
-  const imageUrl =
-    product?.images?.[0]?.url ?? "/src/assets/images/no-image.jpg";
+  const imageUrl = product?.images?.[0]?.url ?? "/src/assets/images/no-image.jpg";
   const [addedFavorite, setAddedFavorite] = useState(false);
   const [addedFavoriteMessage, setAddedFavoriteMessage] = useState("");
   const carts = useSelector((store) => store.cart.items);
@@ -59,9 +56,6 @@ export function CardDetail({
     setIsFavorite(!isFavorite);
   }
 
-  const cardSizeClass =
-    cardSize === "big" ? "card_wrapper_big" : "card_wrapper_small";
-
   function handleToTop() {
     window.scroll({
       top: 0,
@@ -78,7 +72,7 @@ export function CardDetail({
     setShowAlert(true);
   }
   return (
-    <article className={`card_wrapper ${cardSizeClass}`}>
+    <article className={`card_wrapper`}>
       {loadingCard ? (
         <SkeletonTheme baseColor="#bdbdbd" highlightColor="#999">
           <Skeleton count={1} style={{ height: "83%" }} />
@@ -101,8 +95,10 @@ export function CardDetail({
               <div className="card_image relative md:shrink-0">
                 <img src={imageUrl} alt="" />
                 <span className="view-card-btn">View</span>
-                {product.dis_count && (
-                  <span className="absolute z-100 bottom-2 left-2 text-white font-semibold bg-[#f44] rounded-md px-[2px] text-[12px]">-{ product.dis_count }%</span>
+                {product.sale && (
+                  <span className="absolute z-100 bottom-2 left-2 text-white font-semibold bg-[#f44] rounded-md px-[2px] text-[12px]">
+                    -{product.sale}%
+                  </span>
                 )}
               </div>
             </div>
@@ -111,31 +107,36 @@ export function CardDetail({
             <h5 className="name_product">
               {product ? handleTitleLimit(product.name, 45) : ""}
             </h5>
-              <strong className={`flex items-center gap-[2px] ${product.discounted_price && "text-[#f44]"}`}>
-                {product.discounted_price
-                  ? (
-                    <>
-                    <span className="flex  items-center gap-1"><RiDiscountPercentFill size={12}/> {product.discounted_price}</span>
-                    </>
-                  )
-                  : Math.floor(product.price)
-                }
-                
-                <span>
-                  {selectedCurrency === "AMD"
-                    ? "դր․"
-                    : selectedCurrency === "RUB"
-                    ? "₽"
-                    : selectedCurrency === "USD"
-                    ? "$"
-                    : ""}
-                </span>
-                  {product.discounted_price && (
-                    <del className="text-[12px]" style={{ fontWeight: 500, color: "#868695" }}>
-                      {product.price}
-                    </del>
-                  )}
-              </strong>
+            <strong className={`flex items-center gap-[2px] ${product.discounted_price && "text-[#f44]"}`}>
+              {product.discounted_price ? (
+                <>
+                  <span className="flex  items-center gap-1">
+                    <RiDiscountPercentFill size={12} />{" "}
+                    {product.discounted_price}
+                  </span>
+                </>
+              ) : (
+                Math.floor(product.price)
+              )}
+
+              <span>
+                {selectedCurrency === "AMD"
+                  ? "դր․"
+                  : selectedCurrency === "RUB"
+                  ? "₽"
+                  : selectedCurrency === "USD"
+                  ? "$"
+                  : ""}
+              </span>
+              {product.discounted_price && (
+                <del
+                  className="text-[12px]"
+                  style={{ fontWeight: 500, color: "#868695" }}
+                >
+                  {product.price}
+                </del>
+              )}
+            </strong>
             <div className="card_star_rating">
               <span className="flex items-center gap-1 mb-2 text-gray-400">
                 <TiStarFullOutline color="#FFD700" />
@@ -152,6 +153,8 @@ export function CardDetail({
                   onClick={handleAddToCart}
                   sx={{
                     display: "flex",
+                    alignItems: "center", 
+                    justifyContent: "center",
                     gap: "5px",
                     backgroundColor: "rgb(219, 2, 234)",
                     width: "100%",
@@ -159,13 +162,15 @@ export function CardDetail({
                     padding: "5px 24px 7px",
                     fontWeight: 600,
                     borderRadius: "12px",
+                    fontSize: { xs: "0.60rem", sm: "0.70rem", md: "0.80rem" }, 
+                    whiteSpace: "nowrap",
+                    overflow: "hidden", 
+                    textOverflow: "ellipsis",
                   }}
                   className="card_buy_btn"
                 >
-                  <FaCartShopping />{" "}
-                  <span style={{ fontSize: "12px" }}>
-                    {t("card.basketButton")}
-                  </span>
+                  <FaCartShopping />
+                  <span>{t("card.basketButton")}</span>
                 </Button>
               )}
             </div>

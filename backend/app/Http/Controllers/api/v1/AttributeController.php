@@ -1,22 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api\v1;
 
+use App\Filters\AttributeFilter;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AttributeRequest;
 use App\Http\Resources\AttributeResource;
 use App\Models\Attribute;
-use Illuminate\Http\Request;
+use App\Traits\ApiResponse;
 
 class AttributeController extends Controller
 {
-
-    public function index()
+    use ApiResponse;
+    public function index(AttributeFilter $filters)
     {
-        $attributes = Attribute::with('values')->get();
-        
-        return response()->json([
-            'data' => AttributeResource::collection($attributes)
-        ]);
+        $attributes = Attribute::filter($filters)
+            ->with('attributeValues')
+            ->get();
+
+        return $this->successResponse(AttributeResource::collection($attributes));
     }
 
     public function store(AttributeRequest $request)
@@ -29,18 +31,14 @@ class AttributeController extends Controller
             }
         }
 
-        return response()->json([
-            'message' => 'Attribute created successfully',
-        ]);
+        return $this->successResponse(null, "Attribute created successfully");
     }
 
     public function show($id)
     {
-        $attribute = Attribute::with('values')->findOrFail($id);
+        $attribute = Attribute::with('attributeValues')->findOrFail($id);
 
-        return response()->json([
-            'data' => new AttributeResource($attribute)
-        ]);
+        return $this->successResponse(new AttributeResource($attribute));
     }
 
     public function update(AttributeRequest $request, $id)
@@ -51,13 +49,11 @@ class AttributeController extends Controller
         if ($request->has('values')) {
             $attribute->values()->delete();
             foreach ($request->input('values') as $value) {
-                $attribute->values()->create(['value' => $value]);
+                $attribute->attributeValues()->create(['value' => $value]);
             }
         }
 
-        return response()->json([
-            'message' => 'Attribute updated successfully',
-        ]);
+        return $this->successResponse(null, message: "Attribute updated successfully");
     }
 
     public function destroy(string $id)

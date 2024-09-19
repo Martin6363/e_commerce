@@ -1,6 +1,4 @@
 .card_wrapper {
-  width: 230px;
-  height: 380px;
   position: relative;
   border-radius: 5px;
   padding: 5px;
@@ -12,13 +10,8 @@
 }
 
 .card_wrapper_big {
-  min-width: 350px;
-  height: 520px;
-}
-
-.card_wrapper_small {
-  width: 230px;
-  height: 380px;
+  width: 100%; /* Ensures it takes up full width of the grid column */
+  border-radius: 12px; /* Optional, give cards a bit of rounded corners */
 }
 
 .card_img_box {
@@ -178,23 +171,4 @@
   font-weight: 600;
   border-radius: 12px;
   text-transform: initial;
-}
-
-@media screen and (max-width: 1020px) {
-  .card_wrapper {
-    flex-basis: auto;
-    flex: 1 0 180px;
-  }
-
-  .card_buy_btn {
-    span {
-      font-size: 12px !important;
-    }
-  }
-}
-
-@media screen and (max-width: 640px) {
-  .card_wrapper {
-    flex: 1 0 180px;
-  }
 }
