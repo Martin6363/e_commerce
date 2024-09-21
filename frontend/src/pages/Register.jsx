@@ -37,7 +37,6 @@ const Register = () => {
     } catch (error) {
       console.log(error);
       if (error.response && error.response.data && error.response.data.message) {
-        // Assuming the backend sends a message in response.data.message
         if (error.response.data.message.includes('Email already exists')) {
           setError('email', { type: 'manual', message: 'Email already exists' });
         }

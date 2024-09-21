@@ -6,8 +6,10 @@ use App\Models\Attribute;
 use App\Models\AttributeValue;
 use App\Models\ProductAttributeValue;
 use App\Models\User;
+use App\Models\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -49,9 +51,17 @@ class DatabaseSeeder extends Seeder
         ]);
         ProductAttributeValue::factory(100)->create();
 
+        Artisan::call('app:update-exchange-rates');
+
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        $this->command->info('Exchange updates successfully');
+        
+        Role::create(['name' => 'superVizorAdmin', 'description' => 'Super Vizor Admin with full access']);
+        Role::create(['name' => 'admin', 'description' => 'Administrator with limited superVizorAdmin access']);
+        Role::create(['name' => 'user', 'description' => 'Regular user with limited access']);
     }
 }

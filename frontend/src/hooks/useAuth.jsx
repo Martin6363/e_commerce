@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = window.localStorage.getItem("token");
 
     if (!token) {
       return;
@@ -23,7 +23,7 @@ export function AuthProvider({ children }) {
         setUser(response.data);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          localStorage.removeItem("token");
+          window.localStorage.removeItem("token");
           navigate("/login");
         }
       }
@@ -50,8 +50,8 @@ export function useLogout() {
     try {
       await myAxios.post("/logout");
 
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      window.localStorage.removeItem("token");
+      window.localStorage.removeItem("user");
 
       delete myAxios.defaults.headers.common["Authorization"];
 

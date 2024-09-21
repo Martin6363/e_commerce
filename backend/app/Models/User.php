@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -21,7 +22,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'type',
         'email_verified_at'
     ];
 
@@ -48,15 +48,19 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function isAdmin() {
-        return $this->type === 1;
+    public function roles():BelongsToMany {
+        return $this->belongsToMany(Role::class, 'role_user');
     }
 
-    public function isSuperVizorAdmin() {
-        return $this->type === 2;
+    public function hasAnyRole(array $roles) {
+        return $this->roles()->whereIn('name', $roles)->exists();
     }
 
-    public function isUser() {
-        return $this->type === 0;
+    public function assignRole($role) {
+        return $this->roles()->attach($role);
+    }
+
+    public function removeRole($role) {
+        return $this->roles()->detach($role);
     }
 }

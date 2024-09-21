@@ -24,7 +24,27 @@ const Home = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetchProducts();
+    const fetchProducts = async () => {
+      if (cache[`${currentPage}-${selectedCurrency}`]) {
+        setProducts(cache[`${currentPage}-${selectedCurrency}`].data);
+        setPageCount(cache[`${currentPage}-${selectedCurrency}`].meta.last_page);
+        setLoading(false);
+        return;
+      }
+      try {
+        const response = await myAxios.get(
+          `/products?page=${currentPage}&currency=${selectedCurrency}`
+        );
+        cache[`${currentPage}-${selectedCurrency}`] = response.data;
+        setProducts(response.data.data);
+        setPageCount(response.data.meta.last_page);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+    fetchProducts()
   }, [currentPage, selectedCurrency]);
 
   useEffect(() => {
@@ -39,26 +59,6 @@ const Home = () => {
     }
   }, [currentPage]);
 
-  const fetchProducts = async () => {
-    if (cache[`${currentPage}-${selectedCurrency}`]) {
-      setProducts(cache[`${currentPage}-${selectedCurrency}`].data);
-      setPageCount(cache[`${currentPage}-${selectedCurrency}`].meta.last_page);
-      setLoading(false);
-      return;
-    }
-    try {
-      const response = await myAxios.get(
-        `/products?page=${currentPage}&currency=${selectedCurrency}`
-      );
-      cache[`${currentPage}-${selectedCurrency}`] = response.data;
-      setProducts(response.data.data);
-      setPageCount(response.data.meta.last_page);
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-    }
-  };
 
   const handlePageChange = (event, value) => {
     setSearchParams({ page: value });
