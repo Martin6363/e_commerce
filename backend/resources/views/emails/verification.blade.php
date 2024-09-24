@@ -7,9 +7,9 @@
     <title>User Verification</title>
 </head>
 <body>
-    <h1>Hello, {{ $name ?? 'Nelsik' }}</h1>
+    <h1>Hello, {{ $name ?? 'No name' }}</h1>
     <p>Please verify your email by clicking the link below:</p>
-    <a href={{ $verificationUrl ?? 'Nelsik_G7'}}>Verify Email</a>
+    <a href={{ $verificationUrl ?? 'Problem'}}>Verify Email</a>
 </body>
 </html>
 
