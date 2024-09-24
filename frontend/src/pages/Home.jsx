@@ -9,6 +9,7 @@ import Footer from "../components/footer/Footer";
 import "ldrs/ring";
 import { useSearchParams } from "react-router-dom";
 import { useCurrency } from "../context/CurrencyContext";
+import HeaderBottomContents from "../components/header/HeaderBottomContents";
 
 const cache = {};
 
@@ -86,10 +87,11 @@ const Home = () => {
           <SliderSwiper />
         </div>
       )}
+      <HeaderBottomContents/>
       <div className="w-full flex items-center justify-center mx-auto mt-5">
         <main
           ref={productCardContainerRef}
-          className={`grid grid-cols-2 gap-x-[20px] ${cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2"} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}
+          className={`grid grid-cols-2 lg:gap-x-[20px] sm:gap-0 ${cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2"} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}
         >
           {products.map((product) => (
             <CardDetail

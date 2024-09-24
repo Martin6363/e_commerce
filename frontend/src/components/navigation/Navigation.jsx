@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Header from "../header/Header";
 import Search from "../header/Search";
-import { MdPerson } from "react-icons/md";
+import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
@@ -9,7 +9,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import { grey } from "@mui/material/colors";
 import { Container, useMediaQuery } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
 import NavBar from "../header/navBarMenu";
 import "../../assets/styles/Navigation.scss";
@@ -45,32 +44,14 @@ export const Navigation = () => {
   }));
 
   const [showNavBarMenu, setShowNavBarMenu] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [categoryLoading, setCategoryLoading] = useState(true);
   const carts = useSelector((store) => store.cart.items);
   const { user } = useAuth();
 
   useEffect(() => {
     myAxios.get("/categories").then((res) => {
       setCategories(res.data.data);
-      setCategoryLoading(false);
     });
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 70) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
   function openMenu() {
@@ -84,38 +65,28 @@ export const Navigation = () => {
         }`}
       >
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
-          <Link
-            to="/"
-            className="flex items-center space-x-3 rtl:space-x-reverse"
-          >
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
-            />
+          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo"/>
             {!matches && (
-            <span className="self-center text-white text-2xl select-none font-semibold whitespace-nowrap">
-              E-commerce
-            </span>
-            )
-
+              <span className="self-center text-white text-2xl select-none font-semibold whitespace-nowrap">
+                E-commerce
+              </span>
+              )
             }
           </Link>
           <div className="flex items-center space-x-6 rtl:space-x-reverse">
             <Link
-              to="tel:5541251234"
+              to="tel:+374777777"
               className="text-sm  text-gray-300 hover:underline"
             >
-              (555) 412-1234
+              (+374) 77-77-77
             </Link>
             <Header />
           </div>
         </div>
       </nav>
       <nav
-        className={`w-50 mx-auto fixed_nav ${
-          theme.palette.mode === "dark" ? "bg-purple-900" : "bg-purple-600"
-        }`}
+        className={`w-50 mx-auto fixed_nav`}
         style={{ background: 'radial-gradient(circle at 10% 20%, rgb(64, 84, 178) 0%, rgb(219, 2, 234) 90%)' }}
       >
         <div className="max-w-screen-xl px-4 py-3 mx-auto">
@@ -136,7 +107,7 @@ export const Navigation = () => {
                       color: "#fff",
                     }}
                   >
-                    <MenuIcon sx={{ fontSize: "30px" }} />
+                    <HiOutlineMenuAlt1 size={'30px'}/>
                   </IconButton>
                 </Container>
               </li>
@@ -190,7 +161,6 @@ export const Navigation = () => {
       <NavBar
         categories={categories}
         showMenu={showNavBarMenu}
-        isScrolled={isScrolled}
         setMenuOpen={setShowNavBarMenu}
       />
     </>

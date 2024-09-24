@@ -146,7 +146,7 @@ CartItem.propTypes = {
   productId: PropTypes.number.isRequired,
   quantity: PropTypes.number.isRequired,
   detail: PropTypes.shape({
-    price: PropTypes.string,
+    price: PropTypes.number,
     name: PropTypes.string,
     category: PropTypes.string,
     images: PropTypes.arrayOf(

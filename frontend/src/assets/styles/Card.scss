@@ -10,13 +10,14 @@
 }
 
 .card_wrapper_big {
-  width: 100%; /* Ensures it takes up full width of the grid column */
-  border-radius: 12px; /* Optional, give cards a bit of rounded corners */
+  width: 100%;
+  border-radius: 12px; 
 }
 
 .card_img_box {
   width: 100%;
   height: 65%;
+  min-height: 12.5rem;
   overflow: hidden;
   border-radius: 15px;
   .card_image {
@@ -36,27 +37,6 @@
         transform: scale(1.1);
       }
     }
-
-    .view-card-btn {
-      position: absolute;
-      z-index: 150;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      padding: 7px 20px;
-      border: none;
-      outline: none;
-      font-family: sans-serif;
-      font-size: 16px;
-      border-radius: 10px;
-      color: #fff;
-      background-color: #772eb0;
-      cursor: pointer;
-      display: none;
-      &:hover {
-        opacity: 0.8;
-      }
-    }
   }
 }
 
@@ -67,7 +47,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgb(0, 0, 0, 0.5);
+  background-color: rgb(0, 0, 0, 0.2);
   z-index: 100;
   transition: 0.3s;
   opacity: 0;
@@ -80,10 +60,6 @@
 
 .card_wrapper:hover .card_image::before {
   opacity: 1;
-}
-
-.card_wrapper:hover .view-card-btn {
-  display: block;
 }
 
 .card_data {

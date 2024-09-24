@@ -58,7 +58,7 @@ export default function ImageModal({ images, onClose, initialImage }) {
                   width: "100%",
                   height: "auto",
                   borderRadius: 10,
-                  objectFit: "cover",
+                  objectFit: "contain",
                 }}
                 alt="Full size"
               />

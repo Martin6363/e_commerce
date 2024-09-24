@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectesRoute";
 import Category from "./pages/Category/Category";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import Promotions from "./pages/Promotions/Promotions";
+import AllPromotions from "./pages/Promotions/AllPromotions";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -41,6 +42,7 @@ function App() {
                 <Route path="/basket" element={<Basket />} />
                 <Route path="/category/:catSlug/:catId" element={<Category/>}/>
                 <Route path="/promotions/:slug/:id" element={<Promotions/>}/>
+                <Route path="/promotions" element={<AllPromotions/>}/>
                 <Route
                   path="/profile"
                   element={

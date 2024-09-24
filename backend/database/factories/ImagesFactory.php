@@ -25,7 +25,7 @@ class ImagesFactory extends Factory
         }
 
         return [
-            "image" => 'product_images/model_female_triplelayer_black_solid_mask_3000px.webp', 
+            "image" => 'product_images/apple_watch.png', 
             "product_id" => $productId,
         ];
     }
