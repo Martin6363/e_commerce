@@ -57,7 +57,7 @@ const FilterComponent = ({
         ></div>
       )}
       <aside
-        className={`${ matches ? "w-screen max-h-[calc(100vh - 150px)]" : "w-[400px]"}
+        className={`${ matches ? "w-screen pb-[50px]" : "w-[400px]"}
           filter_container fixed top-[0] right-0 h-full z-[1002] overflow-y-auto transform transition-transform duration-300 ease-in-out ${
           !isFilterOpen ? "translate-x-[100%]" : " translate-x-[0%]"
         } ${theme.palette.mode === "dark" ? "bg-[#0d1320]" : "bg-gray-200"}`}

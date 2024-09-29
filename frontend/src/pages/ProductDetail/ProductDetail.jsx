@@ -217,7 +217,7 @@ console.log(attribute);
                       <span>{product?.brand}</span>{" "}
                     </li>
                     {product.attributes?.map((attribute, index) => (
-                      <li className="product_params" key={index}>
+                      <li className="product_params font-sans" key={index}>
                         <b>{attribute.attribute_name}</b>{" "}
                         <span>{attribute.value}</span>{" "}
                       </li>

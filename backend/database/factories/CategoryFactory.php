@@ -27,7 +27,7 @@ class CategoryFactory extends Factory
             "name"=> $this->faker->name,
             "slug"=> Str::slug($this->faker->unique()->name),
             "description" => $this->faker->paragraph,
-            "picture" => $this->faker->imageUrl(640, 480, 'animals', true),
+            "picture" => "category_images/category_faker_image.webp",
             "parent_id" => $parentCategoryId
         ];
     }

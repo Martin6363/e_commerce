@@ -1,18 +1,19 @@
 /* eslint-disable react/prop-types */
-import { Button } from "@mui/material";
+import { Button, useMediaQuery } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 
 const PriceFilterComponent = ({ minPrice, maxPrice, handleFilterPrice }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [t] = useTranslation("global");
+  const matches = useMediaQuery("(max-width:1020px)");
   
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
   };
   
   return (
-    <div className="relative grid grid-cols-2 gap-2 mb-6">
+    <div className="relative w-full grid grid-cols-2 gap-2 mb-6">
       <div>
         <label htmlFor="min-price" className="sr-only">Min price</label>
         {t("all_products.filter_component.price_component.from")}
@@ -43,7 +44,7 @@ const PriceFilterComponent = ({ minPrice, maxPrice, handleFilterPrice }) => {
       </div>
       <Button
         onClick={handleFilterPrice}
-        sx={{ backgroundColor: "rgba(168, 85, 247, 1)", color: "#fff" }}
+        sx={{ backgroundColor: "rgba(168, 85, 247, 1)", color: "#fff", width: '100%' }}
         variant="contained"
       >
         {t("all_products.filter_component.price_component.filter_by_price")}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import myAxios from "../../api/axios";
 import { Link } from "react-router-dom";
 import { useTheme } from "@emotion/react";
+import Footer from "../../components/footer/Footer";
 
 const cache = {};
 
@@ -42,19 +43,22 @@ function AllPromotions() {
   
 
   return (
-    <main className="w-[98%] mx-auto">
-        <h2 className="px-5 py-3 text-2xl my-2 font-bold">Promotions of the day</h2>
-        <div className="grid lg:grid-cols-2 sm:grid-cols-1 gap-3 p-none">
-            {promotions?.map((promotion) => (
-                <Link to={`/promotions/${promotion.slug}/${promotion.id}`} className="w-full h-full relative overflow-hidden transition-scale duration-75 hover:scale-95" key={promotion.id}>
-                    <div className="w-full text-center bg-white border border-gray-200 rounded-lg shadow overflow-hidden">
-                        <img className="w-full h-full object-cover" src={promotion.image_url} alt={promotion.name} />
-                    </div>
-                    <p className={`absolute bottom-0 w-full py-3 lg:text-start px-5 sm:text-center ${ theme.palette.mode === 'dark' ? 'bg-[rgba(0,0,0,.8)]' : 'bg-[rgba(255,255,255,.8)]' } rounded-b-lg`}>{promotion.name}</p>
-                </Link>
-            ))}
-        </div>
-    </main>
+    <>
+      <main className="w-[98%] mx-auto">
+          <h2 className="px-5 py-3 text-2xl my-2 font-bold">Promotions of the day</h2>
+          <div className="grid lg:grid-cols-2 sm:grid-cols-1 my-2 gap-3 p-none">
+              {promotions?.map((promotion) => (
+                  <Link to={`/promotions/${promotion.slug}/${promotion.id}`} className="w-full h-full shadow-2xl relative overflow-hidden" key={promotion.id}>
+                      <div className="w-full text-center bg-white border border-gray-200 rounded-lg shadow overflow-hidden">
+                          <img className="w-full h-full object-cover" src={promotion.image_url} alt={promotion.name} />
+                      </div>
+                      <p className={`absolute bottom-0 w-full py-3 lg:text-start px-5 sm:text-center ${ theme.palette.mode === 'dark' ? 'bg-[rgba(0,0,0,.8)]' : 'bg-[rgba(255,255,255,.8)]' } rounded-b-lg`}>{promotion.name}</p>
+                  </Link>
+              ))}
+          </div>
+      </main>
+      <Footer/>
+    </>
   );
 }
 
