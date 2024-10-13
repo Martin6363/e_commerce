@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   useAuth();
-  const [user, setUser] = useState();
+  const [user, setUser] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const logout = useLogout();
@@ -27,7 +27,7 @@ export default function Profile() {
     } else {
       navigate('/login');
     }
-  }, []);
+  }, [navigate, user]);
 
   return (
     <>

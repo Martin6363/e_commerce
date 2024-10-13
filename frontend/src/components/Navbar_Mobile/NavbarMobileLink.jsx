@@ -69,7 +69,7 @@ export default function NavbarMobileLink() {
       <MenuMobile setIsHideMobile={setIsShowMenu} categoryData={categoryData}/>
     )}
     
-    <div  className={`navbar_mobile_link_cont w-full shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] z-[1020] fixed bottom-0 px-10 py-3 ${theme.palette.mode === "dark" ? 'bg-purple-950' : 'bg-purple-800'}`}>
+    <div  className={`navbar_mobile_link_cont w-full shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)] z-[999] fixed bottom-0 px-10 py-3 ${theme.palette.mode === "dark" ? 'bg-purple-950' : 'bg-purple-800'}`}>
       <ul className="flex items-center justify-center w-full">
         <li>
           <Link to="/" className="hover:underline" aria-current="page">

@@ -6,7 +6,7 @@ import { RiTwitterXLine } from "react-icons/ri";
 
 export default function Footer() {
   return (
-    <div>
+    <>
       <footer className="footer max-w-screen-xl mx-auto">
         <div className="container">
           <div className="row">
@@ -84,6 +84,6 @@ export default function Footer() {
           </div>
         </div>
       </footer>
-    </div>
+    </>
   );
 }

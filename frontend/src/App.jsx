@@ -20,10 +20,10 @@ import Promotions from "./pages/Promotions/Promotions";
 import AllPromotions from "./pages/Promotions/AllPromotions";
 import AllCategories from "./pages/Category/AllCategories";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import Footer from "./components/footer/Footer";
 
 function App() {
   const [theme, colorMode] = useMode();
-
   return (
     <>
       <ColorModeContext.Provider value={colorMode}>
@@ -33,7 +33,7 @@ function App() {
             <CssBaseline />
             <ScrollToTop />
             <NavbarMobileLink />
-            <div className="mx-auto">
+            <main className="mx-auto">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
@@ -61,7 +61,8 @@ function App() {
                 } />
                 <Route path="*" element={<PageNotFound/>}/>
               </Routes>
-            </div>
+            </main>
+            <Footer />
             <Outlet />
           </div>
         </ThemeProvider>

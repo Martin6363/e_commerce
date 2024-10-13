@@ -4,6 +4,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import CardDetail from "../../components/Card/CardDetail";
 import CardSize from "../../components/Card/CardSize";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
+import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
 
 function Promotions() {
   const { id } = useParams();
@@ -29,15 +30,7 @@ function Promotions() {
 
   if (isLoading) {
     return (
-      <div className="homeSpinner">
-        <l-ring
-          size="70"
-          stroke="6"
-          bg-opacity="0"
-          speed="1.3"
-          color="#581C87"
-        ></l-ring>
-      </div>
+      <SpinnerLoader/>
     );
   }
   return (

@@ -3,7 +3,6 @@ import { Link, useParams, useSearchParams } from "react-router-dom";
 import ImageMagnifier from "../../components/ImageMagnifier/ImageMagnifier";
 import "../../assets/styles/ProductDetail.scss";
 import { Rating, useMediaQuery } from "@mui/material";
-import Footer from "../../components/footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/cart";
 import SliderMobileSwiper from "../../components/HomeDetails/SliderSwiper/SliderMobileSwiper";
@@ -19,6 +18,10 @@ import { useCurrency } from "../../context/CurrencyContext";
 import { useAuth } from "../../hooks/useAuth";
 import { useTranslation } from "react-i18next";
 import { RiDiscountPercentFill } from "react-icons/ri";
+import SizeCheckbox from "../../components/CheckboxeCollections/SizeCheckbox";
+import ColorCheckbox from "../../components/CheckboxeCollections/ColorCheckbox";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
+import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -58,18 +61,18 @@ export default function ProductDetail() {
         setSeeAlsoProducts(productRes.data.recommended)
         setAttribute(attributeRes.data.data)
         if (productRes) {
-        setIsLoading(false);
-      }
+          setIsLoading(false);
+        }
     } catch (error) {
       setIsLoading(true);
       console.error("Error fetching product data:", error);
     }
   };
+  useDocumentTitle(product?.name);
 
   const productAlreadyExists = carts.some(
     (cart) => cart.productId === product?.id
   );
-console.log(attribute);
 
   function handleFavoriteActive() {
     if (user) {
@@ -85,15 +88,7 @@ console.log(attribute);
 
   if (!product) {
     return (
-      <div className="homeSpinner">
-        <l-ring
-          size="70"
-          stroke="6"
-          bg-opacity="0"
-          speed="1.3"
-          color="#581C87"
-        ></l-ring>
-      </div>
+      <SpinnerLoader/>
     );
   }
 
@@ -216,72 +211,32 @@ console.log(attribute);
                       <b>{t("product_show.brand")}</b>{" "}
                       <span>{product?.brand}</span>{" "}
                     </li>
-                    {product.attributes?.map((attribute, index) => (
-                      <li className="product_params font-sans" key={index}>
-                        <b>{attribute.attribute_name}</b>{" "}
-                        <span>{attribute.value}</span>{" "}
-                      </li>
-                    ))}
+                    {product.attributes && 
+                      product.attributes.map((attribute, index) => (
+                        <li className="product_params font-sans" key={index}>
+                          <b>{attribute.name}</b>{" "}
+                          <span className="flex items-center gap-1">
+                            {attribute.values.map((attr) => (
+                              <span className={`capitalize ${ attribute.name === "Color" ? 'text-white' : '' } py-[3px] px-3 text-sm rounded-xl`} key={attr.id} style={{ backgroundColor: attr.name ? attr.name : 'rgba(255,255,255,.8)' }}>
+                                {attr.name}
+                              </span>
+                            ))}
+                          </span>
+                        </li>
+                      ))
+                    }
                     <li className="mt-8">
                       <h3 className="text-xl font-bold">
                         {t("product_show.sizes")}
                         {product.attr}
                       </h3>
-                      <div className="flex flex-wrap gap-4 mt-4">
-                        <button
-                          type="button"
-                          className="w-12 h-11 border-2 hover:border-gray-800 font-semibold text-xs rounded-lg flex items-center justify-center shrink-0"
-                        >
-                          SM
-                        </button>
-                        <button
-                          type="button"
-                          className="w-12 h-11 border-2 hover:border-gray-800 border-gray-800 font-semibold text-xs rounded-lg flex items-center justify-center shrink-0"
-                        >
-                          MD
-                        </button>
-                        <button
-                          type="button"
-                          className="w-12 h-11 border-2 hover:border-gray-800 font-semibold text-xs rounded-lg flex items-center justify-center shrink-0"
-                        >
-                          LG
-                        </button>
-                        <button
-                          type="button"
-                          className="w-12 h-11 border-2 hover:border-gray-800 font-semibold text-xs rounded-lg flex items-center justify-center shrink-0"
-                        >
-                          XL
-                        </button>
-                        <button
-                          type="button"
-                          className="w-12 h-11 border-2 hover:border-gray-800 font-semibold text-xs rounded-lg flex items-center justify-center shrink-0"
-                        >
-                          XXL
-                        </button>
-                      </div>
+                      <SizeCheckbox/>
                     </li>
                     <li className="mt-2">
                       <h3 className="text-xl font-bold">
                         {t("product_show.colors")}
                       </h3>
-                      <div className="flex flex-wrap gap-4 mt-4">
-                        <button
-                          type="button"
-                          className="w-12 h-11 bg-black border-2 border-white hover:border-gray-800 rounded-lg shrink-0"
-                        ></button>
-                        <button
-                          type="button"
-                          className="w-12 h-11 bg-gray-400 border-2 border-white hover:border-gray-800 rounded-lg shrink-0"
-                        ></button>
-                        <button
-                          type="button"
-                          className="w-12 h-11 bg-orange-400 border-2 border-white hover:border-gray-800 rounded-lg shrink-0"
-                        ></button>
-                        <button
-                          type="button"
-                          className="w-12 h-11 bg-red-400 border-2 border-white hover:border-gray-800 rounded-lg shrink-0"
-                        ></button>
-                      </div>
+                      <ColorCheckbox/>
                     </li>
                     <div className="mt-10 flex flex-wrap gap-4 w-100">
                       {productAlreadyExists ? (
@@ -361,7 +316,6 @@ console.log(attribute);
             textAlert={addedFavoriteMessage}
             onAlertClose={() => setAddedFavorite(false)}
           />
-          <Footer />
         </>
       ) : (
         <div className="homeSpinner">

@@ -12,7 +12,7 @@ const Header = () => {
   const theme = useTheme();
 
   return (
-    <div>
+    <>
       <div className="flex items-center gap-2">
         <ExchangePrice/>
         <LanguageDropDown/>
@@ -44,7 +44,7 @@ const Header = () => {
           </IconButton>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

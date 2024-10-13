@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import myAxios from '../../api/axios';
 import { Link } from "react-router-dom";
-// import { useTheme } from "@emotion/react";
+import SpinnerLoader from '../../components/SpinnerLoader/SpinnerLoader';
 
 const cache = {};
 
 function AllCategories() {
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    // const theme = useTheme();
 
     useEffect(() => {
         const getCategories = async () => {
@@ -29,15 +28,7 @@ function AllCategories() {
 
     if (isLoading) {
         return (
-          <div className="homeSpinner">
-            <l-ring
-              size="70"
-              stroke="6"
-              bg-opacity="0"
-              speed="1.3"
-              color="#581C87"
-            ></l-ring>
-          </div>
+            <SpinnerLoader/>
         );
       }
 

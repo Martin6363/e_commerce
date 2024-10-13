@@ -37,17 +37,21 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $product = Product::create(array_merge($request->validated(), ["slug" => $request->name, "vendor_code" => ""]));
-
-        if ($request->hasFile('images')) {
-            $product->images()->createMany(Images::upload($request->file('images')));
-        }
+        $product->images()->createMany(Images::upload($request->file('images')));
 
         return $this->successResponse(new ProductResource($product), "Product created successfully", 201);
     }
 
     public function show(Product $product)
     {
-        $product->load('category', 'discount', 'Images', 'brand');
+        $product->load([
+            'category:id,name', 
+            'discount:id,percent', 
+            'images:id,product_id,image', 
+            'brand:id,b_name', 
+            'productAttributeValues.attributeValue:id,value,attribute_id', 
+            'productAttributeValues.attributeValue.attribute:id,name'
+        ]);
         $similarProducts = $product->similar_products;
 
         return response()->json([

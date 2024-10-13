@@ -5,7 +5,7 @@ import "ldrs/ring";
 import CardDetail from "../../components/Card/CardDetail";
 import Breadcrumbs from "../../components/Breadcrumbs/Breadcrumbs";
 import CardSize from "../../components/Card/CardSize";
-import Footer from "../../components/footer/Footer";
+import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
 
 export default function Category() {
   const { catId } = useParams();
@@ -39,15 +39,7 @@ export default function Category() {
 
   if (isLoading) {
     return (
-      <div className="homeSpinner">
-        <l-ring
-          size="70"
-          stroke="6"
-          bg-opacity="0"
-          speed="1.3"
-          color="#581C87"
-        ></l-ring>
-      </div>
+      <SpinnerLoader/>
     );
   }
 
@@ -67,7 +59,6 @@ export default function Category() {
           </div>
         </section>
       </main>
-      <Footer/>
     </>
   );
 }

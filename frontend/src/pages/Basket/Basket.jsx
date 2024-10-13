@@ -6,7 +6,6 @@ import { FaPen } from "react-icons/fa6";
 import { GoPersonFill } from "react-icons/go";
 import { useTheme } from "@emotion/react";
 import { Button, useMediaQuery } from "@mui/material";
-import Footer from "../../components/footer/Footer";
 import myAxios from "../../api/axios";
 import gsap from "gsap";
 import { TextPlugin } from "gsap/TextPlugin";
@@ -193,7 +192,6 @@ export default function Basket() {
                     </div>
                 </section>
             )}
-            <Footer/>
         </>
     );
 }

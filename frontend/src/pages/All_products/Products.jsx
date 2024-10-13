@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import myAxios from "../../api/axios";
-import Footer from "../../components/footer/Footer";
 import "../../assets/styles/Products.scss";
 import CardDetail from "../../components/Card/CardDetail";
 import PaginationHome from "../../components/Pagination/PaginationHome";
@@ -212,7 +211,6 @@ export default function Products() {
         pageCount={pageCount.last_page}
         onPageChange={handlePageChange}
       />
-      <Footer />
     </>
   );
 }

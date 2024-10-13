@@ -13,7 +13,12 @@ class Category extends Model
         'name',
         'slug',
         'description',
-        'picture'
+        'picture',
+        'filters'
+    ];
+
+    protected $casts = [
+        'filters' => 'array', 
     ];
 
     public function Products() {

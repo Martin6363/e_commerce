@@ -58,9 +58,6 @@
             font-size: 12px;
           }
         }
-        &:hover {
-          background: rgba(255, 255, 255, 0.2);
-        }
       }
     }
 
@@ -89,10 +86,6 @@
       height: 100%;
       transition: 0.2s ease color;
       cursor: pointer;
-
-      &:hover {
-        background-color: rgba(85, 82, 82, 0.9);
-      }
     }
     .nav_menu_link_li {
       width: 95%;

@@ -42,7 +42,6 @@ export const Navigation = () => {
       fontSize: theme.typography.pxToRem(15),
     },
   }));
-
   const [showNavBarMenu, setShowNavBarMenu] = useState(false);
   const [categories, setCategories] = useState([]);
   const carts = useSelector((store) => store.cart.items);
@@ -59,33 +58,39 @@ export const Navigation = () => {
   }
   return (
     <>
-      <nav
-        className={` w-50 mx-auto z-50 ${
-          theme.palette.mode === "dark" ? "bg-gray-900" : "bg-purple-900"
-        }`}
-      >
-        <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
-          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo"/>
-            {!matches && (
-              <span className="self-center text-white text-2xl select-none font-semibold whitespace-nowrap">
-                E-commerce
-              </span>
-              )
-            }
-          </Link>
-          <div className="flex items-center space-x-6 rtl:space-x-reverse">
-            <Link
-              to="tel:+374777777"
-              className="text-sm  text-gray-300 hover:underline"
-            >
-              (+374) 77-77-77
+      <header>
+        <nav
+          className={` w-50 mx-auto z-50 ${
+            theme.palette.mode === "dark" ? "bg-gray-900" : "bg-purple-900"
+          }`}
+        >
+          <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+            <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+              <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="50" fill="white"/>
+                <circle cx="50" cy="50" r="45" fill="#C30FE1"/>
+                <g>
+                  <path d="M60 30 L40 40 H60 Z" fill="#fff"/>
+                  <rect x="30" y="40" width="40" height="10" rx="2" fill="#fff"/>
+                  <rect x="30" y="55" width="25" height="5" rx="1" fill="#fff"/>
+                  <circle cx="40" cy="70" r="4" fill="#fff"/>
+                  <circle cx="60" cy="70" r="4" fill="#fff"/>
+                </g>
+              </svg>
+              {!matches && (
+                <span className="self-center text-white text-2xl select-none font-semibold whitespace-nowrap">
+                  E-commerce
+                </span>
+                )
+              }
             </Link>
-            <Header />
+            <div className="flex items-center space-x-6 rtl:space-x-reverse">
+              <Header />
+            </div>
           </div>
-        </div>
-      </nav>
-      <nav
+        </nav>
+      </header>
+      <div
         className={`w-50 mx-auto fixed_nav`}
         style={{ background: 'radial-gradient(circle at 10% 20%, rgb(64, 84, 178) 0%, rgb(219, 2, 234) 90%)' }}
       >
@@ -157,7 +162,7 @@ export const Navigation = () => {
             </div>
           </div>
         </div>
-      </nav>
+      </div>
       <NavBar
         categories={categories}
         showMenu={showNavBarMenu}

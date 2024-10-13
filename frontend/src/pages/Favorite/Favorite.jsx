@@ -3,7 +3,6 @@ import { useAuth } from "../../hooks/useAuth";
 import myAxios from "../../api/axios";
 import CardDetail from "../../components/Card/CardDetail";
 import CardSize from "../../components/Card/CardSize";
-import Footer from "../../components/footer/Footer";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useTranslation } from "react-i18next";
@@ -109,7 +108,6 @@ export default function Favorite() {
               </section>
             </div>
           )}
-          <Footer />
         </>
       ) : (
         <div

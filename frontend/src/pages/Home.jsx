@@ -5,11 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import myAxios from "../api/axios";
 import "../assets/styles/Home.scss";
 import PaginationHome from "../components/Pagination/PaginationHome";
-import Footer from "../components/footer/Footer";
 import "ldrs/ring";
 import { useSearchParams } from "react-router-dom";
 import { useCurrency } from "../context/CurrencyContext";
 import HeaderBottomContents from "../components/header/HeaderBottomContents";
+import SpinnerLoader from "../components/SpinnerLoader/SpinnerLoader";
 
 const cache = {};
 
@@ -67,15 +67,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="homeSpinner">
-        <l-ring
-          size="70"
-          stroke="6"
-          bg-opacity="0"
-          speed="1.3"
-          color="#581C87"
-        ></l-ring>
-      </div>
+      <SpinnerLoader/>
     );
   }
 
@@ -107,7 +99,6 @@ const Home = () => {
         pageCount={pageCount}
         onPageChange={handlePageChange}
       />
-      <Footer />
     </div>
   );
 };

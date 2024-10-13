@@ -20,6 +20,7 @@ class SubCategoryResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'picture' => asset('storage/' . $this->picture),
+            'filters' => $this->filters,
             'products_count' => $this->products_count,
             'created_at' => $this->created_at->format('d-m-Y')
         ];;

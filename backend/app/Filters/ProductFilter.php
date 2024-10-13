@@ -29,19 +29,27 @@ class ProductFilter extends QueryFilter {
     }
 
     public function search($search_string = '') {
-        return $this->builder->where('name', 'LIKE', "%$search_string%")
+        return $this->builder
+        ->where('name', 'LIKE', "%$search_string%")
         ->orWhere('description', 'LIKE', "%$search_string%")
         ->orWhere('vendor_code', 'LIKE', "%$search_string%");
     }
 
     public function autocomplete($search_value = '') {
-        return $this->builder->orderByRaw("CASE 
-            WHEN name LIKE ? THEN 1 
-            WHEN description LIKE ? THEN 2 
-            ELSE 3 
-            END", ["$search_value%", "$search_value%"])
-        ->limit(7);
+        return $this->builder
+            ->where(function($query) use ($search_value) {
+                $query->where('name', 'LIKE', "$search_value%")
+                      ->orWhere('description', 'LIKE', "$search_value%");
+            })->orderByRaw("
+                CASE 
+                    WHEN name LIKE ? THEN 1 
+                    WHEN description LIKE ? THEN 2 
+                    ELSE 3 
+                END", ["$search_value%", "$search_value%"])
+            ->limit(7)
+            ->get();   
     }
+    
 
     public function sort_by($sortOption = null) {
         return $this->builder->when($sortOption, function ($query) use ($sortOption) {

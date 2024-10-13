@@ -1,13 +1,11 @@
 .fixed_nav {
-  width: 100%;
-  z-index: 1000 !important;
-  // background: radial-gradient(circle at 50.4% 50.5%, rgb(251, 32, 86) 0%, rgb(135, 2, 35) 90%);
-  background: radial-gradient(ellipse farthest-corner at right bottom, #FEDB37 0%, #FDB931 8%, #9f7928 30%, #8A6E2F 40%, transparent 80%),
-  radial-gradient(ellipse farthest-corner at left top, #FFFFFF 0%, #FFFFAC 8%, #D1B464 25%, #5d4a1f 62.5%, #5d4a1f 100%);
-  transition: background 0.3s;
-  transition: 0.3s;
   position: sticky;
   top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000 !important;
+  background: #000;
+  transition: 0.3s;
 }
 
 @media only screen and (max-width: 1020px) {

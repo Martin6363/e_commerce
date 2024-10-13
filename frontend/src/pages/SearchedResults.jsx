@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import myAxios from "../api/axios";
 import CardDetail from "../components/Card/CardDetail";
-import Footer from "../components/footer/Footer";
 import CardSize from "../components/Card/CardSize"
 import "ldrs/ring";
 import { useCurrency } from "../context/CurrencyContext";
@@ -120,7 +119,6 @@ export default function SearchedResults() {
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }
