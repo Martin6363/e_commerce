@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
@@ -14,11 +15,6 @@ class Category extends Model
         'slug',
         'description',
         'picture',
-        'filters'
-    ];
-
-    protected $casts = [
-        'filters' => 'array', 
     ];
 
     public function Products() {
@@ -31,5 +27,14 @@ class Category extends Model
 
     public function child() {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function attributes(){
+        return $this->hasMany(Attribute::class);
+    }
+
+    public function filters() {
+        return $this->belongsToMany(Filter::class, 'category_filter')
+                    ->with('filterValues');
     }
 }

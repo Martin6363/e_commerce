@@ -2,25 +2,27 @@
 
 namespace Database\Factories;
 
-use App\Models\Attribute;
-use App\Models\AttributeValue;
+use App\Models\Filter;
+use App\Models\FilterValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AttributeValue>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FilterValue>
  */
-class AttributeValueFactory extends Factory
+class FilterValueFactory extends Factory
 {
+    protected $model = FilterValue::class;
+
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    protected $model = AttributeValue::class;
     public function definition(): array
     {
-        $attribute = Attribute::inRandomOrder()->first() ?? Attribute::factory()->create();
-        $value = match($attribute->name) {
+        $filter = Filter::inRandomOrder()->first() ?? Filter::factory()->create();
+
+        $value = match ($filter->name) {
             'Color' => $this->faker->randomElement(['Red', 'Blue', 'Green', 'Yellow', 'Black']),
             'Size' => $this->faker->randomElement(['Small', 'Medium', 'Large']),
             'Material' => $this->faker->randomElement(['Cotton', 'Polyester', 'Leather']),
@@ -29,7 +31,7 @@ class AttributeValueFactory extends Factory
         };
 
         return [
-            'attribute_id' => $attribute->id,
+            'filter_id' => $filter->id,
             'value' => $value,
         ];
     }

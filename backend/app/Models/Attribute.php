@@ -22,4 +22,8 @@ class Attribute extends Model
     public function attributeValues(): HasMany {
         return $this->hasMany(AttributeValue::class);
     }
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
 }

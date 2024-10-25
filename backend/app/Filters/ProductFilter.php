@@ -1,10 +1,18 @@
 <?php
 namespace App\Filters;
 
+use Illuminate\Support\Facades\Cache;
+
 class ProductFilter extends QueryFilter {
     public function category_id($ids = null) {
         return $this->builder->when($ids, function($query) use($ids) {
-            $query->whereIn('category_id', explode(',', $ids));
+            $query->whereIn('category_id', $this->paramToArray($ids));
+        });
+    }
+    
+    public function color_id($ids = null) {
+        return $this->builder->when($ids, function ($query) use ($ids) {
+            $query->whereIn('color_id', $this->paramToArray($ids));
         });
     }
 
@@ -14,18 +22,12 @@ class ProductFilter extends QueryFilter {
         }); 
     }
 
-    public function color_id($ids = null) {
-        return $this->builder->when($ids, function ($query) use ($ids) {
-            $query->whereIn('brand_id', explode(',', $ids));
+    public function price_range($min = null, $max = null) {
+        return $this->builder->when($min, function ($query) use ($min) {
+            $query->where('price', '>=', $min);
+        })->when($max, function ($query) use ($max) {
+            $query->where('price', '<=', $max);
         });
-    }
-    
-    public function min_price($price = null) {
-        return $this->builder->where('price', '>=', $price);
-    }
-
-    public function max_price($price = null) {
-        return $this->builder->where('price', '<=', $price);
     }
 
     public function search($search_string = '') {
@@ -36,18 +38,20 @@ class ProductFilter extends QueryFilter {
     }
 
     public function autocomplete($search_value = '') {
-        return $this->builder
-            ->where(function($query) use ($search_value) {
-                $query->where('name', 'LIKE', "$search_value%")
-                      ->orWhere('description', 'LIKE', "$search_value%");
-            })->orderByRaw("
-                CASE 
-                    WHEN name LIKE ? THEN 1 
-                    WHEN description LIKE ? THEN 2 
-                    ELSE 3 
-                END", ["$search_value%", "$search_value%"])
-            ->limit(7)
-            ->get();   
+        return Cache::remember("autocomplete_{$search_value}", 60, function () use ($search_value) {
+            return $this->builder
+                ->where(function($query) use ($search_value) {
+                    $query->where('name', 'LIKE', "$search_value%")
+                          ->orWhere('description', 'LIKE', "$search_value%");
+                })->orderByRaw("
+                    CASE 
+                        WHEN name LIKE ? THEN 1 
+                        WHEN description LIKE ? THEN 2 
+                        ELSE 3 
+                    END", ["$search_value%", "$search_value%"])
+                ->limit(7)
+                ->get();   
+        });
     }
     
 
@@ -68,9 +72,19 @@ class ProductFilter extends QueryFilter {
                     break;
                 case 'name':
                     $query->orderBy('name', 'ASC');
+                    break;
                 default:
                     break;
             }
         });
+    }
+
+    public function applyCategoryFilters($filters) {
+        foreach ($filters as $filterId => $valueIds) {
+            $this->builder->whereHas('attributes', function ($query) use ($filterId, $valueIds) {
+                $query->where('filter_id', $filterId)
+                    ->whereIn('value', $valueIds);
+            });
+        }
     }
 }

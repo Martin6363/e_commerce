@@ -35,7 +35,7 @@ class ProductFactory extends Factory
             // "brand_id" => $brandId ? $brandId->id : 1,
             "published" => $this->faker->boolean(),
             "category_id" => $categoryId ? $categoryId->id : '',
-            "disCount_id" => $disCountId ? $disCountId->id : '',
+            "disCount_id" => $disCountId ? $disCountId->id : null,
         ];
     }
 }

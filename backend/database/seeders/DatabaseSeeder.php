@@ -4,9 +4,16 @@ namespace Database\Seeders;
 
 use App\Models\Attribute;
 use App\Models\AttributeValue;
+use App\Models\Brand;
 use App\Models\ProductAttributeValue;
+use App\Models\PromotionProduct;
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Category;
+use App\Models\DisCount;
+use App\Models\Images;
+use App\Models\Product;
+use App\Models\Promotion;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -19,36 +26,22 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-        \App\Models\Category::factory(30)->create();
-        \App\Models\DisCount::factory(25)->create();
-        \App\Models\Product::factory(100)->create();
-        \App\Models\Images::factory(100)->create();
-        \App\Models\Brand::factory(10)->create();
-        \App\Models\Promotion::factory(5)->create();
-        \App\Models\DisCount::factory(20)->create();
-        
-        $ramAttribute = Attribute::factory()->ram()->create();
-        AttributeValue::factory()->ramValues()->for($ramAttribute)->createMany([
-            ['value' => '4GB'],
-            ['value' => '8GB'],
-            ['value' => '16GB'],
+        Category::factory()->count(3)->create([
+            'parent_id' => null
         ]);
+        Category::factory(27)->create();
+        DisCount::factory(30)->create();
+        Product::factory(100)->create();
+        Images::factory(100)->create();
+        Brand::factory(10)->create();
+        Promotion::factory(5)->create();
+        PromotionProduct::factory(40)->create();
+        Attribute::factory(3)->create()
+            ->each(function ($attribute) {
+                AttributeValue::factory(5)
+                    ->create(['attribute_id' => $attribute->id]);
+            });
 
-        $colorAttribute = Attribute::factory()->color()->create();
-        AttributeValue::factory()->colorValues()->for($colorAttribute)->createMany([
-            ['value' => 'red'],
-            ['value' => 'green'],
-            ['value' => 'blue'],
-            ['value' => 'black'],
-        ]);
-
-        $sizeAttribute = Attribute::factory()->size()->create();
-        AttributeValue::factory()->sizeValues()->for($sizeAttribute)->createMany([
-            ['value' => 'S'],
-            ['value' => 'M'],
-            ['value' => 'L'],
-            ['value' => 'XL'],
-        ]);
         ProductAttributeValue::factory(100)->create();
 
         Artisan::call('app:update-exchange-rates');
@@ -59,7 +52,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->command->info('Exchange updates successfully');
-        
+
         Role::create(['name' => 'superVizorAdmin', 'description' => 'Super Vizor Admin with full access']);
         Role::create(['name' => 'admin', 'description' => 'Administrator with limited superVizorAdmin access']);
         Role::create(['name' => 'user', 'description' => 'Regular user with limited access']);

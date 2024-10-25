@@ -21,11 +21,14 @@ class CategoryFactory extends Factory
         if(!Storage::drive('public')->exists('category_images')) {
             Storage::drive('public')->makeDirectory('category_images');
         }
-        $parentCategoryId = Category::inRandomOrder()->first()?->id;
 
+        $parentCategoryId = Category::count() >= 3
+        ? Category::inRandomOrder()->first()->id
+        : null;
+        
         return [
             "name"=> $this->faker->name,
-            "slug"=> Str::slug($this->faker->unique()->name),
+            "slug"=> Str::slug($this->faker->unique()->word),
             "description" => $this->faker->paragraph,
             "picture" => "category_images/category_faker_image.webp",
             "parent_id" => $parentCategoryId

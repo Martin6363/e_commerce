@@ -26,7 +26,7 @@ class PromotionFactory extends Factory
 
         return [
             'name' => $this->faker->words(3, true),
-            "image" => "promotion_images/slider_img_2.jpg",
+            "image" => $this->faker->randomElement(['promotion_images/slider_img_2.jpg', 'promotion_images/slider_img_3.jpg', 'promotion_images/slider_img_4.jpg', 'promotion_images/slider_img_5.jpg']),
             "slug" => Str::slug($this->faker->unique()->name),
             "category_id" => $categoryId ? $categoryId->id : '',
         ];

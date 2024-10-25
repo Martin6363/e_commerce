@@ -17,31 +17,8 @@ class AttributeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word,
-            'type' => 'color',
+            'name' => $this->faker->randomElement(['RAM', 'Color', 'Size']),
+            'type' => $this->faker->randomElement(['ram', 'color', 'size']),
         ];
-    }
-    public function ram()
-    {
-        return $this->state([
-            'name' => 'RAM',
-            'type' => 'ram',
-        ]);
-    }
-
-    public function color()
-    {
-        return $this->state([
-            'name' => 'Color',
-            'type' => 'color',
-        ]);
-    }
-
-    public function size()
-    {
-        return $this->state([
-            'name' => 'Size',
-            'type' => 'string',
-        ]);
     }
 }

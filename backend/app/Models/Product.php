@@ -70,7 +70,7 @@ class Product extends Model
     private function getSimilarProducts()
     {
         return self::where('category_id', $this->category_id)
-            ->with('category', 'discount', 'Images', 'brand')
+            ->with('category', 'Images', 'brand')
             ->limit(10)
             ->get();
     }
@@ -95,11 +95,6 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function discount(): BelongsTo
-    {
-        return $this->belongsTo(DisCount::class, 'disCount_id');
-    }
-
     public function Images(): HasMany
     {
         return $this->hasMany(Images::class);
@@ -110,10 +105,20 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    public function discount(): BelongsTo
+    {
+        return $this->belongsTo(DisCount::class, 'disCount_id');
+    }
+
     public function promotions(): BelongsToMany
     {
         return $this->belongsToMany(Promotion::class, 'promotion_product')
             ->withPivot('discount')
             ->withTimestamps();
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(AttributeValue::class, 'product_attribute_values', 'product_id', 'attribute_value_id');
     }
 }

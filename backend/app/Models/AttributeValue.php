@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class AttributeValue extends Model
 {
     use HasFactory;
-    protected $fillable = ['attribute_id', 'value'];
+    protected $fillable = ['attribute_id', 'filter_id', 'value'];
 
     public function attribute(): BelongsTo
     {

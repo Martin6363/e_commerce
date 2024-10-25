@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('slug');
             $table->string('picture');
             $table->longText('description');
-            $table->json('filters')->nullable();
             $table->timestamps();
         });
     }

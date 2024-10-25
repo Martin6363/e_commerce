@@ -28,6 +28,9 @@ Route::prefix('v1')->group(function () {
 
     // Category Routes
     Route::apiResource('/categories', ProductCategoryController::class);
+    
+    // Filter Product by Category
+    Route::get('categories/{categoryId}/filters', [ProductCategoryController::class, 'getCategoryFilters']);
 
     // Brand Routes
     Route::get('/brands', [BrandController::class, 'index']);

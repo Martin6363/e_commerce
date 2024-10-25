@@ -46,9 +46,9 @@ class ProductController extends Controller
     {
         $product->load([
             'category:id,name', 
-            'discount:id,percent', 
             'images:id,product_id,image', 
             'brand:id,b_name', 
+            'discount:id,percent',
             'productAttributeValues.attributeValue:id,value,attribute_id', 
             'productAttributeValues.attributeValue.attribute:id,name'
         ]);
@@ -82,7 +82,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $productWithDetails = Product::with('category', 'discount', 'Images', 'brand')->findOrFail($product->id);
+        $productWithDetails = Product::with('category', 'Images', 'brand')->findOrFail($product->id);
 
         foreach ($productWithDetails->images as $image) {
             Storage::disk('public')->delete($image->image);
