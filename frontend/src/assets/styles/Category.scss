@@ -1,0 +1,21 @@
+// .category_block_box {
+
+// }
+
+.category_block_box::-webkit-scrollbar {
+  width: 10px;
+}
+
+.category_block_box::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+.category_block_box::-webkit-scrollbar-thumb {
+  background: #6d6d6d;
+  border-radius: 10px;
+}
+
+.category_block_box::-webkit-scrollbar-thumb:hover {
+  background: #474747;
+}

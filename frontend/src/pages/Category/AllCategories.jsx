@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import myAxios from '../../api/axios';
 import { Link } from "react-router-dom";
 import SpinnerLoader from '../../components/SpinnerLoader/SpinnerLoader';
+import "../../assets/styles/Category.scss";
 
 const cache = {};
 
@@ -43,7 +44,7 @@ function AllCategories() {
                         <figcaption className="absolute w-full px-3 py-4 text-lg text-white bg-black bg-opacity-70 bottom-0">
                             <p>{category.name}</p>
                         </figcaption>
-                        <div className={`absolute top-0 left-0 rounded-lg z-40 w-full h-full overflow-y-auto lg:opacity-0 sm:opacity-100 bg-black bg-opacity-70 group-hover:opacity-100 transition-opacity duration-50`}>
+                        <div className={`absolute category_block_box top-0 left-0 rounded-lg z-40 w-full h-full overflow-y-auto lg:opacity-0 sm:opacity-100 bg-black bg-opacity-70 group-hover:opacity-100 transition-opacity duration-50`}>
                             <ul className="w-full flex flex-col items-start p-5">
                                 {category.children.map((children) => (
                                 <li key={children.id} className="flex justify-between items-center rounded-sm list-none w-full h-full hover:translate-x-2 transition-transform hover:bg-black hover:bg-opacity-45 duration-150 group">

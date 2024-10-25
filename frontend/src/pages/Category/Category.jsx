@@ -26,8 +26,10 @@ export default function Category() {
   const handleGetData = async () => {
     try {
       const response = await myAxios.get(`/categories/${catId}`);
+      console.log(response);
       setCategory(response.data.data);
       setProduct(response.data.data.products);
+      
       if (response) {
         setIsLoading(false);
       }
@@ -47,13 +49,13 @@ export default function Category() {
     <>
       <main className="max-w-[1504px] flex flex-col mx-auto">
         <div className="w-full flex justify-between">
-            <Breadcrumbs category={category.name}/>
+            <Breadcrumbs category={category?.name}/>
             <CardSize />
         </div>
-        <h2 className="text-3xl font-bold">{ category.name } <span className="text-sm ml-3 text-gray-500 font-normal">({product.length}) Products</span></h2>
+        <h2 className="text-3xl font-bold">{ category?.name } <span className="text-sm ml-3 text-gray-500 font-normal">({product?.length}) Products</span></h2>
         <section className="w-100">
           <div className={`w-full grid grid-cols-2 gap-x-[20px] ${cardSizeClass} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}>
-            {product.map((product) => (
+            {product?.map((product) => (
               <CardDetail product={product} key={product.id}/>
             ))}
           </div>

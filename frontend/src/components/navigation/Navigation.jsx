@@ -17,7 +17,8 @@ import { useSelector } from "react-redux";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { GrFavorite } from "react-icons/gr";
 import myAxios from "../../api/axios";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth"; 
+import logo from "../../assets/project_logo_icon.svg"
 
 export const Navigation = () => {
   const theme = useTheme();
@@ -66,17 +67,7 @@ export const Navigation = () => {
         >
           <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
             <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-              <svg width="50" height="50" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50" cy="50" r="50" fill="white"/>
-                <circle cx="50" cy="50" r="45" fill="#C30FE1"/>
-                <g>
-                  <path d="M60 30 L40 40 H60 Z" fill="#fff"/>
-                  <rect x="30" y="40" width="40" height="10" rx="2" fill="#fff"/>
-                  <rect x="30" y="55" width="25" height="5" rx="1" fill="#fff"/>
-                  <circle cx="40" cy="70" r="4" fill="#fff"/>
-                  <circle cx="60" cy="70" r="4" fill="#fff"/>
-                </g>
-              </svg>
+              <img src={logo} alt="" />
               {!matches && (
                 <span className="self-center text-white text-2xl select-none font-semibold whitespace-nowrap">
                   E-commerce
