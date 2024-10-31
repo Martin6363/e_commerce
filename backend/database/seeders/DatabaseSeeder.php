@@ -10,7 +10,10 @@ use App\Models\PromotionProduct;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Category;
+use App\Models\CategoryFilter;
 use App\Models\DisCount;
+use App\Models\Filter;
+use App\Models\FilterValue;
 use App\Models\Images;
 use App\Models\Product;
 use App\Models\Promotion;
@@ -43,6 +46,14 @@ class DatabaseSeeder extends Seeder
             });
 
         ProductAttributeValue::factory(100)->create();
+
+        Filter::factory(5)
+        ->create()->each(function ($filter) {
+            FilterValue::factory()
+                ->count(5)
+                ->create(['filter_id' => $filter->id]);
+        });
+        CategoryFilter::factory(30)->create();
 
         Artisan::call('app:update-exchange-rates');
 

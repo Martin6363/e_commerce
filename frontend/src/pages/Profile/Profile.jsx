@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   useAuth();
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const logout = useLogout();
@@ -20,14 +20,14 @@ export default function Profile() {
 
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
+    let userData = localStorage.getItem("user");
 
-    if (user) {
-      setUser(JSON.parse(user));
+    if (userData) {
+      setUser(JSON.parse(userData));
     } else {
       navigate('/login');
     }
-  }, [navigate, user]);
+  }, [navigate]);
 
   return (
     <>

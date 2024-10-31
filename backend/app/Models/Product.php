@@ -85,6 +85,11 @@ class Product extends Model
         return $this->hasMany(ProductAttributeValue::class);
     }
 
+    public function attributeValues():BelongsToMany
+    {
+        return $this->belongsToMany(AttributeValue::class, 'product_attribute_values');
+    }
+
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class);

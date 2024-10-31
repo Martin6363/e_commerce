@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,16 +24,20 @@ export function AuthProvider({ children }) {
       try {
         const response = await myAxios.get("/user");
         setUser(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
       } catch (error) {
         if (error.response && error.response.status === 401) {
           window.localStorage.removeItem("token");
+          window.localStorage.removeItem("user");
           navigate("/login");
         }
       }
     };
 
-    verifyToken();
-  }, [navigate]);
+    if (!user) {
+      verifyToken();
+    }
+  }, [navigate, user]);
 
   return (
     <AuthContext.Provider value={{ user, setUser }}>

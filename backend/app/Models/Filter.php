@@ -11,7 +11,7 @@ class Filter extends Model
     protected $fillable = ['name', 'type'];
 
     public function categories() {
-        return $this->belongsToMany(Category::class, 'category_filter');
+        return $this->belongsToMany(Category::class, 'category_filters');
     }
 
     public function filterValues() {

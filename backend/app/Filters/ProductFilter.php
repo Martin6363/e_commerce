@@ -9,25 +9,13 @@ class ProductFilter extends QueryFilter {
             $query->whereIn('category_id', $this->paramToArray($ids));
         });
     }
-    
-    public function color_id($ids = null) {
-        return $this->builder->when($ids, function ($query) use ($ids) {
-            $query->whereIn('color_id', $this->paramToArray($ids));
-        });
+
+    public function min_price($price = null) {
+        return $this->builder->where('price', '>=', $price);
     }
 
-    public function brand_id($id = null) {
-        return $this->builder->when($id, function ($query) use($id){
-            $query->where('brand_id', $id);
-        }); 
-    }
-
-    public function price_range($min = null, $max = null) {
-        return $this->builder->when($min, function ($query) use ($min) {
-            $query->where('price', '>=', $min);
-        })->when($max, function ($query) use ($max) {
-            $query->where('price', '<=', $max);
-        });
+    public function max_price($price = null) {
+        return $this->builder->where('price', '<=', $price);
     }
 
     public function search($search_string = '') {
@@ -70,20 +58,17 @@ class ProductFilter extends QueryFilter {
                 case 'newest':
                     $query->orderBy('created_at', 'DESC');
                     break;
-                case 'name':
-                    $query->orderBy('name', 'ASC');
-                    break;
                 default:
                     break;
             }
         });
     }
 
-    public function applyCategoryFilters($filters) {
-        foreach ($filters as $filterId => $valueIds) {
-            $this->builder->whereHas('attributes', function ($query) use ($filterId, $valueIds) {
-                $query->where('filter_id', $filterId)
-                    ->whereIn('value', $valueIds);
+    public function attributes($attributes) {
+        foreach ($attributes as $attributeId => $valueIds) {
+            $this->builder->whereHas('attributeValues', function ($query) use ($attributeId, $valueIds) {
+                $query->where('attribute_values.attribute_id', $attributeId)
+                  ->whereIn('attribute_values.id', $valueIds);
             });
         }
     }

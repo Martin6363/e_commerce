@@ -17,7 +17,7 @@ class Category extends Model
         'picture',
     ];
 
-    public function Products() {
+    public function products() {
         return $this->hasMany(Product::class);
     }
 
@@ -25,16 +25,12 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id')->with('children')->withCount('products');
     }
 
-    public function child() {
-        return $this->hasMany(Category::class, 'parent_id');
-    }
-
     public function attributes(){
         return $this->hasMany(Attribute::class);
     }
 
     public function filters() {
-        return $this->belongsToMany(Filter::class, 'category_filter')
+        return $this->belongsToMany(Filter::class, 'category_filters')
                     ->with('filterValues');
     }
 }

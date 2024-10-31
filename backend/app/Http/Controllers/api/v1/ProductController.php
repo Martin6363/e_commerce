@@ -20,7 +20,7 @@ class ProductController extends Controller
     {
         $status = request()->query('status', 'published');
         $query = Product::filter($filters);
-
+        
         if ($status === 'published') {
             $products = $query->where('published', true);
         } elseif ($status === 'unpublished') {

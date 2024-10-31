@@ -17,16 +17,17 @@ return new class extends Migration
 
 
         ## Pivot Table Category filter 
-        Schema::create('category_filter', function (Blueprint $table) {
+        Schema::create('category_filters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('filter_id')->constrained('filters')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
         Schema::dropIfExists('filters');
-        Schema::dropIfExists('category_filter');
+        Schema::dropIfExists('category_filters');
     }
 };

@@ -17,6 +17,7 @@ class CategoryFilterResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'type' => $this->type,
             'items' => FilterResource::collection($this->filterValues)
         ];
     }

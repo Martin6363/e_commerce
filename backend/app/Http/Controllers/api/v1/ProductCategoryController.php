@@ -47,7 +47,7 @@ class ProductCategoryController extends Controller
 
     public function show(Category $category)
     {
-        $category = Category::withCount("Products")->find($category->id);
+        $category = Category::withCount("products")->find($category->id);
 
         return $category
             ? $this->successResponse(new CategoryWithProductsResource($category))
