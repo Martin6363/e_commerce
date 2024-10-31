@@ -69,3 +69,11 @@ php artisan app:update-exchange-rates  ##Load updated exchange rates into the da
 php artisan serve
 
 ```
+
+### Some pictures
+---
+
+![image alt](https://github.com/Martin6363/e_commerce/blob/2eba315a3326caf07300721051b1ab6d3121e5af/project_image/img1.png)
+![image alt](https://github.com/Martin6363/e_commerce/blob/2eba315a3326caf07300721051b1ab6d3121e5af/project_image/img2.png)
+![image alt](https://github.com/Martin6363/e_commerce/blob/2eba315a3326caf07300721051b1ab6d3121e5af/project_image/img3.png)
+![image alt](https://github.com/Martin6363/e_commerce/blob/2eba315a3326caf07300721051b1ab6d3121e5af/project_image/img4.png)
