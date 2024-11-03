@@ -20,9 +20,9 @@ class ProductFilter extends QueryFilter {
 
     public function search($search_string = '') {
         return $this->builder
-        ->where('name', 'LIKE', "%$search_string%")
-        ->orWhere('description', 'LIKE', "%$search_string%")
-        ->orWhere('vendor_code', 'LIKE', "%$search_string%");
+            ->where('name', 'LIKE', "%$search_string%")
+            ->orWhere('description', 'LIKE', "%$search_string%")
+            ->orWhere('vendor_code', 'LIKE', "%$search_string%");
     }
 
     public function autocomplete($search_value = '') {

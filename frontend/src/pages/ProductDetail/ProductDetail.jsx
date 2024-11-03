@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ImageMagnifier from "../../components/ImageMagnifier/ImageMagnifier";
 import "../../assets/styles/ProductDetail.scss";
 import { Rating, useMediaQuery } from "@mui/material";
@@ -23,6 +23,8 @@ import ColorCheckbox from "../../components/CheckboxeCollections/ColorCheckbox";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
 
+const cache = {};
+
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -44,6 +46,7 @@ export default function ProductDetail() {
   const cardSize = searchParams.get("cardsize") || "small";
   const cardSizeClass = cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2";
   const [t] = useTranslation("global");
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -52,14 +55,22 @@ export default function ProductDetail() {
 
   const getData = async () => {
     try {
+      if (cache[`product_${id}`] && cache[`recommended_${id}`]) {
+        setProduct(cache[`product_${id}`]);
+        setSeeAlsoProducts(cache[`recommended_${id}`]);
+        setIsLoading(false)
+        return
+      }
       const [productRes, attributeRes] = await Promise.all([
         myAxios.get(`/products/${id}?currency=${selectedCurrency}`),
         myAxios.get('/attributes')
       ])
-
+        cache[`product_${id}`] = productRes.data.data;
+        cache[`recommended_${id}`] = productRes.data.recommended
         setProduct(productRes.data.data)
         setSeeAlsoProducts(productRes.data.recommended)
         setAttribute(attributeRes.data.data)
+
         if (productRes) {
           setIsLoading(false);
         }
@@ -83,6 +94,8 @@ export default function ProductDetail() {
           setAddedFavorite(true);
         });
       setIsFavorite(!isFavorite);
+    } else {
+      navigate('/login');
     }
   }
 

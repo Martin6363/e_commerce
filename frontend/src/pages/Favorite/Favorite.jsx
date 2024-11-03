@@ -7,6 +7,8 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useCurrency } from "../../context/CurrencyContext";
 import { useTranslation } from "react-i18next";
 
+const cache = {};
+
 export default function Favorite() {
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
@@ -30,13 +32,20 @@ export default function Favorite() {
 
   const fetchFavorites = async () => {
     try {
-      const response = await myAxios.get(
-        `/favorite?currency=${selectedCurrency}`
-      );
-      const fetchedFavorites = response.data.data;
-      setFavorites(fetchedFavorites);
-      setTotalFavorites(response.data.total_favorites);
-      setLoadProducts(false);
+      if (cache[`favorites_${selectedCurrency}`]) {
+        setFavorites(cache[`favorites_${selectedCurrency}`])
+        return
+      } else {
+
+        const response = await myAxios.get(
+          `/favorite?currency=${selectedCurrency}`
+        );
+        const fetchedFavorites = response.data.data;
+        cache[`favorites_${selectedCurrency}`] = fetchedFavorites
+        setFavorites(fetchedFavorites);
+        setTotalFavorites(response.data.total_favorites);
+        setLoadProducts(false);
+      }
     } catch (error) {
       console.error("Error fetching favorites:", error);
     } finally {
