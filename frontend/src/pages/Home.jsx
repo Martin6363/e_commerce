@@ -1,7 +1,7 @@
 import SliderSwiper from "../components/HomeDetails/SliderSwiper/SliderSwiper";
 import Header2 from "../components/header/Header2";
 import CardDetail from "../components/Card/CardDetail";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import myAxios from "../api/axios";
 import "../assets/styles/Home.scss";
 import PaginationHome from "../components/Pagination/PaginationHome";
@@ -10,43 +10,26 @@ import { useSearchParams } from "react-router-dom";
 import { useCurrency } from "../context/CurrencyContext";
 import HeaderBottomContents from "../components/header/HeaderBottomContents";
 import SpinnerLoader from "../components/SpinnerLoader/SpinnerLoader";
+import { useQuery } from '@tanstack/react-query';
 
-const cache = {};
+const fetchProducts = async ({ queryKey }) => {
+  const [, page, currency] = queryKey;
+  const response = await myAxios.get(`/products?page=${page}&currency=${currency}`);
+  return response.data;
+};
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [products, setProducts] = useState([]);
   const currentPage = parseInt(searchParams.get("page")) || 1;
-  const [pageCount, setPageCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const productCardContainerRef = useRef(null);
   const { selectedCurrency } = useCurrency();
   const cardSize = searchParams.get("cardsize") || "small";
+  const productCardContainerRef = useRef(null);
 
-  useEffect(() => {
-    setLoading(true);
-    const fetchProducts = async () => {
-      if (cache[`${currentPage}-${selectedCurrency}`]) {
-        setProducts(cache[`${currentPage}-${selectedCurrency}`].data);
-        setPageCount(cache[`${currentPage}-${selectedCurrency}`].meta.last_page);
-        setLoading(false);
-        return;
-      }
-      try {
-        const response = await myAxios.get(
-          `/products?page=${currentPage}&currency=${selectedCurrency}`
-        );
-        cache[`${currentPage}-${selectedCurrency}`] = response.data;
-        setProducts(response.data.data);
-        setPageCount(response.data.meta.last_page);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
-    fetchProducts()
-  }, [currentPage, selectedCurrency]);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['products', currentPage, selectedCurrency],
+    queryFn: fetchProducts,
+    keepPreviousData: true
+  });
 
   useEffect(() => {
     if (productCardContainerRef.current) {
@@ -60,15 +43,16 @@ const Home = () => {
     }
   }, [currentPage]);
 
-
   const handlePageChange = (event, value) => {
     setSearchParams({ page: value });
   };
 
-  if (loading) {
-    return (
-      <SpinnerLoader/>
-    );
+  if (isLoading) {
+    return <SpinnerLoader />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -79,24 +63,24 @@ const Home = () => {
           <SliderSwiper />
         </div>
       )}
-      <HeaderBottomContents/>
+      <HeaderBottomContents />
       <div className="w-full flex items-center justify-center mx-auto mt-5">
         <main
           ref={productCardContainerRef}
-          className={`grid grid-cols-2 lg:gap-x-[20px] sm:gap-0 ${cardSize === "big" ? "xl:grid-cols-4 sm:grid-cols-1" : "xl:grid-cols-6 sm:grid-cols-2"} lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}
+          className={`grid grid-cols-2 lg:gap-x-[20px] sm:gap-0 ${
+            cardSize === "big"
+              ? "xl:grid-cols-4 sm:grid-cols-1"
+              : "xl:grid-cols-6 sm:grid-cols-2"
+          } lg:grid-cols-4 md:grid-cols-3 gap-y-[32px]`}
         >
-          {products.map((product) => (
-            <CardDetail
-              key={product.id}
-              product={product}
-              loadingCard={loading}
-            />
+          {data.data.map((product) => (
+            <CardDetail key={product.id} product={product} loadingCard={isLoading} />
           ))}
         </main>
       </div>
       <PaginationHome
         currentPage={currentPage}
-        pageCount={pageCount}
+        pageCount={data.meta.last_page}
         onPageChange={handlePageChange}
       />
     </div>

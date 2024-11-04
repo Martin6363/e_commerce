@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ImageMagnifier from "../../components/ImageMagnifier/ImageMagnifier";
 import "../../assets/styles/ProductDetail.scss";
@@ -22,24 +22,18 @@ import SizeCheckbox from "../../components/CheckboxeCollections/SizeCheckbox";
 import ColorCheckbox from "../../components/CheckboxeCollections/ColorCheckbox";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import SpinnerLoader from "../../components/SpinnerLoader/SpinnerLoader";
-
-const cache = {};
+import { useQuery } from "@tanstack/react-query";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [attribute, setAttribute] = useState([]);
-  const [seeAlsoProducts, setSeeAlsoProducts] = useState([]);
   const carts = useSelector((store) => store.cart.items);
   const matches = useMediaQuery("(max-width:1020px)");
   const dispatch = useDispatch();
-  const copyVendorCode = product?.vendor_code;
   const [showAlert, setShowAlert] = useState(false);
   const [addedFavorite, setAddedFavorite] = useState(false);
   const [addedFavoriteMessage, setAddedFavoriteMessage] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   const { selectedCurrency } = useCurrency();
-  const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   const theme = useTheme();
   const [searchParams] = useSearchParams();
@@ -48,38 +42,25 @@ export default function ProductDetail() {
   const [t] = useTranslation("global");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setIsLoading(true);
-    getData();
-  }, [id, selectedCurrency]);
-
-  const getData = async () => {
-    try {
-      if (cache[`product_${id}`] && cache[`recommended_${id}`]) {
-        setProduct(cache[`product_${id}`]);
-        setSeeAlsoProducts(cache[`recommended_${id}`]);
-        setIsLoading(false)
-        return
-      }
-      const [productRes, attributeRes] = await Promise.all([
-        myAxios.get(`/products/${id}?currency=${selectedCurrency}`),
-        myAxios.get('/attributes')
-      ])
-        cache[`product_${id}`] = productRes.data.data;
-        cache[`recommended_${id}`] = productRes.data.recommended
-        setProduct(productRes.data.data)
-        setSeeAlsoProducts(productRes.data.recommended)
-        setAttribute(attributeRes.data.data)
-
-        if (productRes) {
-          setIsLoading(false);
-        }
-    } catch (error) {
-      setIsLoading(true);
-      console.error("Error fetching product data:", error);
-    }
-  };
+  const { data: productData, isLoading } = useQuery({
+    queryKey: ['productDetail', id, selectedCurrency],
+    queryFn: async () => {
+      const productResponse = await myAxios.get(`/products/${id}?currency=${selectedCurrency}`);
+      const attributesResponse = await myAxios.get('/attributes');
+      return {
+        product: productResponse.data.data,
+        recommended: productResponse.data.recommended,
+        attributes: attributesResponse.data.data,
+      };
+    },
+    cacheTime: 300000, // Cache data for 5 minutes
+  });
+  
+  const product = productData?.product;
   useDocumentTitle(product?.name);
+  const copyVendorCode = product?.vendor_code;
+  const seeAlsoProducts = productData?.recommended;
+  // const attributes = productData?.attributes;
 
   const productAlreadyExists = carts.some(
     (cart) => cart.productId === product?.id
@@ -99,10 +80,8 @@ export default function ProductDetail() {
     }
   }
 
-  if (!product) {
-    return (
-      <SpinnerLoader/>
-    );
+  if (isLoading) {
+    return <SpinnerLoader/>;
   }
 
   function handleAddToCart() {

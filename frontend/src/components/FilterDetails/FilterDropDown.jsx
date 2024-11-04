@@ -35,7 +35,7 @@ function FilterDropDown({ filterData }) {
     }, [handleClickOutside]);
 
   return (
-    <div>
+    <>
       <div className="relative" ref={dropDownRef}>
         <button
           data-dropdown-toggle="dropdownDefaultRadio"
@@ -89,7 +89,7 @@ function FilterDropDown({ filterData }) {
           </ul>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
