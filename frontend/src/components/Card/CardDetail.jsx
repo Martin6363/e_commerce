@@ -93,7 +93,7 @@ export function CardDetail({
           >
             <div className="card_img_box">
               <div className="card_image relative md:shrink-0">
-                <img src={imageUrl} alt="" />
+                <img src={imageUrl} alt={product.name} loading="eager|lazy"/>
                 <span className="view-card-btn">View</span>
                 {product.sale && (
                   <span className="absolute z-100 bottom-2 left-2 text-white font-semibold bg-[#f44] rounded-md px-[2px] text-[12px]">
