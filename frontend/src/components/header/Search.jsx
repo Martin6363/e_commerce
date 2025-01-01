@@ -40,6 +40,14 @@ const Search = () => {
     }
   }, [search])
 
+  useEffect(() => {
+    if (matches && openAutoComp) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "initial";
+    }
+  }, [matches, openAutoComp])
+
   const debouncedSearch = useCallback(
     debounce((searchValue) => {
       axios.get(`/products?autocomplete=${searchValue}`).then((res) => {

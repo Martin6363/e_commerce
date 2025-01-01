@@ -108,11 +108,7 @@ export const Navigation = () => {
                 </Container>
               </li>
               <li>
-                <Link
-                  to="/"
-                  className="font-bold hover:underline text-white"
-                  aria-current="page"
-                >
+                <Link to="/" className="font-bold hover:underline text-white" aria-current="page">
                   Home
                 </Link>
               </li>

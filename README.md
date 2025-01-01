@@ -46,6 +46,10 @@ composer install OR composer update
 php artisan key:generate
 ```
 
+```sh
+php artisan storage:link
+```
+
 ### Run Database
 
 ---
